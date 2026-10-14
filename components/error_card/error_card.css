@@ -1,0 +1,14 @@
+.error-card {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius);
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.error-card__icon { flex: 0 0 1.25rem; width: 1.25rem; height: 1.25rem; margin-top: 0.1rem; }
+.error-card__title { margin: 0; font-weight: 600; }
+.error-card__message { margin: 0.25rem 0 0; color: var(--text); }

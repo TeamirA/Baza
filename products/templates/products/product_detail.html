@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{% if product %}{{ product.name }}{% else %}Product not found{% endif %}{% endblock %}
+
+{% block content %}
+<p class="breadcrumb"><a href="{% url 'products:list' %}">← Back to shop</a></p>
+
+{% if product %}
+<section class="product-detail">
+  <div class="product-detail__media">
+    {% if product.image_url %}
+      <img src="{{ product.image_url }}" alt="{{ product.name }}">
+    {% else %}
+      <span class="product-detail__placeholder">{{ product.name|slice:":1" }}</span>
+    {% endif %}
+  </div>
+  <div class="product-detail__info">
+    {% if product.category %}
+      <a class="product-detail__category" href="{% url 'products:list' %}?category={{ product.category.slug }}">{{ product.category.name }}</a>
+    {% endif %}
+    <h1>{{ product.name }}</h1>
+    <p class="price price--lg">${{ product.price }}</p>
+    {% if product.in_stock %}
+      <p class="badge badge--ok">{{ product.stock }} in stock</p>
+    {% else %}
+      <p class="badge badge--muted">Sold out</p>
+    {% endif %}
+    <div class="product-detail__description">{{ product.description|linebreaks }}</div>
+    <button class="btn" type="button" disabled title="Cart arrives in Phase 2">Add to cart</button>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

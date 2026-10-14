@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{% if active_category %}{{ active_category.name }}{% else %}All products{% endif %}{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>{% if active_category %}{{ active_category.name }}{% elif query %}Results for “{{ query }}”{% else %}All products{% endif %}</h1>
+  <p class="muted">{{ products|length }} item{{ products|length|pluralize }}</p>
+</div>
+
+{% if categories %}
+<nav class="chips" aria-label="Categories">
+  <a class="chip{% if not active_category %} chip--active{% endif %}" href="{% url 'products:list' %}">All</a>
+  {% for category in categories %}
+    <a class="chip{% if active_category.slug == category.slug %} chip--active{% endif %}"
+       href="{% url 'products:list' %}?category={{ category.slug }}">{{ category.name }}</a>
+  {% endfor %}
+</nav>
+{% endif %}
+
+{% if products %}
+  <div class="product-grid">
+    {% for product in products %}
+      {% component "product_card" product=product / %}
+    {% endfor %}
+  </div>
+{% elif not error %}
+  <div class="empty">
+    <p>No products found{% if query %} for “{{ query }}”{% endif %}.</p>
+    <a class="btn btn--ghost" href="{% url 'products:list' %}">Clear filters</a>
+  </div>
+{% endif %}
+{% endblock %}
