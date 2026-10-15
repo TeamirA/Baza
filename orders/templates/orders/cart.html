@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Your cart{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>Your cart</h1>
+  {% if cart and not cart.is_empty %}<p class="muted">{{ cart.item_count }} item{{ cart.item_count|pluralize }}</p>{% endif %}
+</div>
+
+{% if cart and not cart.is_empty %}
+<div class="cart">
+  <ul class="cart-lines">
+    {% for line in cart.lines %}
+    <li class="cart-line">
+      <a class="cart-line__media" href="{{ line.product.url }}" aria-hidden="true" tabindex="-1">
+        {% if line.product.image_url %}<img src="{{ line.product.image_url }}" alt="">{% else %}{{ line.product.name|slice:":1" }}{% endif %}
+      </a>
+      <div class="cart-line__info">
+        <a class="cart-line__name" href="{{ line.product.url }}">{{ line.product.name }}</a>
+        <p class="muted">${{ line.product.price }} each</p>
+      </div>
+      <form class="cart-line__qty js-autosubmit" action="{% url 'orders:cart_update' line.product.id %}" method="post">
+        {% csrf_token %}
+        <label class="visually-hidden" for="qty-{{ line.product.id }}">Quantity for {{ line.product.name }}</label>
+        <input class="qty-input" id="qty-{{ line.product.id }}" type="number" name="quantity"
+               value="{{ line.quantity }}" min="0" max="{{ line.product.stock }}">
+        <button class="btn btn--ghost btn--sm js-autosubmit-fallback" type="submit">Update</button>
+      </form>
+      <p class="cart-line__subtotal price">${{ line.subtotal }}</p>
+      <form action="{% url 'orders:cart_remove' line.product.id %}" method="post">
+        {% csrf_token %}
+        <button class="link-button cart-line__remove" type="submit" aria-label="Remove {{ line.product.name }}">Remove</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <aside class="cart-summary">
+    <h2>Summary</h2>
+    <div class="cart-summary__row"><span>Subtotal</span><span class="price">${{ cart.total }}</span></div>
+    <div class="cart-summary__row muted"><span>Shipping</span><span>Free</span></div>
+    <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ cart.total }}</span></div>
+    {% if user.is_authenticated %}
+      <button class="btn btn--block" type="button" disabled title="Checkout arrives in Phase 3">Checkout</button>
+    {% else %}
+      <a class="btn btn--block" href="{% url 'login' %}?next={% url 'orders:cart' %}">Log in to check out</a>
+    {% endif %}
+    <a class="cart-summary__continue" href="{% url 'products:list' %}">Continue shopping</a>
+  </aside>
+</div>
+{% elif cart %}
+  <div class="empty">
+    <p>Your cart is empty.</p>
+    <a class="btn" href="{% url 'products:list' %}">Browse products</a>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'js/cart.js' %}" defer></script>{% endblock %}

@@ -26,7 +26,17 @@
       <p class="badge badge--muted">Sold out</p>
     {% endif %}
     <div class="product-detail__description">{{ product.description|linebreaks }}</div>
-    <button class="btn" type="button" disabled title="Cart arrives in Phase 2">Add to cart</button>
+    {% if product.in_stock %}
+      <form class="add-to-cart" action="{% url 'orders:cart_add' product.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <label class="visually-hidden" for="qty">Quantity</label>
+        <input class="qty-input" id="qty" type="number" name="quantity" value="1" min="1" max="{{ product.stock }}">
+        <button class="btn" type="submit">Add to cart</button>
+      </form>
+    {% else %}
+      <button class="btn" type="button" disabled>Sold out</button>
+    {% endif %}
   </div>
 </section>
 {% endif %}

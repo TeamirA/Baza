@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <h1>Log in</h1>
+  <p class="muted">Welcome back. Your cart is kept when you log in.</p>
+
+  {% if form.non_field_errors %}
+    {% component "error_card" title="Couldn't log you in" message=form.non_field_errors|join:" " / %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% component "form_field" field=form.username / %}
+    {% component "form_field" field=form.password / %}
+    <button class="btn btn--block" type="submit">Log in</button>
+  </form>
+  <p class="auth-card__switch">New here? <a href="{% url 'register' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Create an account</a></p>
+</section>
+{% endblock %}

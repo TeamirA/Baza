@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Create an account{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+  <h1>Create an account</h1>
+  <p class="muted">Sign up to check out and track your orders.</p>
+
+  {% if form.non_field_errors %}
+    {% component "error_card" title="Couldn't create your account" message=form.non_field_errors|join:" " / %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% component "form_field" field=form.username / %}
+    {% component "form_field" field=form.email / %}
+    {% component "form_field" field=form.password1 / %}
+    {% component "form_field" field=form.password2 / %}
+    <button class="btn btn--block" type="submit">Create account</button>
+  </form>
+  <p class="auth-card__switch">Already have an account? <a href="{% url 'login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Log in</a></p>
+</section>
+{% endblock %}

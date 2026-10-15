@@ -47,3 +47,13 @@ class ProductService:
             return _product_to_dto(self.products.get_by_slug(slug))
         except Product.DoesNotExist:
             raise ProductNotFound(f'No product found for "{slug}".')
+
+    def get_product_by_id(self, product_id):
+        try:
+            return _product_to_dto(self.products.get_by_id(product_id))
+        except (Product.DoesNotExist, ValueError):
+            raise ProductNotFound("That product is no longer available.")
+
+    def get_products_by_ids(self, product_ids):
+        """Returns {id: ProductDTO} for the active products among product_ids."""
+        return {pk: _product_to_dto(p) for pk, p in self.products.get_by_ids(product_ids).items()}
