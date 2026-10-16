@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{% if order %}Order #{{ order.id }}{% else %}Order not found{% endif %}{% endblock %}
+
+{% block content %}
+<p class="breadcrumb"><a href="{% url 'orders:list' %}">← All orders</a></p>
+
+{% if order %}
+<div class="page-head order-head">
+  <div>
+    <h1>Order #{{ order.id }}</h1>
+    <p class="muted">Placed {{ order.created_at|date:"M j, Y, H:i" }}</p>
+  </div>
+  {% component "order_status" status=order.status label=order.status_label / %}
+</div>
+
+<div class="cart">
+  <ul class="cart-lines">
+    {% for item in order.items %}
+    <li class="order-item">
+      <div>
+        <a class="cart-line__name" href="{{ item.product_url }}">{{ item.product_name }}</a>
+        <p class="muted">{{ item.quantity }} × ${{ item.price }}</p>
+      </div>
+      <p class="price">${{ item.subtotal }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <aside class="cart-summary">
+    <h2>Summary</h2>
+    <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ order.total }}</span></div>
+    {% if order.is_pending %}
+      <form action="{% url 'payments:pay' order.id %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn--block" type="submit">Pay ${{ order.total }}</button>
+      </form>
+    {% endif %}
+    <h2 class="order-ship__title">Shipping to</h2>
+    <p class="order-ship">{{ order.full_name }}<br>{{ order.address|linebreaksbr }}<br><span class="muted">{{ order.email }}</span></p>
+  </aside>
+</div>
+{% endif %}
+{% endblock %}

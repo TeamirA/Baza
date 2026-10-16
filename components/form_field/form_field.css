@@ -1,6 +1,7 @@
 .field { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1.1rem; }
 .field__label { font-weight: 600; font-size: 0.9rem; }
-.field input {
+.field input,
+.field textarea {
   width: 100%;
   padding: 0.6rem 0.75rem;
   font: inherit;
@@ -8,9 +9,12 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  resize: vertical;
 }
-.field input:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
-.field--invalid input { border-color: var(--danger); }
+.field input:focus,
+.field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+.field--invalid input,
+.field--invalid textarea { border-color: var(--danger); }
 .field__error { margin: 0; font-size: 0.85rem; color: var(--danger); }
 .field__help { font-size: 0.8rem; color: var(--text-muted); }
 .field__help ul { margin: 0.25rem 0 0; padding-left: 1.1rem; }

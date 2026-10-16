@@ -1,6 +1,7 @@
 """The only module in the products app that talks to the ORM."""
 
-from django.db.models import Q
+from django.db.models import F, Q
+from django.db.models.functions import Greatest
 
 from .models import Category, Product
 
@@ -27,6 +28,10 @@ class ProductRepository:
 
     def get_by_ids(self, product_ids):
         return {p.pk: p for p in self._active().filter(pk__in=product_ids)}
+
+    def decrement_stock(self, product_id, quantity):
+        """Lowers stock by quantity, never below zero. Call inside the caller's transaction."""
+        Product.objects.filter(pk=product_id).update(stock=Greatest(F("stock") - quantity, 0))
 
 
 class CategoryRepository:

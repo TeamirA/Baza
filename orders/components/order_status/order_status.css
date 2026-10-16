@@ -1,0 +1,14 @@
+.order-status {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+.order-status--paid,
+.order-status--shipped { background: var(--ok-bg); color: var(--ok); }
+.order-status--pending { background: var(--warn-bg); color: var(--warn); }
+.order-status--cancelled { background: var(--danger-bg); color: var(--danger); }

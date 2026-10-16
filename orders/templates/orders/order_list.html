@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Your orders{% endblock %}
+
+{% block content %}
+<div class="page-head"><h1>Your orders</h1></div>
+
+{% if orders %}
+<ul class="order-list">
+  {% for order in orders %}
+  <li>
+    <a class="order-row" href="{% url 'orders:detail' order.id %}">
+      <span class="order-row__id">Order #{{ order.id }}</span>
+      <span class="muted">{{ order.created_at|date:"M j, Y" }} · {{ order.item_count }} item{{ order.item_count|pluralize }}</span>
+      {% component "order_status" status=order.status label=order.status_label / %}
+      <span class="price order-row__total">${{ order.total }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% elif not error %}
+  <div class="empty">
+    <p>You haven't placed any orders yet.</p>
+    <a class="btn" href="{% url 'products:list' %}">Start shopping</a>
+  </div>
+{% endif %}
+{% endblock %}

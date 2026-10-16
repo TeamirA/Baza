@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<p class="breadcrumb"><a href="{% url 'orders:cart' %}">← Back to cart</a></p>
+<div class="page-head"><h1>Checkout</h1></div>
+
+{% if cart %}
+<div class="cart">
+  <form class="checkout-form" method="post" novalidate>
+    {% csrf_token %}
+    <h2>Shipping details</h2>
+    {% component "form_field" field=form.full_name / %}
+    {% component "form_field" field=form.email / %}
+    {% component "form_field" field=form.address / %}
+    <button class="btn btn--block" type="submit">Place order &amp; pay ${{ cart.total }}</button>
+    <p class="muted checkout-form__note">You'll be taken to our secure payment page to finish.</p>
+  </form>
+
+  <aside class="cart-summary">
+    <h2>Order summary</h2>
+    {% for line in cart.lines %}
+      <div class="cart-summary__row"><span>{{ line.quantity }} × {{ line.product.name }}</span><span class="price">${{ line.subtotal }}</span></div>
+    {% endfor %}
+    <div class="cart-summary__row muted"><span>Shipping</span><span>Free</span></div>
+    <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ cart.total }}</span></div>
+  </aside>
+</div>
+{% endif %}
+{% endblock %}

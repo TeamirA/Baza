@@ -10,6 +10,8 @@
   --accent-contrast: #ffffff;
   --ok: #2e7d4f;
   --ok-bg: #e6f3eb;
+  --warn: #8a5a00;
+  --warn-bg: #fdf3dc;
   --danger: #b3261e;
   --danger-bg: #fdecea;
   --danger-border: #f3c4bf;
@@ -30,6 +32,8 @@
     --accent-contrast: #10201b;
     --ok: #7cc79a;
     --ok-bg: #1d2e24;
+    --warn: #f0c46c;
+    --warn-bg: #2f2716;
     --danger: #f2a49c;
     --danger-bg: #2e1b19;
     --danger-border: #5a2c27;
@@ -300,4 +304,43 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
   .cart-line > form:last-child { grid-area: remove; }
   .site-header__inner { row-gap: 0.6rem; }
   .site-nav { flex-wrap: wrap; gap: 0.75rem; }
+}
+
+/* ---- Checkout & orders ------------------------------------------------ */
+.checkout-form {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.checkout-form h2 { margin: 0 0 1rem; font-size: 1.1rem; }
+.checkout-form__note { margin-top: 0.75rem; font-size: 0.85rem; text-align: center; }
+
+.order-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.75rem; }
+.order-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.order-row:hover { border-color: var(--accent); }
+.order-row__id { font-weight: 600; }
+.order-row__total { min-width: 5rem; text-align: right; }
+
+.order-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.order-item { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem; }
+.order-item + .order-item { border-top: 1px solid var(--border); }
+.order-item p { margin: 0; }
+.order-ship__title { margin-top: 1.5rem !important; }
+.order-ship { margin: 0; line-height: 1.6; }
+
+@media (max-width: 560px) {
+  .order-row { grid-template-columns: 1fr auto; }
+  .order-row .muted { grid-column: 1 / -1; grid-row: 2; }
 }
