@@ -2,8 +2,9 @@
 Django settings for config project.
 
 All environment-specific values are read from environment variables.
-Locally they come from a `.env` file (see `.env.example`); on Vercel they
-come from the project's Environment Variables.
+Locally they come from `.env` (see `.env.example`) and optionally
+`.env.local` (from `vercel env pull`); on Vercel they come from the
+project's Environment Variables. Values already in the environment win.
 """
 
 import os
@@ -15,6 +16,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / ".env.local")  # from `vercel env pull .env.local`
 
 
 def env_bool(name, default=False):
@@ -29,12 +31,12 @@ def env_list(name, default=""):
 
 DEBUG = env_bool("DEBUG", False)
 
+# In production SECRET_KEY must come from the environment. If it's missing we leave
+# it empty rather than raising here: build steps like collectstatic and migrate
+# don't need it, and Django itself refuses to serve requests with an empty key.
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
-if not SECRET_KEY:
-    if DEBUG:
-        SECRET_KEY = "django-insecure-local-dev-only-key"
-    else:
-        raise RuntimeError("SECRET_KEY must be set when DEBUG is off.")
+if not SECRET_KEY and DEBUG:
+    SECRET_KEY = "django-insecure-local-dev-only-key"
 
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS", "127.0.0.1,localhost,.vercel.app")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "https://*.vercel.app")
@@ -91,18 +93,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.app"
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # --- Database -----------------------------------------------------------
-# DATABASE_URL (Postgres on Vercel/Neon) wins; otherwise fall back to SQLite.
+# DATABASE_URL (Postgres via the Vercel/Neon integration) wins; otherwise SQLite.
+# Neon's DATABASE_URL goes through a transaction-mode pooler, so keep connections
+# short-lived and avoid server-side cursors.
 
 DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
+        conn_max_age=int(os.environ.get("DB_CONN_MAX_AGE", "0")),
+        conn_health_checks=True,
     )
 }
+if DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+    DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
 
 
 # --- Auth ---------------------------------------------------------------
@@ -127,7 +134,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# --- Static files (WhiteNoise) -----------------------------------------
+# --- Static files -------------------------------------------------------
+# On Vercel, collectstatic runs automatically during the build and STATIC_ROOT is
+# served from the CDN. WhiteNoise serves files for local production-mode runs.
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -139,7 +148,7 @@ STATICFILES_FINDERS = [
 ]
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

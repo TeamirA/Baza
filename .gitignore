@@ -21,3 +21,4 @@ media/
 
 # Vercel
 .vercel/
+.env.local

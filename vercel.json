@@ -1,17 +1,9 @@
 {
-  "builds": [
-    {
-      "src": "config/wsgi.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "staticfiles" }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python scripts/vercel_build.py",
+  "functions": {
+    "config/wsgi.py": {
+      "maxDuration": 30
     }
-  ],
-  "routes": [
-    { "src": "/static/(.*)", "dest": "/$1" },
-    { "src": "/(.*)", "dest": "config/wsgi.py" }
-  ]
+  }
 }
