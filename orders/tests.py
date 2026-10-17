@@ -70,3 +70,23 @@ class CartTests(TestCase):
     def test_cart_mutations_require_post(self):
         response = self.client.get(reverse("orders:cart_add", args=[self.mug.pk]))
         self.assertEqual(response.status_code, 405)
+
+
+class FlashMessageTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.mug = Product.objects.create(name="Mug", price=Decimal("10.00"), stock=1)
+
+    def test_success_messages_are_toasts(self):
+        response = self.client.post(reverse("orders:cart_add", args=[self.mug.pk]), {"quantity": 1}, follow=True)
+        html = response.content.decode()
+        self.assertIn("data-toast", html)
+        self.assertIn("Added Mug to your cart.", html)
+        self.assertNotIn('class="error-card"', html)
+
+    def test_errors_stay_inline_not_toasts(self):
+        response = self.client.post(reverse("orders:cart_add", args=[self.mug.pk]), {"quantity": 5}, follow=True)
+        html = response.content.decode()
+        self.assertIn("error-card", html)
+        self.assertIn("Only 1 of Mug available.", html)
+        self.assertNotIn("data-toast>", html)

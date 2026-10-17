@@ -43,19 +43,22 @@
 
   <main class="container site-main" id="main" tabindex="-1">
     {% for message in messages %}
-      {% if message.level_tag == "error" %}
-        {% component "error_card" message=message.message / %}
-      {% else %}
-        {% component "notice" message=message.message / %}
-      {% endif %}
+      {% if message.level_tag == "error" %}{% component "error_card" message=message.message / %}{% endif %}
     {% endfor %}
     {% if error %}{% component "error_card" message=error / %}{% endif %}
     {% block content %}{% endblock %}
   </main>
 
+  <div class="toast-stack" aria-live="polite">
+    {% for message in messages %}
+      {% if message.level_tag != "error" %}{% component "toast" message=message.message / %}{% endif %}
+    {% endfor %}
+  </div>
+
   <footer class="site-footer">
     <div class="container">© Corner Store</div>
   </footer>
+  <script src="{% static 'js/forms.js' %}" defer></script>
   {% component_js_dependencies %}
   {% block scripts %}{% endblock %}
 </body>
