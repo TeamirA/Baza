@@ -41,3 +41,14 @@ class CatalogViewTests(TestCase):
             response = self.client.get(reverse("products:detail", args=[slug]))
             self.assertEqual(response.status_code, 404)
             self.assertContains(response, "error-card", status_code=404)
+
+
+class LayoutTests(TestCase):
+    def test_every_page_has_skip_link_and_theme_toggle(self):
+        for url in [reverse("products:list"), reverse("orders:cart"), reverse("login")]:
+            response = self.client.get(url)
+            self.assertContains(response, 'href="#main"')
+            self.assertContains(response, 'id="main"')
+            self.assertContains(response, "data-theme-toggle")
+            # The saved theme is applied in <head>, before first paint.
+            self.assertLess(response.content.index(b'localStorage.getItem("theme")'), response.content.index(b"<body>"))

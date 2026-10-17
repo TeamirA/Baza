@@ -4,10 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Shop{% endblock %} · Corner Store</title>
+  <script>
+    /* Apply the saved theme before first paint (see the theme_toggle component). */
+    try {
+      var savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light" || savedTheme === "dark") document.documentElement.dataset.theme = savedTheme;
+    } catch (e) {}
+  </script>
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   {% component_css_dependencies %}
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="{% url 'products:list' %}">Corner Store</a>
@@ -28,11 +36,12 @@
           <a href="{% url 'login' %}">Log in</a>
           <a class="btn btn--sm" href="{% url 'register' %}">Sign up</a>
         {% endif %}
+        {% component "theme_toggle" / %}
       </nav>
     </div>
   </header>
 
-  <main class="container site-main">
+  <main class="container site-main" id="main" tabindex="-1">
     {% for message in messages %}
       {% if message.level_tag == "error" %}
         {% component "error_card" message=message.message / %}
