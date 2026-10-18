@@ -1,0 +1,11 @@
+<div class="qty-stepper" data-qty-stepper>
+  <label class="visually-hidden" for="{{ input_id }}">{{ label }}</label>
+  <button class="qty-stepper__btn" type="button" data-step="-1" aria-label="Decrease {{ label|lower }}" tabindex="-1">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <input class="qty-stepper__input" id="{{ input_id }}" type="number" name="{{ name }}" value="{{ value }}"
+         min="{{ min }}"{% if max is not None %} max="{{ max }}"{% endif %} inputmode="numeric">
+  <button class="qty-stepper__btn" type="button" data-step="1" aria-label="Increase {{ label|lower }}" tabindex="-1">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M12 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</div>

@@ -20,18 +20,13 @@
     {% endif %}
     <h1>{{ product.name }}</h1>
     <p class="price price--lg">${{ product.price }}</p>
-    {% if product.in_stock %}
-      <p class="badge badge--ok">{{ product.stock }} in stock</p>
-    {% else %}
-      <p class="badge badge--muted">Sold out</p>
-    {% endif %}
+    <p class="product-detail__stock">{% component "stock_badge" product=product / %}</p>
     <div class="product-detail__description">{{ product.description|linebreaks }}</div>
     {% if product.in_stock %}
       <form class="add-to-cart" action="{% url 'orders:cart_add' product.id %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
-        <label class="visually-hidden" for="qty">Quantity</label>
-        <input class="qty-input" id="qty" type="number" name="quantity" value="1" min="1" max="{{ product.stock }}">
+        {% component "qty_stepper" name="quantity" value=1 min=1 max=product.stock input_id="qty" label="Quantity" / %}
         <button class="btn" type="submit">Add to cart</button>
       </form>
     {% else %}

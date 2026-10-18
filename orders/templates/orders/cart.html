@@ -20,12 +20,13 @@
       <div class="cart-line__info">
         <a class="cart-line__name" href="{{ line.product.url }}">{{ line.product.name }}</a>
         <p class="muted">${{ line.product.price }} each</p>
+        {% if line.product.low_stock %}{% component "stock_badge" product=line.product / %}{% endif %}
       </div>
       <form class="cart-line__qty js-autosubmit" action="{% url 'orders:cart_update' line.product.id %}" method="post">
         {% csrf_token %}
-        <label class="visually-hidden" for="qty-{{ line.product.id }}">Quantity for {{ line.product.name }}</label>
-        <input class="qty-input" id="qty-{{ line.product.id }}" type="number" name="quantity"
-               value="{{ line.quantity }}" min="0" max="{{ line.product.stock }}">
+        {% with label="Quantity for "|add:line.product.name %}
+          {% component "qty_stepper" name="quantity" value=line.quantity min=1 max=line.product.stock key=line.product.id label=label / %}
+        {% endwith %}
         <button class="btn btn--ghost btn--sm js-autosubmit-fallback" type="submit">Update</button>
       </form>
       <p class="cart-line__subtotal price">${{ line.subtotal }}</p>

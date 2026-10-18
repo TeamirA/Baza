@@ -90,3 +90,17 @@ class FlashMessageTests(TestCase):
         self.assertIn("error-card", html)
         self.assertIn("Only 1 of Mug available.", html)
         self.assertNotIn("data-toast>", html)
+
+
+class CartStepperTests(TestCase):
+    def test_each_cart_line_gets_its_own_stepper(self):
+        mug = Product.objects.create(name="Mug", price=Decimal("10.00"), stock=3)
+        tote = Product.objects.create(name="Tote", price=Decimal("2.50"), stock=40)
+        for product in (mug, tote):
+            self.client.post(reverse("orders:cart_add", args=[product.pk]), {"quantity": 1})
+        html = self.client.get(reverse("orders:cart")).content.decode()
+        self.assertIn(f'id="quantity-{mug.pk}"', html)
+        self.assertIn(f'id="quantity-{tote.pk}"', html)
+        self.assertIn('aria-label="Increase quantity for mug"', html)
+        self.assertIn("Only 3 left", html)  # low stock flagged in the cart
+        self.assertNotIn("Only 40 left", html)

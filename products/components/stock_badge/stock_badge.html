@@ -1,0 +1,1 @@
+{% if not product.in_stock %}<span class="badge badge--muted">Sold out</span>{% elif product.low_stock %}<span class="badge badge--warn">Only {{ product.stock }} left</span>{% else %}<span class="badge badge--ok">In stock</span>{% endif %}

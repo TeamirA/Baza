@@ -1,0 +1,38 @@
+.qty-stepper {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.qty-stepper:focus-within { outline: 2px solid var(--accent); outline-offset: 1px; }
+.qty-stepper__btn {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0;
+  color: var(--text);
+  background: var(--surface-muted);
+  border: 0;
+  cursor: pointer;
+}
+.qty-stepper__btn:hover:not(:disabled) { color: var(--accent); }
+.qty-stepper__btn:disabled { color: var(--text-muted); opacity: 0.45; cursor: not-allowed; }
+.qty-stepper__btn svg { width: 1rem; height: 1rem; }
+.qty-stepper__input {
+  width: 3rem;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  -moz-appearance: textfield;
+}
+.qty-stepper__input:focus { outline: none; }
+.qty-stepper__input::-webkit-outer-spin-button,
+.qty-stepper__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }

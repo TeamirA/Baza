@@ -11,11 +11,7 @@
     <h3 class="product-card__name"><a href="{{ product.url }}">{{ product.name }}</a></h3>
     <div class="product-card__footer">
       <span class="price">${{ product.price }}</span>
-      {% if product.in_stock %}
-        <span class="badge badge--ok">In stock</span>
-      {% else %}
-        <span class="badge badge--muted">Sold out</span>
-      {% endif %}
+      {% component "stock_badge" product=product / %}
     </div>
   </div>
 </article>
