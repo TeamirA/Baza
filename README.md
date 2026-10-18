@@ -56,7 +56,14 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    | `STRIPE_WEBHOOK_SECRET` | `whsec_...` (from step 5) |
    | `SEED_PRODUCTS` | `1` for the first deploy if you want sample products (optional) |
    | `ALLOWED_HOSTS` / `CSRF_TRUSTED_ORIGINS` | only if you add a custom domain |
-4. **Redeploy.** Migrations run during the build.
+4. **Redeploy.** Production builds run migrations.
+
+   **Preview deployments** don't migrate by default, because without Neon preview
+   branching they'd share the production database. To give each preview its own
+   copy, go to Storage → your Neon database → Projects → corner-store and enable
+   **Preview** under *Deployments Configuration*, along with *Resource must be
+   active before deployment*. Then add `PREVIEW_MIGRATIONS=1` for the **Preview**
+   environment only.
 5. **Stripe webhook:** in the Stripe Dashboard (test mode), go to Developers → Webhooks → Add endpoint:
    - URL: `https://<your-app>.vercel.app/payments/webhook/`
    - Events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`
