@@ -60,6 +60,7 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    | `SITE_URL` | `https://corner-store-omega.vercel.app`, used for links in emails |
    | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | SMTP details from your email provider (optional; see below) |
    | `DEFAULT_FROM_EMAIL` | e.g. `Corner Store <orders@yourdomain.com>` |
+   | `SENTRY_DSN` | optional: your Sentry project's DSN, to get error reports (no personal data is sent) |
    | `ALLOWED_HOSTS` / `CSRF_TRUSTED_ORIGINS` | only if you add a custom domain |
 4. **Redeploy.** Production builds run migrations.
 

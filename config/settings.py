@@ -198,6 +198,13 @@ ORDER_HOLD_HOURS = int(os.environ.get("ORDER_HOLD_HOURS", "24"))
 CRON_SECRET = os.environ.get("CRON_SECRET", "")
 
 
+# --- Error monitoring ---------------------------------------------------
+
+from config.sentry import init_sentry  # noqa: E402
+
+init_sentry(os.environ)
+
+
 # --- Stripe (used from Phase 3) ----------------------------------------
 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "")
