@@ -28,6 +28,9 @@ class Order(models.Model):
     # What the customer was actually charged, as reported by the payment provider.
     # Can be lower than the item total when a promo code was used.
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    # True when the items were taken out of stock at checkout (orders from before
+    # reservations existed take stock at payment instead).
+    stock_reserved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,7 +1,10 @@
+import hmac
 import logging
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -89,6 +92,10 @@ def cart_remove(request, product_id):
 # --- Checkout & orders ----------------------------------------------------
 
 
+def _order_context(order):
+    return {"order": order, "hold_until": order.hold_until(settings.ORDER_HOLD_HOURS)}
+
+
 def checkout(request):
     cart_service = CartService.for_request(request)
     try:
@@ -151,7 +158,7 @@ def order_detail(request, order_id):
     except Exception as e:
         logger.exception("Failed to load order %s", order_id)
         return render(request, "orders/order_detail.html", {"error": f"We couldn't load this order: {e}"}, status=500)
-    return render(request, "orders/order_detail.html", {"order": order})
+    return render(request, "orders/order_detail.html", _order_context(order))
 
 
 def order_track(request, token):
@@ -165,4 +172,38 @@ def order_track(request, token):
         return render(
             request, "orders/order_detail.html", {"error": f"We couldn't load this order: {e}", "via_link": True}, status=500
         )
-    return render(request, "orders/order_detail.html", {"order": order, "via_link": True})
+    return render(request, "orders/order_detail.html", {**_order_context(order), "via_link": True})
+
+
+@require_POST
+def order_cancel(request, token):
+    """Cancel a pending order from its page (owner or private link)."""
+    try:
+        order = OrderService().get_order_by_token(token)
+    except OrderNotFound as e:
+        messages.error(request, str(e))
+        return redirect("products:list")
+    try:
+        _, cancelled = PaymentService().cancel_order(order)
+        if cancelled:
+            messages.success(request, f"Order #{order.id} was cancelled.")
+        else:
+            messages.success(request, f"Order #{order.id} had already been paid, so it wasn't cancelled.")
+    except (OrderError, PaymentError) as e:
+        messages.error(request, str(e))
+    except Exception as e:
+        logger.exception("Failed to cancel order %s", order.id)
+        messages.error(request, f"We couldn't cancel this order: {e}")
+    return redirect(order_page_url(order))
+
+
+def cron_expire_unpaid(request):
+    """Called daily by Vercel Cron (see vercel.json). Cancels unpaid orders older
+    than ORDER_HOLD_HOURS and puts their stock back."""
+    expected = f"Bearer {settings.CRON_SECRET}"
+    given = request.headers.get("Authorization", "")
+    if not settings.CRON_SECRET or not hmac.compare_digest(given, expected):
+        return HttpResponseForbidden("Forbidden")
+    cancelled = PaymentService().expire_unpaid_orders(settings.ORDER_HOLD_HOURS)
+    logger.info("Expired %s unpaid order(s)", cancelled)
+    return JsonResponse({"cancelled": cancelled})

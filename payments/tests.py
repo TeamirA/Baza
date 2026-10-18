@@ -13,7 +13,7 @@ from orders.models import Order, OrderItem
 from orders.services import OrderService
 from products.models import Product
 
-from .gateways import PaymentError, get_payment_gateway
+from .gateways import PaymentError, PaymentResult, get_payment_gateway
 from .gateways.dev_gateway import DevGateway
 from .gateways.stripe_gateway import StripeGateway
 
@@ -106,7 +106,7 @@ class CheckoutRulesTests(CheckoutTestCase):
         self.fill_cart(4)
         Product.objects.filter(pk=self.mug.pk).update(stock=1)
         response = self.client.post(reverse("orders:checkout"), SHIPPING)
-        self.assertContains(response, "Only 1 of Mug left")
+        self.assertContains(response, "Mug just sold out or has fewer left")
         self.assertFalse(Order.objects.exists())
 
     @override_settings(DEBUG=False, STRIPE_SECRET_KEY="")
@@ -190,6 +190,116 @@ class GuestCheckoutTests(CheckoutTestCase):
         self.assertNotContains(response, "Keep this page")
 
 
+@override_settings(DEBUG=False, STRIPE_SECRET_KEY="", CRON_SECRET="cron-test-secret", ORDER_HOLD_HOURS=24)
+class StockReservationTests(CheckoutTestCase):
+    def place_order(self, quantity):
+        self.fill_cart(quantity)
+        self.client.post(reverse("orders:checkout"), SHIPPING)
+        return Order.objects.latest("pk")
+
+    def stock(self):
+        self.mug.refresh_from_db()
+        return self.mug.stock
+
+    def test_checkout_reserves_stock_and_payment_does_not_take_it_twice(self):
+        order = self.place_order(2)
+        self.assertTrue(order.stock_reserved)
+        self.assertEqual(self.stock(), 3)
+        OrderService().mark_as_paid(order.pk)
+        self.assertEqual(self.stock(), 3)
+
+    def test_last_unit_cannot_be_sold_twice(self):
+        Product.objects.filter(pk=self.mug.pk).update(stock=1)
+        self.place_order(1)
+        # Another shopper had the same unit in their cart.
+        self.client.force_login(self.other)
+        self.other.cart_items.create(product=self.mug, quantity=1)
+        response = self.client.post(reverse("orders:checkout"), SHIPPING)
+        self.assertContains(response, "just sold out")
+        self.assertEqual(Order.objects.count(), 1)
+        self.assertEqual(self.stock(), 0)
+
+    def test_shopper_can_cancel_unpaid_order_and_stock_returns(self):
+        order = self.place_order(2)
+        response = self.client.post(reverse("orders:cancel", args=[order.access_token]), follow=True)
+        self.assertContains(response, f"Order #{order.pk} was cancelled.")
+        order.refresh_from_db()
+        self.assertEqual(order.status, Order.Status.CANCELLED)
+        self.assertEqual(self.stock(), 5)
+        summary = response.content.decode().split('class="cart-summary"')[1]
+        self.assertIn("<span>Total</span>", summary)
+        self.assertNotIn("<span>Paid</span>", summary)
+        # Cancelling again changes nothing.
+        response = self.client.post(reverse("orders:cancel", args=[order.access_token]), follow=True)
+        self.assertContains(response, "Only unpaid orders can be cancelled.")
+        self.assertEqual(self.stock(), 5)
+
+    def test_payment_after_cancellation_is_honoured(self):
+        order = self.place_order(2)
+        self.client.post(reverse("orders:cancel", args=[order.access_token]))
+        OrderService().mark_as_paid(order.pk, "cs_late")
+        order.refresh_from_db()
+        self.assertEqual(order.status, Order.Status.PAID)
+        self.assertEqual(self.stock(), 3)
+
+    def test_cancel_does_not_happen_if_customer_already_paid(self):
+        order = self.place_order(1)
+        Order.objects.filter(pk=order.pk).update(stripe_session_id="cs_paid")
+        gateway = mock.Mock()
+        gateway.expire_checkout_session.return_value = False
+        gateway.get_session_result.return_value = PaymentResult("cs_paid", order.pk, True, Decimal("10.00"))
+        from payments.services import PaymentService
+
+        PaymentService(gateway=gateway).cancel_order(OrderService().get_order(order.pk))
+        order.refresh_from_db()
+        self.assertEqual(order.status, Order.Status.PAID)
+        self.assertEqual(self.stock(), 4)
+
+    def test_legacy_unreserved_orders_still_take_stock_at_payment(self):
+        order = self.make_order(quantity=2)  # created directly, like pre-reservation orders
+        self.assertFalse(order.stock_reserved)
+        OrderService().mark_as_paid(order.pk)
+        self.assertEqual(self.stock(), 3)
+
+    def test_cron_cancels_only_old_unpaid_orders(self):
+        from datetime import timedelta
+
+        from django.utils import timezone
+
+        old = self.place_order(1)
+        Order.objects.filter(pk=old.pk).update(created_at=timezone.now() - timedelta(hours=25))
+        fresh = self.place_order(1)
+        paid_old = self.place_order(1)
+        OrderService().mark_as_paid(paid_old.pk)
+        Order.objects.filter(pk=paid_old.pk).update(created_at=timezone.now() - timedelta(hours=30))
+        self.assertEqual(self.stock(), 2)
+
+        url = reverse("orders:cron_expire_unpaid")
+        self.assertEqual(self.client.get(url).status_code, 403)
+        self.assertEqual(self.client.get(url, HTTP_AUTHORIZATION="Bearer wrong").status_code, 403)
+        response = self.client.get(url, HTTP_AUTHORIZATION="Bearer cron-test-secret")
+        self.assertEqual(response.json(), {"cancelled": 1})
+
+        statuses = dict(Order.objects.values_list("pk", "status"))
+        self.assertEqual(statuses[old.pk], Order.Status.CANCELLED)
+        self.assertEqual(statuses[fresh.pk], Order.Status.PENDING)
+        self.assertEqual(statuses[paid_old.pk], Order.Status.PAID)
+        self.assertEqual(self.stock(), 3)
+
+    @override_settings(CRON_SECRET="")
+    def test_cron_refuses_everything_when_secret_unset(self):
+        response = self.client.get(reverse("orders:cron_expire_unpaid"), HTTP_AUTHORIZATION="Bearer ")
+        self.assertEqual(response.status_code, 403)
+
+    def test_order_page_shows_hold_and_cancel_for_pending_only(self):
+        order = self.place_order(1)
+        page = self.client.get(reverse("orders:detail", args=[order.pk]))
+        self.assertContains(page, "Items are held for you until")
+        self.assertContains(page, "Cancel order")
+        OrderService().mark_as_paid(order.pk)
+        self.assertNotContains(self.client.get(reverse("orders:detail", args=[order.pk])), "Cancel order")
+
+
 class GatewaySelectionTests(TestCase):
     @override_settings(STRIPE_SECRET_KEY="sk_test_x")
     def test_stripe_when_key_set(self):
@@ -206,6 +316,18 @@ class GatewaySelectionTests(TestCase):
 
 
 class StripeGatewayTests(CheckoutTestCase):
+    def test_expire_session_refuses_when_already_paid(self):
+        gateway = StripeGateway("sk_test_x")
+        sessions = gateway.client.v1.checkout.sessions
+        with mock.patch.object(sessions, "retrieve", return_value=mock.Mock(payment_status="paid", status="complete")), \
+                mock.patch.object(sessions, "expire") as expire:
+            self.assertFalse(gateway.expire_checkout_session("cs_1"))
+        expire.assert_not_called()
+        with mock.patch.object(sessions, "retrieve", return_value=mock.Mock(payment_status="unpaid", status="open")), \
+                mock.patch.object(sessions, "expire") as expire:
+            self.assertTrue(gateway.expire_checkout_session("cs_2"))
+        expire.assert_called_once_with("cs_2")
+
     def test_checkout_session_params(self):
         order = OrderService().get_order(self.make_order(quantity=3).pk)
         gateway = StripeGateway("sk_test_x")
@@ -220,6 +342,7 @@ class StripeGatewayTests(CheckoutTestCase):
         self.assertEqual(params["line_items"][0]["price_data"]["unit_amount"], 1000)
         self.assertIn("{CHECKOUT_SESSION_ID}", params["success_url"])
         self.assertTrue(params["allow_promotion_codes"])
+        self.assertAlmostEqual(params["expires_at"] - time.time(), 23 * 3600, delta=60)
 
     def test_session_result_from_real_stripe_object(self):
         import stripe

@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 
 from .models import Order, OrderItem
 
@@ -16,3 +16,15 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ["status"]
     search_fields = ["id", "user__username", "email", "stripe_session_id"]
     inlines = [OrderItemInline]
+    actions = ["cancel_unpaid_orders"]
+
+    @admin.action(description="Cancel selected unpaid orders (puts stock back)")
+    def cancel_unpaid_orders(self, request, queryset):
+        from orders.services import OrderService
+        from payments.services import PaymentService
+
+        cancelled = 0
+        for order_id in queryset.filter(status=Order.Status.PENDING).values_list("pk", flat=True):
+            _, was_cancelled = PaymentService().cancel_order(OrderService().get_order(order_id))
+            cancelled += was_cancelled
+        self.message_user(request, f"Cancelled {cancelled} order(s).", messages.SUCCESS)

@@ -42,11 +42,16 @@
       <div class="cart-summary__row"><span>Subtotal</span><span class="price">${{ order.total }}</span></div>
       <div class="cart-summary__row cart-summary__discount"><span>Promo discount</span><span class="price">−${{ order.discount }}</span></div>
     {% endif %}
-    <div class="cart-summary__row cart-summary__total"><span>{% if order.is_pending %}Total{% else %}Paid{% endif %}</span><span class="price">${{ order.charged }}</span></div>
+    <div class="cart-summary__row cart-summary__total"><span>{% if order.is_paid %}Paid{% else %}Total{% endif %}</span><span class="price">${{ order.charged }}</span></div>
     {% if order.is_pending %}
       <form action="{% url 'payments:pay' order.access_token %}" method="post">
         {% csrf_token %}
         <button class="btn btn--block" type="submit">Pay ${{ order.total }}</button>
+      </form>
+      <p class="order-hold muted">Items are held for you until {{ hold_until|date:"M j, H:i" }}.</p>
+      <form class="order-cancel" action="{% url 'orders:cancel' order.access_token %}" method="post">
+        {% csrf_token %}
+        <button class="link-button order-cancel__button" type="submit">Cancel order</button>
       </form>
     {% endif %}
     <h2 class="order-ship__title">Shipping to</h2>

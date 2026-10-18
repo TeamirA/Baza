@@ -1,3 +1,4 @@
+import time
 from decimal import Decimal
 
 import stripe
@@ -5,6 +6,9 @@ import stripe
 from .base import CheckoutSession, PaymentError, PaymentGateway, PaymentResult, WebhookVerificationError
 
 CURRENCY = "usd"
+# Stripe allows 30 minutes to 24 hours. Keep it inside the 24h order hold so a
+# payment page can't be completed after the order has been auto-cancelled.
+SESSION_LIFETIME_SECONDS = 23 * 60 * 60
 
 
 def _to_cents(amount):
@@ -51,6 +55,7 @@ class StripeGateway(PaymentGateway):
             "cancel_url": cancel_url,
             # Lets shoppers enter promotion codes created in the Stripe Dashboard.
             "allow_promotion_codes": True,
+            "expires_at": int(time.time()) + SESSION_LIFETIME_SECONDS,
         }
         if order.email:
             params["customer_email"] = order.email
@@ -72,6 +77,17 @@ class StripeGateway(PaymentGateway):
             paid=session.payment_status == "paid",
             amount_total=_amount_total(data),
         )
+
+    def expire_checkout_session(self, session_id):
+        try:
+            session = self.client.v1.checkout.sessions.retrieve(session_id)
+            if session.payment_status == "paid":
+                return False
+            if session.status == "open":
+                self.client.v1.checkout.sessions.expire(session_id)
+        except stripe.StripeError as e:
+            raise PaymentError(e.user_message or "Couldn't close the payment page with the provider.") from e
+        return True
 
     def verify_webhook(self, payload, signature):
         if not self.webhook_secret:

@@ -392,6 +392,10 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
 .order-item { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem; }
 .order-item + .order-item { border-top: 1px solid var(--border); }
 .order-item p { margin: 0; }
+.order-hold { margin: 0.6rem 0 0; font-size: 0.8rem; text-align: center; }
+.order-cancel { margin-top: 0.5rem; text-align: center; }
+.order-cancel__button { font-size: 0.875rem; color: var(--text-muted); }
+.order-cancel__button:hover { color: var(--danger); }
 .order-ship__title { margin-top: 1.5rem !important; }
 .order-ship { margin: 0; line-height: 1.6; }
 

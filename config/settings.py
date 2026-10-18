@@ -162,6 +162,16 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
 
 
+# --- Orders -------------------------------------------------------------
+
+# Unpaid orders hold their stock this long, then the daily cron cancels them.
+ORDER_HOLD_HOURS = int(os.environ.get("ORDER_HOLD_HOURS", "24"))
+
+# Vercel Cron sends "Authorization: Bearer <CRON_SECRET>"; the cron endpoint
+# refuses requests without it. Set it in the Vercel project's env vars.
+CRON_SECRET = os.environ.get("CRON_SECRET", "")
+
+
 # --- Stripe (used from Phase 3) ----------------------------------------
 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "")

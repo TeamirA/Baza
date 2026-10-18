@@ -65,6 +65,7 @@ class OrderDTO:
     items: List[OrderItemDTO]
     access_token: Optional[UUID] = None
     is_guest: bool = False
+    payment_session_id: str = ""
     amount_paid: Optional[Decimal] = None
 
     @property
@@ -90,3 +91,13 @@ class OrderDTO:
     @property
     def is_pending(self) -> bool:
         return self.status == "pending"
+
+    @property
+    def is_paid(self) -> bool:
+        return self.status in ("paid", "shipped")
+
+    def hold_until(self, hold_hours):
+        """When an unpaid order stops holding its stock and gets cancelled."""
+        from datetime import timedelta
+
+        return self.created_at + timedelta(hours=hold_hours)

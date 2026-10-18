@@ -1,10 +1,14 @@
+import logging
+
 from products.services import ProductNotFound, ProductService
 
 from .cart import MAX_QUANTITY_PER_LINE, get_cart_store
 from .dtos import CartDTO, CartLineDTO, OrderDTO, OrderItemDTO
 from .models import Order
-from .repositories import OrderRepository
+from .repositories import InsufficientStock, OrderRepository
 
+
+logger = logging.getLogger(__name__)
 
 class CartError(Exception):
     """A cart operation the user asked for can't be done; the message is shown to them."""
@@ -104,6 +108,7 @@ def _order_to_dto(order):
         email=order.email,
         address=order.address,
         access_token=order.access_token,
+        payment_session_id=order.stripe_session_id,
         is_guest=order.user_id is None,
         amount_paid=order.amount_paid,
         items=[
@@ -129,18 +134,17 @@ class OrderService:
         """
         if cart.is_empty:
             raise OrderError("Your cart is empty.")
-        for line in cart.lines:
-            if line.quantity > line.product.stock:
-                raise OrderError(
-                    f"Only {line.product.stock} of {line.product.name} left. Please update your cart."
-                )
-        order = self.orders.create(
-            user=user if user is not None and user.is_authenticated else None,
-            full_name=shipping.full_name,
-            email=shipping.email,
-            address=shipping.address,
-            lines=[(line.product.id, line.quantity, line.product.price) for line in cart.lines],
-        )
+        try:
+            order = self.orders.create(
+                user=user if user is not None and user.is_authenticated else None,
+                full_name=shipping.full_name,
+                email=shipping.email,
+                address=shipping.address,
+                lines=[(line.product.id, line.quantity, line.product.price) for line in cart.lines],
+            )
+        except InsufficientStock as e:
+            name = next((line.product.name for line in cart.lines if line.product.id == e.product_id), "An item")
+            raise OrderError(f"Sorry, {name} just sold out or has fewer left than you asked for. Please update your cart.")
         return _order_to_dto(order)
 
     def get_order(self, order_id):
@@ -170,6 +174,23 @@ class OrderService:
     def mark_as_paid(self, order_id, session_id="", amount_paid=None):
         """Idempotent: returns True only the first time an order is marked paid."""
         try:
-            return self.orders.mark_paid(order_id, session_id, amount_paid)
+            changed, was_cancelled = self.orders.mark_paid(order_id, session_id, amount_paid)
         except Order.DoesNotExist:
             raise OrderNotFound(f"Order #{order_id} was not found.")
+        if was_cancelled:
+            logger.warning("Order %s was paid after it had been cancelled; it is now marked paid.", order_id)
+        return changed
+
+    def cancel(self, order_id):
+        """Cancels a pending order and releases its stock. Use PaymentService.cancel_order
+        from views so an open payment page is closed first."""
+        try:
+            order = self.orders.cancel(order_id)
+        except Order.DoesNotExist:
+            raise OrderNotFound(f"Order #{order_id} was not found.")
+        if order is None:
+            raise OrderError("Only unpaid orders can be cancelled.")
+        return _order_to_dto(order)
+
+    def pending_order_ids_older_than(self, hours):
+        return self.orders.pending_ids_older_than(hours)

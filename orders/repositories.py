@@ -1,11 +1,20 @@
 """The only module in the orders app that talks to the ORM."""
 
+from datetime import timedelta
+
 from django.db import transaction
 from django.db.models import Sum
+from django.utils import timezone
 
 from products.repositories import ProductRepository
 
 from .models import CartItem, Order, OrderItem
+
+
+class InsufficientStock(Exception):
+    def __init__(self, product_id):
+        super().__init__(product_id)
+        self.product_id = product_id
 
 
 class OrderRepository:
@@ -17,8 +26,18 @@ class OrderRepository:
 
     @transaction.atomic
     def create(self, user, full_name, email, address, lines):
-        """lines: iterable of (product_id, quantity, unit_price)."""
-        order = Order.objects.create(user=user, full_name=full_name, email=email, address=address)
+        """Creates a pending order and reserves its stock, all or nothing.
+
+        lines: iterable of (product_id, quantity, unit_price).
+        Raises InsufficientStock (and saves nothing) if any line can't be reserved.
+        """
+        lines = list(lines)
+        for product_id, quantity, _ in lines:
+            if not self.products.reserve_stock(product_id, quantity):
+                raise InsufficientStock(product_id)  # rolls back earlier reservations
+        order = Order.objects.create(
+            user=user, full_name=full_name, email=email, address=address, stock_reserved=True
+        )
         OrderItem.objects.bulk_create(
             [OrderItem(order=order, product_id=pid, quantity=qty, price=price) for pid, qty, price in lines]
         )
@@ -44,24 +63,51 @@ class OrderRepository:
 
     @transaction.atomic
     def mark_paid(self, order_id, session_id="", amount_paid=None):
-        """Marks a pending order paid and takes its items out of stock.
+        """Marks a pending (or cancelled) order paid.
 
-        Returns True if this call changed the order, False if it was already
-        handled (so webhook retries and the success redirect can't double-count).
+        Returns (changed, was_cancelled). changed is False if the order was already
+        paid or shipped, so webhook retries and the success redirect can't
+        double-count. A payment that arrives after cancellation is honoured: the
+        customer was charged, so the order is revived and its stock taken again.
         Raises Order.DoesNotExist.
         """
         order = Order.objects.select_for_update().get(pk=order_id)
-        if order.status != Order.Status.PENDING:
-            return False
+        if order.status not in (Order.Status.PENDING, Order.Status.CANCELLED):
+            return False, False
+        was_cancelled = order.status == Order.Status.CANCELLED
+        take_stock = was_cancelled or not order.stock_reserved
         order.status = Order.Status.PAID
+        order.stock_reserved = True
         if session_id:
             order.stripe_session_id = session_id
         if amount_paid is not None:
             order.amount_paid = amount_paid
-        order.save(update_fields=["status", "stripe_session_id", "amount_paid", "updated_at"])
-        for item in order.items.all():
-            self.products.decrement_stock(item.product_id, item.quantity)
-        return True
+        order.save(update_fields=["status", "stock_reserved", "stripe_session_id", "amount_paid", "updated_at"])
+        if take_stock:
+            for item in order.items.all():
+                self.products.decrement_stock(item.product_id, item.quantity)
+        return True, was_cancelled
+
+    @transaction.atomic
+    def cancel(self, order_id):
+        """Cancels a pending order and puts reserved stock back. Returns the order, or
+        None if it wasn't pending (already paid/cancelled). Raises Order.DoesNotExist."""
+        order = Order.objects.select_for_update().get(pk=order_id)
+        if order.status != Order.Status.PENDING:
+            return None
+        order.status = Order.Status.CANCELLED
+        if order.stock_reserved:
+            for item in order.items.all():
+                self.products.release_stock(item.product_id, item.quantity)
+        order.stock_reserved = False
+        order.save(update_fields=["status", "stock_reserved", "updated_at"])
+        return order
+
+    def pending_ids_older_than(self, hours):
+        cutoff = timezone.now() - timedelta(hours=hours)
+        return list(
+            Order.objects.filter(status=Order.Status.PENDING, created_at__lt=cutoff).values_list("pk", flat=True)
+        )
 
 
 class CartItemRepository:

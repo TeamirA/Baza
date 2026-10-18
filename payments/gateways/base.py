@@ -41,6 +41,14 @@ class PaymentGateway(ABC):
     def get_session_result(self, session_id) -> PaymentResult:
         """Look up whether a checkout session has been paid."""
 
+    def expire_checkout_session(self, session_id) -> bool:
+        """Close an unpaid checkout session so it can no longer be paid.
+
+        Returns False if the session has already been paid (the order must not be
+        cancelled then). Gateways without expirable sessions just return True.
+        """
+        return True
+
     @abstractmethod
     def verify_webhook(self, payload: bytes, signature: str) -> Optional[PaymentResult]:
         """Verify and parse a webhook. Returns a PaymentResult for completed

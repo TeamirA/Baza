@@ -39,6 +39,30 @@ class PaymentService:
             self.orders.mark_as_paid(result.order_id, result.session_id, result.amount_total)
         return result.order_id, result.paid
 
+    def cancel_order(self, order):
+        """Cancels a pending OrderDTO: closes its payment page first, and if the
+        customer turns out to have paid already, marks it paid instead.
+
+        Returns the order id and whether it was cancelled.
+        """
+        if order.payment_session_id and not self.gateway.expire_checkout_session(order.payment_session_id):
+            result = self.gateway.get_session_result(order.payment_session_id)
+            self.orders.mark_as_paid(order.id, result.session_id, result.amount_total)
+            return order.id, False
+        self.orders.cancel(order.id)
+        return order.id, True
+
+    def expire_unpaid_orders(self, hours):
+        """Cancels pending orders older than `hours`. Returns how many were cancelled."""
+        cancelled = 0
+        for order_id in self.orders.pending_order_ids_older_than(hours):
+            try:
+                _, was_cancelled = self.cancel_order(self.orders.get_order(order_id))
+                cancelled += was_cancelled
+            except (OrderError, PaymentError) as e:
+                logger.warning("Could not expire order %s: %s", order_id, e)
+        return cancelled
+
     def handle_webhook(self, payload, signature):
         """Raises WebhookVerificationError for bad signatures."""
         result = self.gateway.verify_webhook(payload, signature)

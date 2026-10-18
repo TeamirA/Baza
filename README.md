@@ -55,6 +55,8 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    | `STRIPE_SECRET_KEY` | `sk_test_...` |
    | `STRIPE_WEBHOOK_SECRET` | `whsec_...` (from step 5) |
    | `SEED_PRODUCTS` | `1` for the first deploy if you want sample products (optional) |
+   | `CRON_SECRET` | a long random string; Vercel Cron sends it to `/cron/expire-unpaid-orders/` |
+   | `ORDER_HOLD_HOURS` | optional, default `24`: how long unpaid orders hold their stock |
    | `ALLOWED_HOSTS` / `CSRF_TRUSTED_ORIGINS` | only if you add a custom domain |
 4. **Redeploy.** Production builds run migrations.
 
@@ -75,6 +77,12 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    python manage.py createsuperuser
    ```
    (`.env.local` is gitignored. Delete it afterwards if you don't need it.)
+
+**Unpaid orders:** checkout reserves stock right away. A daily Vercel Cron
+(`vercel.json`) cancels orders still unpaid after `ORDER_HOLD_HOURS` and puts their
+stock back; Stripe payment pages expire after 23 hours to match. You can run it by
+hand with `python manage.py expire_unpaid_orders`, or use the "Cancel selected
+unpaid orders" admin action. Shoppers can also cancel unpaid orders themselves.
 
 Test card: `4242 4242 4242 4242`, with any future expiry date and any CVC.
 

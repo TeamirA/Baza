@@ -42,6 +42,16 @@ class ProductRepository:
             related += list(qs.exclude(pk__in=[p.pk for p in related])[: limit - len(related)])
         return related
 
+    def reserve_stock(self, product_id, quantity):
+        """Takes quantity out of stock only if that much is available. Returns True on success.
+
+        A single conditional UPDATE, so two buyers can't both take the last unit.
+        """
+        return Product.objects.filter(pk=product_id, stock__gte=quantity).update(stock=F("stock") - quantity) == 1
+
+    def release_stock(self, product_id, quantity):
+        Product.objects.filter(pk=product_id).update(stock=F("stock") + quantity)
+
     def decrement_stock(self, product_id, quantity):
         """Lowers stock by quantity, never below zero. Call inside the caller's transaction."""
         Product.objects.filter(pk=product_id).update(stock=Greatest(F("stock") - quantity, 0))

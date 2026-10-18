@@ -13,4 +13,6 @@ urlpatterns = [
     path("orders/", views.order_list, name="list"),
     path("orders/<int:order_id>/", views.order_detail, name="detail"),
     path("orders/track/<uuid:token>/", views.order_track, name="track"),
+    path("orders/cancel/<uuid:token>/", views.order_cancel, name="cancel"),
+    path("cron/expire-unpaid-orders/", views.cron_expire_unpaid, name="cron_expire_unpaid"),
 ]
