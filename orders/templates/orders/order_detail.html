@@ -3,7 +3,9 @@
 {% block title %}{% if order %}Order #{{ order.id }}{% else %}Order not found{% endif %}{% endblock %}
 
 {% block content %}
-<p class="breadcrumb"><a href="{% url 'orders:list' %}">← All orders</a></p>
+<p class="breadcrumb">
+  {% if user.is_authenticated and order and not order.is_guest %}<a href="{% url 'orders:list' %}">← All orders</a>{% else %}<a href="{% url 'products:list' %}">← Continue shopping</a>{% endif %}
+</p>
 
 {% if order %}
 <div class="page-head order-head">
@@ -13,6 +15,13 @@
   </div>
   {% component "order_status" status=order.status label=order.status_label / %}
 </div>
+
+{% if order.is_guest %}
+<div class="guest-note">
+  <p><strong>Keep this page's link.</strong> It's your private link to this order. Anyone with it can see the order, so don't share it.</p>
+  {% if not user.is_authenticated %}<p class="muted">Want order history and faster checkout next time? <a href="{% url 'register' %}">Create an account</a>.</p>{% endif %}
+</div>
+{% endif %}
 
 <div class="cart">
   <ul class="cart-lines">
@@ -35,7 +44,7 @@
     {% endif %}
     <div class="cart-summary__row cart-summary__total"><span>{% if order.is_pending %}Total{% else %}Paid{% endif %}</span><span class="price">${{ order.charged }}</span></div>
     {% if order.is_pending %}
-      <form action="{% url 'payments:pay' order.id %}" method="post">
+      <form action="{% url 'payments:pay' order.access_token %}" method="post">
         {% csrf_token %}
         <button class="btn btn--block" type="submit">Pay ${{ order.total }}</button>
       </form>

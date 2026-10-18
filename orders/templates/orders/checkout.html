@@ -11,6 +11,9 @@
   <form class="checkout-form" method="post" novalidate>
     {% csrf_token %}
     <h2>Shipping details</h2>
+    {% if not user.is_authenticated %}
+      <p class="muted checkout-form__guest">Checking out as a guest. <a href="{% url 'login' %}?next={% url 'orders:checkout' %}">Log in</a> to keep this order in your account.</p>
+    {% endif %}
     {% component "form_field" field=form.full_name / %}
     {% component "form_field" field=form.email / %}
     {% component "form_field" field=form.address / %}

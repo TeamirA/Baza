@@ -43,10 +43,9 @@
     <div class="cart-summary__row"><span>Subtotal</span><span class="price">${{ cart.total }}</span></div>
     <div class="cart-summary__row muted"><span>Shipping</span><span>Free</span></div>
     <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ cart.total }}</span></div>
-    {% if user.is_authenticated %}
-      <a class="btn btn--block" href="{% url 'orders:checkout' %}">Checkout</a>
-    {% else %}
-      <a class="btn btn--block" href="{% url 'login' %}?next={% url 'orders:checkout' %}">Log in to check out</a>
+    <a class="btn btn--block" href="{% url 'orders:checkout' %}">Checkout</a>
+    {% if not user.is_authenticated %}
+      <p class="cart-summary__hint muted">No account needed. <a href="{% url 'login' %}?next={% url 'orders:checkout' %}">Log in</a> to save the order to your history.</p>
     {% endif %}
     <a class="cart-summary__continue" href="{% url 'products:list' %}">Continue shopping</a>
   </aside>

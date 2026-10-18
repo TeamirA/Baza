@@ -24,11 +24,18 @@ def _redirect_back(request, fallback="orders:cart"):
     return redirect(fallback)
 
 
-def payment_urls(request, order_id):
+def payment_urls(request, order):
     """Absolute return URLs for the payment provider. {CHECKOUT_SESSION_ID} is filled in by the gateway."""
     success = request.build_absolute_uri(reverse("payments:success")) + "?session_id={CHECKOUT_SESSION_ID}"
-    cancel = request.build_absolute_uri(reverse("payments:cancel", args=[order_id]))
+    cancel = request.build_absolute_uri(reverse("payments:cancel", args=[order.access_token]))
     return success, cancel
+
+
+def order_page_url(order):
+    """Guests use the private link; signed-in owners get their normal order page."""
+    if order.is_guest:
+        return reverse("orders:track", args=[order.access_token])
+    return reverse("orders:detail", args=[order.id])
 
 
 # --- Cart -----------------------------------------------------------------
@@ -82,7 +89,6 @@ def cart_remove(request, product_id):
 # --- Checkout & orders ----------------------------------------------------
 
 
-@login_required
 def checkout(request):
     cart_service = CartService.for_request(request)
     try:
@@ -95,7 +101,9 @@ def checkout(request):
         messages.error(request, "Your cart is empty.")
         return redirect("orders:cart")
 
-    initial = {"full_name": request.user.get_full_name(), "email": request.user.email}
+    initial = {}
+    if request.user.is_authenticated:
+        initial = {"full_name": request.user.get_full_name(), "email": request.user.email}
     form = ShippingForm(request.POST or None, initial=initial)
     context = {"cart": cart, "form": form}
 
@@ -115,13 +123,13 @@ def checkout(request):
     cart_service.clear()
 
     try:
-        return redirect(PaymentService().start_checkout(order, *payment_urls(request, order.id)))
+        return redirect(PaymentService().start_checkout(order, *payment_urls(request, order)))
     except PaymentError as e:
         messages.error(request, f"Your order was saved, but we couldn't start payment: {e}")
     except Exception as e:
         logger.exception("Failed to start payment for order %s", order.id)
         messages.error(request, f"Your order was saved, but we couldn't start payment: {e}")
-    return redirect("orders:detail", order_id=order.id)
+    return redirect(order_page_url(order))
 
 
 @login_required
@@ -144,3 +152,17 @@ def order_detail(request, order_id):
         logger.exception("Failed to load order %s", order_id)
         return render(request, "orders/order_detail.html", {"error": f"We couldn't load this order: {e}"}, status=500)
     return render(request, "orders/order_detail.html", {"order": order})
+
+
+def order_track(request, token):
+    """Order page reached by its private link; works without an account."""
+    try:
+        order = OrderService().get_order_by_token(token)
+    except OrderNotFound as e:
+        return render(request, "orders/order_detail.html", {"error": str(e), "via_link": True}, status=404)
+    except Exception as e:
+        logger.exception("Failed to load order by link")
+        return render(
+            request, "orders/order_detail.html", {"error": f"We couldn't load this order: {e}", "via_link": True}, status=500
+        )
+    return render(request, "orders/order_detail.html", {"order": order, "via_link": True})

@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from decimal import Decimal
 from typing import List, Optional
+from uuid import UUID
 
 from products.dtos import ProductDTO
 
@@ -62,6 +63,8 @@ class OrderDTO:
     email: str
     address: str
     items: List[OrderItemDTO]
+    access_token: Optional[UUID] = None
+    is_guest: bool = False
     amount_paid: Optional[Decimal] = None
 
     @property

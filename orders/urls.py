@@ -12,4 +12,5 @@ urlpatterns = [
     path("checkout/", views.checkout, name="checkout"),
     path("orders/", views.order_list, name="list"),
     path("orders/<int:order_id>/", views.order_detail, name="detail"),
+    path("orders/track/<uuid:token>/", views.order_track, name="track"),
 ]

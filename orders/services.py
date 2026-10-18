@@ -103,6 +103,8 @@ def _order_to_dto(order):
         full_name=order.full_name,
         email=order.email,
         address=order.address,
+        access_token=order.access_token,
+        is_guest=order.user_id is None,
         amount_paid=order.amount_paid,
         items=[
             OrderItemDTO(
@@ -121,7 +123,10 @@ class OrderService:
         self.orders = orders or OrderRepository()
 
     def create_order(self, user, cart, shipping):
-        """Turns the cart into a pending order, snapshotting current prices."""
+        """Turns the cart into a pending order, snapshotting current prices.
+
+        user is None for a guest checkout.
+        """
         if cart.is_empty:
             raise OrderError("Your cart is empty.")
         for line in cart.lines:
@@ -130,7 +135,7 @@ class OrderService:
                     f"Only {line.product.stock} of {line.product.name} left. Please update your cart."
                 )
         order = self.orders.create(
-            user=user,
+            user=user if user is not None and user.is_authenticated else None,
             full_name=shipping.full_name,
             email=shipping.email,
             address=shipping.address,
@@ -143,6 +148,12 @@ class OrderService:
             return _order_to_dto(self.orders.get_by_id(order_id))
         except Order.DoesNotExist:
             raise OrderNotFound(f"Order #{order_id} was not found.")
+
+    def get_order_by_token(self, token):
+        try:
+            return _order_to_dto(self.orders.get_by_token(token))
+        except Order.DoesNotExist:
+            raise OrderNotFound("We couldn't find that order. Check the link and try again.")
 
     def get_order_for_user(self, order_id, user):
         try:

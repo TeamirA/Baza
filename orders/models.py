@@ -1,3 +1,4 @@
+import uuid
 from decimal import Decimal
 
 from django.conf import settings
@@ -13,7 +14,12 @@ class Order(models.Model):
         SHIPPED = "shipped", "Shipped"
         CANCELLED = "cancelled", "Cancelled"
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="orders", on_delete=models.CASCADE)
+    # Empty for guest checkouts.
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="orders", on_delete=models.SET_NULL, null=True, blank=True
+    )
+    # Private link to the order page and payment for anyone holding it (guests included).
+    access_token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.PENDING)
     full_name = models.CharField(max_length=200, blank=True)
     email = models.EmailField(blank=True)

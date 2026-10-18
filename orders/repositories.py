@@ -28,6 +28,10 @@ class OrderRepository:
         """Raises Order.DoesNotExist."""
         return self._with_items().get(pk=order_id)
 
+    def get_by_token(self, token):
+        """Raises Order.DoesNotExist."""
+        return self._with_items().get(access_token=token)
+
     def get_for_user(self, order_id, user):
         """Raises Order.DoesNotExist if the order doesn't exist or belongs to someone else."""
         return self._with_items().get(pk=order_id, user=user)

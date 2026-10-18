@@ -85,10 +85,12 @@ class DevCheckoutFlowTests(CheckoutTestCase):
 
 
 class CheckoutRulesTests(CheckoutTestCase):
-    def test_checkout_requires_login(self):
+    def test_guest_sees_checkout_with_login_option(self):
         self.client.logout()
+        self.fill_cart()
         response = self.client.get(reverse("orders:checkout"))
-        self.assertRedirects(response, f"{reverse('login')}?next={reverse('orders:checkout')}")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Checking out as a guest")
 
     def test_empty_cart_redirects_back_to_cart(self):
         response = self.client.get(reverse("orders:checkout"))
@@ -129,8 +131,63 @@ class CheckoutRulesTests(CheckoutTestCase):
     def test_cannot_pay_for_paid_order(self):
         order = self.make_order()
         OrderService().mark_as_paid(order.pk)
-        response = self.client.post(reverse("payments:pay", args=[order.pk]), follow=True)
+        response = self.client.post(reverse("payments:pay", args=[order.access_token]), follow=True)
         self.assertContains(response, "already paid")
+
+
+@override_settings(DEBUG=True, STRIPE_SECRET_KEY="")
+class GuestCheckoutTests(CheckoutTestCase):
+    def setUp(self):
+        pass  # stay signed out
+
+    def test_guest_can_order_and_pay_and_return_via_private_link(self):
+        self.fill_cart(2)
+        success_url = self.client.post(reverse("orders:checkout"), SHIPPING).url
+        order = Order.objects.get()
+        self.assertIsNone(order.user)
+        self.assertEqual(order.email, "sam@example.com")
+        self.assertEqual(self.client.session["cart"], {})
+
+        response = self.client.get(success_url, follow=True)
+        track_url = reverse("orders:track", args=[order.access_token])
+        self.assertRedirects(response, track_url)
+        self.assertContains(response, "Payment received")
+        self.assertContains(response, "Keep this page")
+        self.assertContains(response, "Create an account")
+        order.refresh_from_db()
+        self.assertEqual(order.status, Order.Status.PAID)
+
+        # The private link works later, from another browser, without signing in.
+        other_browser = self.client_class()
+        self.assertContains(other_browser.get(track_url), f"Order #{order.pk}")
+
+    def test_unknown_link_is_a_404_with_error_card(self):
+        import uuid
+
+        response = self.client.get(reverse("orders:track", args=[uuid.uuid4()]))
+        self.assertEqual(response.status_code, 404)
+        self.assertContains(response, "error-card", status_code=404)
+
+    def test_guest_can_retry_payment_from_the_link(self):
+        order = Order.objects.create(user=None, **SHIPPING)
+        OrderItem.objects.create(order=order, product=self.mug, quantity=1, price=self.mug.price)
+        response = self.client.post(reverse("payments:pay", args=[order.access_token]))
+        self.assertTrue(response.url.startswith("http://testserver/payments/success/?session_id="))
+
+    def test_cancel_returns_guest_to_their_order(self):
+        order = Order.objects.create(user=None, **SHIPPING)
+        response = self.client.get(reverse("payments:cancel", args=[order.access_token]), follow=True)
+        self.assertRedirects(response, reverse("orders:track", args=[order.access_token]))
+        self.assertContains(response, "Payment was cancelled")
+
+    def test_members_orders_are_not_listed_as_guest_orders(self):
+        self.client.force_login(self.user)
+        self.fill_cart(1)
+        self.client.get(self.client.post(reverse("orders:checkout"), SHIPPING).url)
+        order = Order.objects.get()
+        self.assertEqual(order.user, self.user)
+        response = self.client.get(reverse("orders:detail", args=[order.pk]))
+        self.assertNotContains(response, "Keep this page")
 
 
 class GatewaySelectionTests(TestCase):
