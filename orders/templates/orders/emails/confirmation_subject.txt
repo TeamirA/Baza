@@ -1,0 +1,1 @@
+{% autoescape off %}Your Corner Store order #{{ order.id }} is confirmed{% endautoescape %}

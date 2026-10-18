@@ -82,6 +82,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "orders.context_processors.cart",
+                "users.context_processors.features",
             ],
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
@@ -160,6 +161,31 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
+
+# --- Email ---------------------------------------------------------------
+# Any SMTP provider works (Resend, Postmark, SendGrid, Gmail...). Without
+# EMAIL_HOST, emails print to the console in development and are skipped in
+# production, and the "Forgot password?" link is hidden.
+
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
+EMAIL_ENABLED = bool(EMAIL_HOST)
+if EMAIL_ENABLED:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+    EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", True)
+    EMAIL_TIMEOUT = 10
+elif DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Corner Store <no-reply@example.com>")
+
+# Public address of the site, used for links in emails sent outside a request
+# (e.g. from the Stripe webhook). Example: https://corner-store-omega.vercel.app
+SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8000").rstrip("/")
 
 
 # --- Orders -------------------------------------------------------------

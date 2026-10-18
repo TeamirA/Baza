@@ -18,6 +18,16 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]
     actions = ["cancel_unpaid_orders"]
 
+    def save_model(self, request, obj, form, change):
+        just_shipped = change and "status" in form.changed_data and obj.status == Order.Status.SHIPPED
+        super().save_model(request, obj, form, change)
+        if just_shipped:
+            from orders.notifications import send_order_email
+            from orders.services import OrderService
+
+            if send_order_email(OrderService().get_order(obj.pk), "shipped"):
+                self.message_user(request, f"Emailed {obj.email} that order #{obj.pk} has shipped.", messages.INFO)
+
     @admin.action(description="Cancel selected unpaid orders (puts stock back)")
     def cancel_unpaid_orders(self, request, queryset):
         from orders.services import OrderService

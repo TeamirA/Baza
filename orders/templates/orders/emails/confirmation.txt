@@ -1,0 +1,20 @@
+{% autoescape off %}Hi {{ order.full_name }},
+
+Thanks for your order! We've received your payment and are getting it ready.
+
+Order #{{ order.id }}
+{% for item in order.items %}  {{ item.quantity }} × {{ item.product_name }}  ${{ item.subtotal }}
+{% endfor %}{% if order.discount %}  Promo discount  −${{ order.discount }}
+{% endif %}  Paid  ${{ order.charged }}
+
+Shipping to:
+{{ order.full_name }}
+{{ order.address }}
+
+View your order any time:
+{{ link }}
+
+Keep this link private: anyone with it can see your order.
+
+Corner Store
+{% endautoescape %}

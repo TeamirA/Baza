@@ -80,3 +80,45 @@ class AuthTests(TestCase):
         self.assertContains(self.client.get(reverse("products:list")), 'cart-link__count">5<')
         self.client.post(reverse("orders:cart_remove", args=[mug.pk]))
         self.assertFalse(user.cart_items.exists())
+
+
+from django.core import mail
+from django.test import override_settings
+
+
+@override_settings(EMAIL_ENABLED=True, EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
+class PasswordResetTests(TestCase):
+    def test_full_reset_flow(self):
+        User.objects.create_user("sam", "sam@example.com", PASSWORD)
+        self.assertContains(self.client.get(reverse("login")), "Forgot password?")
+
+        response = self.client.post(reverse("password_reset"), {"email": "sam@example.com"})
+        self.assertRedirects(response, reverse("password_reset_done"))
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, "Reset your Corner Store password")
+        link = next(line for line in mail.outbox[0].body.splitlines() if "/accounts/reset/" in line)
+
+        response = self.client.get(link, follow=True)  # Django swaps the token for a session marker
+        self.assertContains(response, "Choose a new password")
+        new_password = "an0ther-Strong-pass"
+        response = self.client.post(response.redirect_chain[-1][0], {"new_password1": new_password, "new_password2": new_password})
+        self.assertRedirects(response, reverse("password_reset_complete"))
+        self.assertTrue(self.client.login(username="sam", password=new_password))
+
+    def test_unknown_email_gets_same_response_and_no_mail(self):
+        response = self.client.post(reverse("password_reset"), {"email": "nobody@example.com"})
+        self.assertRedirects(response, reverse("password_reset_done"))
+        self.assertEqual(mail.outbox, [])
+
+    def test_bad_link_explains_and_offers_a_new_one(self):
+        response = self.client.get(reverse("password_reset_confirm", args=["MQ", "bad-token"]))
+        self.assertContains(response, "Link expired")
+
+
+@override_settings(EMAIL_ENABLED=False, DEBUG=False)
+class PasswordResetWithoutEmailTests(TestCase):
+    def test_link_hidden_and_form_explains(self):
+        self.assertNotContains(self.client.get(reverse("login")), "Forgot password?")
+        response = self.client.get(reverse("password_reset"))
+        self.assertContains(response, "Password reset isn&#x27;t available yet")
+        self.assertNotContains(response, 'name="email"')

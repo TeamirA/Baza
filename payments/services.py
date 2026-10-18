@@ -1,5 +1,6 @@
 import logging
 
+from orders.notifications import send_order_email
 from orders.services import OrderError, OrderService
 
 from .gateways import PaymentError, get_payment_gateway
@@ -36,8 +37,15 @@ class PaymentService:
         if result.order_id is None:
             raise PaymentError("That payment session isn't linked to an order.")
         if result.paid:
-            self.orders.mark_as_paid(result.order_id, result.session_id, result.amount_total)
+            self._record_payment(result)
         return result.order_id, result.paid
+
+    def _record_payment(self, result):
+        """Marks the order paid; the first time only, emails the confirmation."""
+        changed = self.orders.mark_as_paid(result.order_id, result.session_id, result.amount_total)
+        if changed:
+            send_order_email(self.orders.get_order(result.order_id), "confirmation")
+        return changed
 
     def cancel_order(self, order):
         """Cancels a pending OrderDTO: closes its payment page first, and if the
@@ -46,8 +54,7 @@ class PaymentService:
         Returns the order id and whether it was cancelled.
         """
         if order.payment_session_id and not self.gateway.expire_checkout_session(order.payment_session_id):
-            result = self.gateway.get_session_result(order.payment_session_id)
-            self.orders.mark_as_paid(order.id, result.session_id, result.amount_total)
+            self._record_payment(self.gateway.get_session_result(order.payment_session_id))
             return order.id, False
         self.orders.cancel(order.id)
         return order.id, True
@@ -67,6 +74,6 @@ class PaymentService:
         """Raises WebhookVerificationError for bad signatures."""
         result = self.gateway.verify_webhook(payload, signature)
         if result and result.paid and result.order_id is not None:
-            changed = self.orders.mark_as_paid(result.order_id, result.session_id, result.amount_total)
+            changed = self._record_payment(result)
             logger.info("Webhook: order %s paid (changed=%s)", result.order_id, changed)
         return result

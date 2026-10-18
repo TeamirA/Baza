@@ -16,6 +16,7 @@
     <input type="hidden" name="next" value="{{ next }}">
     {% component "form_field" field=form.username / %}
     {% component "form_field" field=form.password / %}
+    {% if email_enabled %}<p class="auth-card__forgot"><a href="{% url 'password_reset' %}">Forgot password?</a></p>{% endif %}
     <button class="btn btn--block" type="submit">Log in</button>
   </form>
   <p class="auth-card__switch">New here? <a href="{% url 'register' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Create an account</a></p>

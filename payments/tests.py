@@ -300,6 +300,57 @@ class StockReservationTests(CheckoutTestCase):
         self.assertNotContains(self.client.get(reverse("orders:detail", args=[order.pk])), "Cancel order")
 
 
+@override_settings(
+    DEBUG=True, STRIPE_SECRET_KEY="", SITE_URL="https://shop.example",
+    EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+)
+class OrderEmailTests(CheckoutTestCase):
+    def test_confirmation_sent_once_with_private_link(self):
+        from django.core import mail
+
+        self.fill_cart(2)
+        success_url = self.client.post(reverse("orders:checkout"), SHIPPING).url
+        self.assertEqual(mail.outbox, [])  # nothing until it's paid
+        self.client.get(success_url)
+        self.client.get(success_url)  # returning to the page again doesn't resend
+        order = Order.objects.get()
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertEqual(email.to, ["sam@example.com"])
+        self.assertEqual(email.subject, f"Your Corner Store order #{order.pk} is confirmed")
+        self.assertIn("2 × Mug  $20.00", email.body)
+        self.assertIn(f"https://shop.example/orders/track/{order.access_token}/", email.body)
+
+    def test_email_failure_does_not_break_payment(self):
+        from unittest import mock as _mock
+
+        self.fill_cart(1)
+        success_url = self.client.post(reverse("orders:checkout"), SHIPPING).url
+        with _mock.patch("orders.notifications.send_mail", side_effect=OSError("smtp down")):
+            response = self.client.get(success_url, follow=True)
+        self.assertContains(response, "Payment received")
+        self.assertEqual(Order.objects.get().status, Order.Status.PAID)
+
+    def test_marking_shipped_in_admin_emails_customer(self):
+        from django.core import mail
+
+        admin_user = User.objects.create_superuser("boss", "boss@example.com", PASSWORD)
+        order = self.make_order(quantity=1)
+        OrderService().mark_as_paid(order.pk)
+        mail.outbox.clear()
+        self.client.force_login(admin_user)
+        response = self.client.post(
+            reverse("admin:orders_order_change", args=[order.pk]),
+            {"status": "shipped", "full_name": order.full_name, "email": order.email, "address": order.address,
+             "stripe_session_id": "", "amount_paid": "", "stock_reserved": "on",
+             "items-TOTAL_FORMS": "1", "items-INITIAL_FORMS": "1", "items-MIN_NUM_FORMS": "0",
+             "items-MAX_NUM_FORMS": "1000", "items-0-id": order.items.get().pk, "items-0-order": order.pk},
+        )
+        self.assertEqual(response.status_code, 302, getattr(response, "context_data", {}).get("errors"))
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("has shipped", mail.outbox[0].subject)
+
+
 class GatewaySelectionTests(TestCase):
     @override_settings(STRIPE_SECRET_KEY="sk_test_x")
     def test_stripe_when_key_set(self):

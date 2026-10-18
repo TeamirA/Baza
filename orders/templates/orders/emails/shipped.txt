@@ -1,0 +1,14 @@
+{% autoescape off %}Hi {{ order.full_name }},
+
+Good news: order #{{ order.id }} is on its way to:
+
+{{ order.full_name }}
+{{ order.address }}
+
+{% for item in order.items %}  {{ item.quantity }} × {{ item.product_name }}
+{% endfor %}
+Order details:
+{{ link }}
+
+Corner Store
+{% endautoescape %}

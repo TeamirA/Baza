@@ -57,6 +57,9 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    | `SEED_PRODUCTS` | `1` for the first deploy if you want sample products (optional) |
    | `CRON_SECRET` | a long random string; Vercel Cron sends it to `/cron/expire-unpaid-orders/` |
    | `ORDER_HOLD_HOURS` | optional, default `24`: how long unpaid orders hold their stock |
+   | `SITE_URL` | `https://corner-store-omega.vercel.app`, used for links in emails |
+   | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | SMTP details from your email provider (optional; see below) |
+   | `DEFAULT_FROM_EMAIL` | e.g. `Corner Store <orders@yourdomain.com>` |
    | `ALLOWED_HOSTS` / `CSRF_TRUSTED_ORIGINS` | only if you add a custom domain |
 4. **Redeploy.** Production builds run migrations.
 
@@ -77,6 +80,13 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    python manage.py createsuperuser
    ```
    (`.env.local` is gitignored. Delete it afterwards if you don't need it.)
+
+**Email:** order confirmations, "your order has shipped" (sent when you set
+an order to Shipped in the admin), and password reset all use SMTP. With
+Resend, for example, use `EMAIL_HOST=smtp.resend.com`, `EMAIL_HOST_USER=resend`
+and your API key as `EMAIL_HOST_PASSWORD`, and verify your sending domain.
+Without `EMAIL_HOST`, emails print to the console locally, are skipped in
+production, and the "Forgot password?" link is hidden.
 
 **Unpaid orders:** checkout reserves stock right away. A daily Vercel Cron
 (`vercel.json`) cancels orders still unpaid after `ORDER_HOLD_HOURS` and puts their
