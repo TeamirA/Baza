@@ -1,11 +1,9 @@
 from products.services import ProductNotFound, ProductService
 
-from .cart import SessionCartStore
+from .cart import MAX_QUANTITY_PER_LINE, get_cart_store
 from .dtos import CartDTO, CartLineDTO, OrderDTO, OrderItemDTO
 from .models import Order
 from .repositories import OrderRepository
-
-MAX_QUANTITY_PER_LINE = 99
 
 
 class CartError(Exception):
@@ -21,9 +19,14 @@ class OrderNotFound(Exception):
 
 
 class CartService:
-    def __init__(self, session, products=None):
-        self.store = SessionCartStore(session)
+    def __init__(self, store, products=None):
+        """store: a cart store (see orders.cart); use CartService.for_request()."""
+        self.store = store
         self.products = products or ProductService()
+
+    @classmethod
+    def for_request(cls, request):
+        return cls(get_cart_store(request))
 
     def _parse_quantity(self, quantity):
         try:

@@ -47,7 +47,7 @@ class DevCheckoutFlowTests(CheckoutTestCase):
         self.fill_cart(2)
         response = self.client.post(reverse("orders:checkout"), SHIPPING)
         self.assertTrue(response.url.startswith("http://testserver/payments/success/?session_id="))
-        self.assertEqual(self.client.session["cart"], {})
+        self.assertFalse(self.user.cart_items.exists())  # cart emptied once the order exists
 
         order = Order.objects.get(user=self.user)
         self.assertEqual(order.status, Order.Status.PENDING)

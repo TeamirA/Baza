@@ -1,10 +1,11 @@
 """The only module in the orders app that talks to the ORM."""
 
 from django.db import transaction
+from django.db.models import Sum
 
 from products.repositories import ProductRepository
 
-from .models import Order, OrderItem
+from .models import CartItem, Order, OrderItem
 
 
 class OrderRepository:
@@ -57,3 +58,23 @@ class OrderRepository:
         for item in order.items.all():
             self.products.decrement_stock(item.product_id, item.quantity)
         return True
+
+
+class CartItemRepository:
+    def items(self, user):
+        return dict(CartItem.objects.filter(user=user).values_list("product_id", "quantity"))
+
+    def get(self, user, product_id):
+        return CartItem.objects.filter(user=user, product_id=product_id).values_list("quantity", flat=True).first() or 0
+
+    def set(self, user, product_id, quantity):
+        CartItem.objects.update_or_create(user=user, product_id=product_id, defaults={"quantity": quantity})
+
+    def remove(self, user, product_id):
+        CartItem.objects.filter(user=user, product_id=product_id).delete()
+
+    def clear(self, user):
+        CartItem.objects.filter(user=user).delete()
+
+    def count(self, user):
+        return CartItem.objects.filter(user=user).aggregate(total=Sum("quantity"))["total"] or 0
