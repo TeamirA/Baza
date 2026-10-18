@@ -38,7 +38,7 @@ class OrderRepository:
         Order.objects.filter(pk=order_id).update(stripe_session_id=session_id)
 
     @transaction.atomic
-    def mark_paid(self, order_id, session_id=""):
+    def mark_paid(self, order_id, session_id="", amount_paid=None):
         """Marks a pending order paid and takes its items out of stock.
 
         Returns True if this call changed the order, False if it was already
@@ -51,7 +51,9 @@ class OrderRepository:
         order.status = Order.Status.PAID
         if session_id:
             order.stripe_session_id = session_id
-        order.save(update_fields=["status", "stripe_session_id", "updated_at"])
+        if amount_paid is not None:
+            order.amount_paid = amount_paid
+        order.save(update_fields=["status", "stripe_session_id", "amount_paid", "updated_at"])
         for item in order.items.all():
             self.products.decrement_stock(item.product_id, item.quantity)
         return True

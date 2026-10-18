@@ -1,6 +1,6 @@
 """The only module in the products app that talks to the ORM."""
 
-from django.db.models import F, Q
+from django.db.models import BooleanField, Case, F, Q, When
 from django.db.models.functions import Greatest
 
 from .models import Category, Product
@@ -28,6 +28,19 @@ class ProductRepository:
 
     def get_by_ids(self, product_ids):
         return {p.pk: p for p in self._active().filter(pk__in=product_ids)}
+
+    def get_related(self, product_id, category_slug, limit):
+        """Other active products: same category first, then anything else; in stock and newest first."""
+        qs = (
+            self._active()
+            .exclude(pk=product_id)
+            .annotate(has_stock=Case(When(stock__gt=0, then=True), default=False, output_field=BooleanField()))
+            .order_by("-has_stock", "-created_at")
+        )
+        related = list(qs.filter(category__slug=category_slug)[:limit]) if category_slug else []
+        if len(related) < limit:
+            related += list(qs.exclude(pk__in=[p.pk for p in related])[: limit - len(related)])
+        return related
 
     def decrement_stock(self, product_id, quantity):
         """Lowers stock by quantity, never below zero. Call inside the caller's transaction."""

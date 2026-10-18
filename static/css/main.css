@@ -225,6 +225,9 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
 .product-detail__stock { margin: 0; }
 .product-detail__description { margin: 1.25rem 0 1.5rem; color: var(--text-muted); }
 
+.related { margin-top: 3rem; }
+.related__title { margin: 0 0 1rem; font-size: 1.25rem; }
+
 @media (max-width: 720px) {
   .product-detail { grid-template-columns: 1fr; gap: 1.5rem; }
   .site-nav { margin-left: auto; }
@@ -329,6 +332,7 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
 .cart-summary h2 { margin: 0 0 1rem; font-size: 1.1rem; }
 .cart-summary__row { display: flex; justify-content: space-between; margin-bottom: 0.6rem; }
 .cart-summary__total { padding-top: 0.75rem; margin-bottom: 1.25rem; border-top: 1px solid var(--border); font-weight: 700; }
+.cart-summary__discount { color: var(--ok); }
 .cart-summary__continue { display: block; margin-top: 0.85rem; text-align: center; font-size: 0.9rem; }
 
 @media (max-width: 820px) {

@@ -162,6 +162,7 @@ class StripeGatewayTests(CheckoutTestCase):
         self.assertEqual(params["line_items"][0]["quantity"], 3)
         self.assertEqual(params["line_items"][0]["price_data"]["unit_amount"], 1000)
         self.assertIn("{CHECKOUT_SESSION_ID}", params["success_url"])
+        self.assertTrue(params["allow_promotion_codes"])
 
     def test_session_result_from_real_stripe_object(self):
         import stripe
@@ -206,6 +207,19 @@ class StripeWebhookTests(CheckoutTestCase):
         self.assertEqual(order.status, Order.Status.PAID)
         self.assertEqual(order.stripe_session_id, "cs_test_1")
         self.assertEqual(self.mug.stock, 3)
+
+    def test_discounted_payment_records_amount_paid(self):
+        order = self.make_order(quantity=2)  # 2 x $10.00
+        event = self.completed_event(order.pk)
+        event["data"]["object"]["amount_total"] = 1500  # $15.00 after a promo code
+        self.assertEqual(self.send(event).status_code, 200)
+        order.refresh_from_db()
+        self.assertEqual(order.amount_paid, Decimal("15.00"))
+        response = self.client.get(reverse("orders:detail", args=[order.pk]))
+        self.assertContains(response, "Promo discount")
+        self.assertContains(response, "−$5.00")
+        self.assertContains(response, "$15.00")
+        self.assertContains(self.client.get(reverse("orders:list")), "$15.00")
 
     def test_bad_signature_is_rejected(self):
         order = self.make_order()

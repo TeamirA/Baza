@@ -54,6 +54,11 @@ class ProductService:
         except (Product.DoesNotExist, ValueError):
             raise ProductNotFound("That product is no longer available.")
 
+    def related_products(self, product, limit=4):
+        """Products to suggest under a ProductDTO: same category first, then others."""
+        category_slug = product.category.slug if product.category else None
+        return [_product_to_dto(p) for p in self.products.get_related(product.id, category_slug, limit)]
+
     def get_products_by_ids(self, product_ids):
         """Returns {id: ProductDTO} for the active products among product_ids."""
         return {pk: _product_to_dto(p) for pk, p in self.products.get_by_ids(product_ids).items()}

@@ -29,7 +29,11 @@
 
   <aside class="cart-summary">
     <h2>Summary</h2>
-    <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ order.total }}</span></div>
+    {% if order.discount %}
+      <div class="cart-summary__row"><span>Subtotal</span><span class="price">${{ order.total }}</span></div>
+      <div class="cart-summary__row cart-summary__discount"><span>Promo discount</span><span class="price">−${{ order.discount }}</span></div>
+    {% endif %}
+    <div class="cart-summary__row cart-summary__total"><span>{% if order.is_pending %}Total{% else %}Paid{% endif %}</span><span class="price">${{ order.charged }}</span></div>
     {% if order.is_pending %}
       <form action="{% url 'payments:pay' order.id %}" method="post">
         {% csrf_token %}

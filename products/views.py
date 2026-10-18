@@ -27,8 +27,9 @@ def product_list(request):
 
 
 def product_detail(request, slug):
+    service = ProductService()
     try:
-        product = ProductService().get_product(slug)
+        product = service.get_product(slug)
     except ProductNotFound as e:
         return render(request, "products/product_detail.html", {"error": str(e)}, status=404)
     except Exception as e:
@@ -36,4 +37,17 @@ def product_detail(request, slug):
         return render(
             request, "products/product_detail.html", {"error": f"We couldn't load this product: {e}"}, status=500
         )
-    return render(request, "products/product_detail.html", {"product": product})
+    try:
+        related = service.related_products(product)
+    except Exception:
+        # Suggestions are a nice-to-have; never fail the product page over them.
+        logger.exception("Failed to load related products for %s", slug)
+        related = []
+    related_same_category = bool(related) and product.category is not None and all(
+        item.category == product.category for item in related
+    )
+    return render(
+        request,
+        "products/product_detail.html",
+        {"product": product, "related": related, "related_same_category": related_same_category},
+    )

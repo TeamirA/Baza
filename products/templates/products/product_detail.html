@@ -34,5 +34,18 @@
     {% endif %}
   </div>
 </section>
+
+{% if related %}
+<section class="related" aria-labelledby="related-title">
+  <h2 id="related-title" class="related__title">
+    {% if related_same_category %}More in {{ product.category.name }}{% else %}You might also like{% endif %}
+  </h2>
+  <div class="product-grid">
+    {% for item in related %}
+      {% component "product_card" product=item / %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 {% endif %}
 {% endblock %}

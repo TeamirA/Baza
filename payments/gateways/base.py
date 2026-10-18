@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from decimal import Decimal
 from typing import Optional
 
 
@@ -24,6 +25,8 @@ class PaymentResult:
     session_id: str
     order_id: Optional[int]
     paid: bool
+    # Amount actually charged (after any promo code), when the provider reports it.
+    amount_total: Optional[Decimal] = None
 
 
 class PaymentGateway(ABC):

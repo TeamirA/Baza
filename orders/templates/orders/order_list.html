@@ -13,7 +13,7 @@
       <span class="order-row__id">Order #{{ order.id }}</span>
       <span class="muted">{{ order.created_at|date:"M j, Y" }} · {{ order.item_count }} item{{ order.item_count|pluralize }}</span>
       {% component "order_status" status=order.status label=order.status_label / %}
-      <span class="price order-row__total">${{ order.total }}</span>
+      <span class="price order-row__total">${{ order.charged }}</span>
     </a>
   </li>
   {% endfor %}

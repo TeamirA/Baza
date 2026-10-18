@@ -36,13 +36,13 @@ class PaymentService:
         if result.order_id is None:
             raise PaymentError("That payment session isn't linked to an order.")
         if result.paid:
-            self.orders.mark_as_paid(result.order_id, result.session_id)
+            self.orders.mark_as_paid(result.order_id, result.session_id, result.amount_total)
         return result.order_id, result.paid
 
     def handle_webhook(self, payload, signature):
         """Raises WebhookVerificationError for bad signatures."""
         result = self.gateway.verify_webhook(payload, signature)
         if result and result.paid and result.order_id is not None:
-            changed = self.orders.mark_as_paid(result.order_id, result.session_id)
+            changed = self.orders.mark_as_paid(result.order_id, result.session_id, result.amount_total)
             logger.info("Webhook: order %s paid (changed=%s)", result.order_id, changed)
         return result

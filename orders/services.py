@@ -100,6 +100,7 @@ def _order_to_dto(order):
         full_name=order.full_name,
         email=order.email,
         address=order.address,
+        amount_paid=order.amount_paid,
         items=[
             OrderItemDTO(
                 product_name=item.product.name,
@@ -152,9 +153,9 @@ class OrderService:
     def attach_payment_session(self, order_id, session_id):
         self.orders.set_payment_session(order_id, session_id)
 
-    def mark_as_paid(self, order_id, session_id=""):
+    def mark_as_paid(self, order_id, session_id="", amount_paid=None):
         """Idempotent: returns True only the first time an order is marked paid."""
         try:
-            return self.orders.mark_paid(order_id, session_id)
+            return self.orders.mark_paid(order_id, session_id, amount_paid)
         except Order.DoesNotExist:
             raise OrderNotFound(f"Order #{order_id} was not found.")

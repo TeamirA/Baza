@@ -11,7 +11,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "status", "total", "created_at"]
+    list_display = ["id", "user", "status", "total", "amount_paid", "created_at"]
     list_filter = ["status", "created_at"]
     list_editable = ["status"]
     search_fields = ["id", "user__username", "email", "stripe_session_id"]

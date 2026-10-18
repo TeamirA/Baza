@@ -19,6 +19,9 @@ class Order(models.Model):
     email = models.EmailField(blank=True)
     address = models.TextField(blank=True)
     stripe_session_id = models.CharField(max_length=255, blank=True)
+    # What the customer was actually charged, as reported by the payment provider.
+    # Can be lower than the item total when a promo code was used.
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

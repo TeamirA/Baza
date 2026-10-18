@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 from decimal import Decimal
-from typing import List
+from typing import List, Optional
 
 from products.dtos import ProductDTO
 
@@ -62,10 +62,23 @@ class OrderDTO:
     email: str
     address: str
     items: List[OrderItemDTO]
+    amount_paid: Optional[Decimal] = None
 
     @property
     def total(self) -> Decimal:
+        """Sum of the items at the prices they were ordered at."""
         return sum((item.subtotal for item in self.items), Decimal("0.00"))
+
+    @property
+    def discount(self) -> Decimal:
+        if self.amount_paid is None or self.amount_paid >= self.total:
+            return Decimal("0.00")
+        return self.total - self.amount_paid
+
+    @property
+    def charged(self) -> Decimal:
+        """What the customer paid, or will pay if the order is still pending."""
+        return self.amount_paid if self.amount_paid is not None else self.total
 
     @property
     def item_count(self) -> int:

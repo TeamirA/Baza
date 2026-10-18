@@ -70,3 +70,7 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    (`.env.local` is gitignored. Delete it afterwards if you don't need it.)
 
 Test card: `4242 4242 4242 4242`, with any future expiry date and any CVC.
+
+**Promo codes:** create a coupon and a promotion code in the Stripe Dashboard
+(Product catalog → Coupons). Shoppers can enter the code on Stripe's payment page,
+and the order records what they actually paid.

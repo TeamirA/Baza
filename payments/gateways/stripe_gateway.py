@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 import stripe
 
 from .base import CheckoutSession, PaymentError, PaymentGateway, PaymentResult, WebhookVerificationError
@@ -7,6 +9,12 @@ CURRENCY = "usd"
 
 def _to_cents(amount):
     return int((amount * 100).to_integral_value())
+
+
+def _amount_total(session):
+    """Stripe reports amounts in cents."""
+    cents = session.get("amount_total")
+    return (Decimal(cents) / 100).quantize(Decimal("0.01")) if cents is not None else None
 
 
 def _order_id(session):
@@ -41,6 +49,8 @@ class StripeGateway(PaymentGateway):
             ],
             "success_url": success_url,
             "cancel_url": cancel_url,
+            # Lets shoppers enter promotion codes created in the Stripe Dashboard.
+            "allow_promotion_codes": True,
         }
         if order.email:
             params["customer_email"] = order.email
@@ -55,8 +65,12 @@ class StripeGateway(PaymentGateway):
             session = self.client.v1.checkout.sessions.retrieve(session_id)
         except stripe.StripeError as e:
             raise PaymentError(e.user_message or "Couldn't confirm the payment with the provider.") from e
+        data = session.to_dict()
         return PaymentResult(
-            session_id=session.id, order_id=_order_id(session.to_dict()), paid=session.payment_status == "paid"
+            session_id=session.id,
+            order_id=_order_id(data),
+            paid=session.payment_status == "paid",
+            amount_total=_amount_total(data),
         )
 
     def verify_webhook(self, payload, signature):
@@ -72,5 +86,8 @@ class StripeGateway(PaymentGateway):
             return None
         session = event["data"]["object"]
         return PaymentResult(
-            session_id=session["id"], order_id=_order_id(session), paid=session.get("payment_status") == "paid"
+            session_id=session["id"],
+            order_id=_order_id(session),
+            paid=session.get("payment_status") == "paid",
+            amount_total=_amount_total(session),
         )

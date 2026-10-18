@@ -65,3 +65,33 @@ class LayoutTests(TestCase):
             self.assertContains(response, "data-theme-toggle")
             # The saved theme is applied in <head>, before first paint.
             self.assertLess(response.content.index(b'localStorage.getItem("theme")'), response.content.index(b"<body>"))
+
+
+class RelatedProductsTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.home = Category.objects.create(name="Home")
+        cls.apparel = Category.objects.create(name="Apparel")
+        cls.mug = Product.objects.create(name="Mug", price=Decimal("10.00"), stock=5, category=cls.home)
+        cls.candle = Product.objects.create(name="Candle", price=Decimal("8.00"), stock=5, category=cls.home)
+        cls.pillow = Product.objects.create(name="Pillow", price=Decimal("30.00"), stock=0, category=cls.home)
+        cls.tee = Product.objects.create(name="Tee", price=Decimal("19.00"), stock=9, category=cls.apparel)
+        Product.objects.create(name="Hidden Lamp", price=Decimal("5.00"), stock=5, category=cls.home, is_active=False)
+
+    def related_names(self, product):
+        response = self.client.get(product.get_absolute_url())
+        return response, [p.name for p in response.context["related"]]
+
+    def test_same_category_first_in_stock_first_then_others(self):
+        response, names = self.related_names(self.mug)
+        self.assertEqual(names, ["Candle", "Pillow", "Tee"])  # home (in stock, then sold out), then other
+        self.assertNotIn("Mug", names)
+        self.assertNotIn("Hidden Lamp", names)
+        self.assertContains(response, "You might also like")  # mixed categories
+
+    def test_heading_names_category_when_all_suggestions_match(self):
+        for i in range(4):
+            Product.objects.create(name=f"Bowl {i}", price=Decimal("3.00"), stock=2, category=self.home)
+        response, names = self.related_names(self.mug)
+        self.assertEqual(len(names), 4)
+        self.assertContains(response, "More in Home")
