@@ -3,7 +3,8 @@
 Runs after dependencies are installed. Vercel runs collectstatic on its own.
 
 - Production builds apply migrations when DATABASE_URL is set (the Postgres
-  integration sets it), and seed sample products when SEED_PRODUCTS=1.
+  integration sets it), seed sample products when SEED_PRODUCTS=1, and give
+  sample products drawn photos when SEED_PRODUCT_PHOTOS=1 (uploaded to Blob).
 - Preview builds only migrate when PREVIEW_MIGRATIONS=1. Without Neon preview
   branching, preview deployments share the production database, so a branch
   push must never change its schema. Turn the flag on (Preview environment
@@ -46,6 +47,10 @@ def main():
     if os.environ.get("SEED_PRODUCTS") == "1":
         print("vercel_build: seeding sample products...")
         call_command("seed_products")
+
+    if os.environ.get("SEED_PRODUCT_PHOTOS") == "1":
+        print("vercel_build: adding sample photos to products without any...")
+        call_command("seed_products", photos_only=True)
 
 
 if __name__ == "__main__":

@@ -225,3 +225,26 @@ class AdminPhotoUploadTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(self.mug.images.exists())
         self.assertContains(response, "Upload a valid image")
+
+
+class SeedPhotosTests(TestCase):
+    def test_sample_products_get_two_photos_once(self):
+        from django.core.management import call_command
+
+        call_command("seed_products", verbosity=0, stdout=io.StringIO())
+        store = FakeStore()
+        with mock.patch("products.services.get_media_store", return_value=store):
+            call_command("seed_products", photos_only=True, stdout=io.StringIO())
+            call_command("seed_products", photos_only=True, stdout=io.StringIO())  # idempotent
+        mug = Product.objects.get(slug="ceramic-mug")
+        self.assertEqual(list(mug.images.values_list("alt_text", flat=True)), ["Ceramic Mug, front view", "Ceramic Mug, close-up"])
+        self.assertEqual(ProductImage.objects.count(), 9 * 2)
+        self.assertEqual(len(store.files), 9 * 2 * 3)  # 3 sizes per photo
+
+    def test_products_with_photos_or_unknown_slugs_are_left_alone(self):
+        from django.core.management import call_command
+
+        own = Product.objects.create(name="Mine", price=Decimal("1.00"))
+        with mock.patch("products.services.get_media_store", return_value=FakeStore()):
+            call_command("seed_products", photos_only=True, stdout=io.StringIO())
+        self.assertFalse(own.images.exists())

@@ -24,9 +24,19 @@ SEED = {
 
 
 class Command(BaseCommand):
-    help = "Create sample categories and products (idempotent)."
+    help = "Create sample categories and products (idempotent). Optionally give them sample photos."
 
-    def handle(self, *args, **options):
+    def add_arguments(self, parser):
+        parser.add_argument("--with-photos", action="store_true", help="Also add sample photos to products without any.")
+        parser.add_argument("--photos-only", action="store_true", help="Only add sample photos; don't create products.")
+
+    def handle(self, *args, with_photos=False, photos_only=False, **options):
+        if not photos_only:
+            self.seed_products()
+        if with_photos or photos_only:
+            self.seed_photos()
+
+    def seed_products(self):
         created = 0
         for category_name, products in SEED.items():
             category, _ = Category.objects.get_or_create(name=category_name)
@@ -42,3 +52,21 @@ class Command(BaseCommand):
                 )
                 created += was_created
         self.stdout.write(self.style.SUCCESS(f"Seeded {created} new product(s)."))
+
+    def seed_photos(self):
+        """Adds drawn sample photos to sample products that have no photos yet.
+        Uses the real upload path, so on Vercel the files go to Blob."""
+        from products.sample_photos import sample_photos
+        from products.services import ImageUploadError, ProductImageService
+
+        service = ProductImageService()
+        added = 0
+        for product in Product.objects.filter(images__isnull=True):
+            for position, (data, view) in enumerate(sample_photos(product.slug)):
+                try:
+                    service.add_image(product.pk, data, alt_text=f"{product.name}, {view}", position=position)
+                    added += 1
+                except ImageUploadError as e:
+                    self.stderr.write(self.style.WARNING(f"Couldn't add a photo to {product.name}: {e}"))
+                    return
+        self.stdout.write(self.style.SUCCESS(f"Added {added} sample photo(s)."))
