@@ -5,6 +5,7 @@ from django.conf import settings
 from config.media_store import get_media_store
 
 from .dtos import CategoryDTO, ProductDTO, ProductImageDTO
+from . import search
 from .images import ImageProcessingError, process_image
 from .models import Category, Product
 from .repositories import CategoryRepository, ProductImageRepository, ProductRepository
@@ -66,8 +67,12 @@ class ProductService:
         self.products = products or ProductRepository()
         self.categories = categories or CategoryRepository()
 
-    def list_products(self, category_slug=None, query=None):
-        return [_product_to_dto(p) for p in self.products.get_all_active(category_slug, query)]
+    def list_products(self, category_slug=None):
+        return [_product_to_dto(p) for p in self.products.get_all_active(category_slug)]
+
+    def search_products(self, query, category_slug=None, allow_correction=True):
+        """Returns (products ranked by relevance, corrected query or None)."""
+        return search.search(self.list_products(category_slug), query, allow_correction)
 
     def list_categories(self):
         return [_category_to_dto(c) for c in self.categories.get_all()]

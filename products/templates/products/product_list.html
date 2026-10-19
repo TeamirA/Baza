@@ -4,16 +4,22 @@
 
 {% block content %}
 <div class="page-head">
-  <h1>{% if active_category %}{{ active_category.name }}{% elif query %}Results for “{{ query }}”{% else %}All products{% endif %}</h1>
-  <p class="muted">{{ products|length }} item{{ products|length|pluralize }}</p>
+  <h1>{% if query %}Results for “{{ corrected_query|default:query }}”{% elif active_category %}{{ active_category.name }}{% else %}All products{% endif %}</h1>
+  <p class="muted">{{ products|length }} item{{ products|length|pluralize }}{% if query and active_category %} in {{ active_category.name }}{% endif %}</p>
+  {% if corrected_query %}
+    <p class="search-correction">
+      No matches for “{{ query }}”, so we're showing results for <strong>{{ corrected_query }}</strong>.
+      <a href="?q={{ query|urlencode }}&amp;exact=1{% if active_category %}&amp;category={{ active_category.slug }}{% endif %}">Search for “{{ query }}” instead</a>
+    </p>
+  {% endif %}
 </div>
 
 {% if categories %}
 <nav class="chips" aria-label="Categories">
-  <a class="chip{% if not active_category %} chip--active{% endif %}" href="{% url 'products:list' %}">All</a>
+  <a class="chip{% if not active_category %} chip--active{% endif %}" href="{% url 'products:list' %}{% if query %}?q={{ query|urlencode }}{% endif %}">All</a>
   {% for category in categories %}
     <a class="chip{% if active_category.slug == category.slug %} chip--active{% endif %}"
-       href="{% url 'products:list' %}?category={{ category.slug }}">{{ category.name }}</a>
+       href="{% url 'products:list' %}?category={{ category.slug }}{% if query %}&amp;q={{ query|urlencode }}{% endif %}">{{ category.name }}</a>
   {% endfor %}
 </nav>
 {% endif %}

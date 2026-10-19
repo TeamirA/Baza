@@ -1,6 +1,6 @@
 """The only module in the products app that talks to the ORM."""
 
-from django.db.models import BooleanField, Case, F, Q, When
+from django.db.models import BooleanField, Case, F, When
 from django.db.models.functions import Greatest
 
 from .models import Category, Product, ProductImage
@@ -10,12 +10,11 @@ class ProductRepository:
     def _active(self):
         return Product.objects.filter(is_active=True).select_related("category").prefetch_related("images")
 
-    def get_all_active(self, category_slug=None, query=None):
+    def get_all_active(self, category_slug=None):
+        """Active products, newest first. Text search and ranking happen in products/search.py."""
         qs = self._active()
         if category_slug:
             qs = qs.filter(category__slug=category_slug)
-        if query:
-            qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
         return list(qs)
 
     def get_by_slug(self, slug):
