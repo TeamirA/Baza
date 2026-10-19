@@ -8,11 +8,7 @@
 {% if product %}
 <section class="product-detail">
   <div class="product-detail__media">
-    {% if product.image_url %}
-      <img src="{{ product.image_url }}" alt="{{ product.name }}">
-    {% else %}
-      <span class="product-detail__placeholder">{{ product.name|slice:":1" }}</span>
-    {% endif %}
+    {% component "product_gallery" product=product / %}
   </div>
   <div class="product-detail__info">
     {% if product.category %}

@@ -15,7 +15,7 @@
     {% for line in cart.lines %}
     <li class="cart-line">
       <a class="cart-line__media" href="{{ line.product.url }}" aria-hidden="true" tabindex="-1">
-        {% if line.product.image_url %}<img src="{{ line.product.image_url }}" alt="">{% else %}{{ line.product.name|slice:":1" }}{% endif %}
+        {% if line.product.cover %}<img src="{{ line.product.cover.thumb_url }}" alt="" loading="lazy">{% else %}{{ line.product.name|slice:":1" }}{% endif %}
       </a>
       <div class="cart-line__info">
         <a class="cart-line__name" href="{{ line.product.url }}">{{ line.product.name }}</a>

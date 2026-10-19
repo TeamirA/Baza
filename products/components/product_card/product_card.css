@@ -9,13 +9,24 @@
 }
 .product-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
 .product-card__media {
+  position: relative;
+  overflow: hidden;
   display: grid;
   place-items: center;
   aspect-ratio: 4 / 3;
   text-decoration: none;
   background: var(--surface-muted);
 }
-.product-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.product-card__img { width: 100%; height: 100%; object-fit: cover; }
+.product-card__img--hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+@media (hover: hover) {
+  .product-card:hover .product-card__img--hover { opacity: 1; }
+}
 .product-card__placeholder { font-size: 3rem; font-weight: 700; color: var(--text-muted); }
 .product-card__body { display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem; flex: 1; }
 .product-card__category {

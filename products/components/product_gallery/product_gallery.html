@@ -1,0 +1,33 @@
+{% if images %}
+<div class="gallery" data-gallery>
+  <div class="gallery__track" tabindex="0" aria-label="{{ product.name }} photos{% if count > 1 %}, swipe or use arrow keys{% endif %}">
+    {% for image in images %}
+      <button class="gallery__slide" type="button" data-zoom="{{ image.large_url }}"
+              aria-label="Zoom photo {{ forloop.counter }} of {{ count }}">
+        <img src="{{ image.url }}"{% if image.srcset %} srcset="{{ image.srcset }}"
+             sizes="(max-width: 720px) calc(100vw - 32px), 540px"{% endif %}
+             {% if image.width %}width="{{ image.width }}" height="{{ image.height }}"{% endif %}
+             alt="{{ image.alt|default:product.name }}" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
+      </button>
+    {% endfor %}
+  </div>
+  {% if count > 1 %}
+    <div class="gallery__thumbs">
+      {% for image in images %}
+        <button class="gallery__thumb" type="button" data-index="{{ forloop.counter0 }}"
+                aria-label="Show photo {{ forloop.counter }} of {{ count }}"{% if forloop.first %} aria-current="true"{% endif %}>
+          <img src="{{ image.thumb_url }}" alt="" loading="lazy" decoding="async">
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <dialog class="gallery__zoom" aria-label="Zoomed photo">
+    <button class="gallery__zoom-close" type="button" aria-label="Close" data-zoom-close>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <img class="gallery__zoom-img" src="" alt="">
+  </dialog>
+</div>
+{% else %}
+<div class="gallery gallery--empty"><span class="gallery__placeholder">{{ product.name|slice:":1" }}</span></div>
+{% endif %}

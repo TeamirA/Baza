@@ -1,7 +1,14 @@
 <article class="product-card">
-  <a class="product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
-    {% if product.image_url %}
-      <img src="{{ product.image_url }}" alt="" loading="lazy">
+  <a class="product-card__media{% if product.hover_image %} product-card__media--has-hover{% endif %}" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {% if product.cover %}
+      <img class="product-card__img" src="{{ product.cover.url }}"{% if product.cover.srcset %} srcset="{{ product.cover.srcset }}"
+           sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 1120px) 33vw, 270px"{% endif %}
+           {% if product.cover.width %}width="{{ product.cover.width }}" height="{{ product.cover.height }}"{% endif %}
+           alt="" loading="lazy" decoding="async">
+      {% if product.hover_image %}
+        <img class="product-card__img product-card__img--hover" src="{{ product.hover_image.url }}"{% if product.hover_image.srcset %} srcset="{{ product.hover_image.srcset }}"
+             sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 1120px) 33vw, 270px"{% endif %} alt="" loading="lazy" decoding="async">
+      {% endif %}
     {% else %}
       <span class="product-card__placeholder">{{ product.name|slice:":1" }}</span>
     {% endif %}

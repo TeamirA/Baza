@@ -82,6 +82,14 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    ```
    (`.env.local` is gitignored. Delete it afterwards if you don't need it.)
 
+**Product photos:** upload them in the admin, on each product's page (Photos
+section). Each photo is resized to 400/800/1600px WebP versions; the first photo
+(lowest position) is the cover, and the second shows when hovering a product
+card. In production files go to Vercel Blob. Create a **public** Blob store and
+connect it to the project, which sets `BLOB_READ_WRITE_TOKEN`. Locally, without
+that token, files are saved to `media/` (gitignored). Uploads must be under 4 MB
+(a Vercel limit on request size).
+
 **Email:** order confirmations, "your order has shipped" (sent when you set
 an order to Shipped in the admin), and password reset all use SMTP. With
 Resend, for example, use `EMAIL_HOST=smtp.resend.com`, `EMAIL_HOST_USER=resend`

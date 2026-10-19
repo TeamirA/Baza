@@ -170,6 +170,31 @@ class LocalMediaStoreTests(SimpleTestCase):
         self.assertFalse(os.path.exists(f"{root}/products/a/b-400.webp"))
 
 
+class StorefrontImageTests(TestCase):
+    def setUp(self):
+        self.mug = Product.objects.create(name="Mug", price=Decimal("10.00"), stock=5)
+        store = FakeStore()
+        for size in [(1200, 1200), (1000, 1000)]:
+            ProductImageService(store=store).add_image(self.mug.pk, make_image(*size))
+        Product.objects.create(name="Bare", price=Decimal("1.00"), stock=5)
+
+    def test_cards_use_responsive_cover_and_hover_photo(self):
+        html = self.client.get(reverse("products:list")).content.decode()
+        self.assertIn('srcset="https://blob.example/products/mug/', html)
+        self.assertEqual(html.count('class="product-card__img product-card__img--hover"'), 1)  # only Mug has 2 photos
+        self.assertIn("product-card__placeholder", html)  # "Bare" has no photos
+
+    def test_product_page_gallery(self):
+        html = self.client.get(self.mug.get_absolute_url()).content.decode()
+        self.assertEqual(html.count('class="gallery__slide"'), 2)
+        self.assertEqual(html.count('class="gallery__thumb"'), 2)
+        self.assertIn('fetchpriority="high"', html)
+        self.assertIn("gallery__zoom", html)
+        bare = self.client.get(reverse("products:detail", args=["bare"])).content.decode()
+        self.assertIn("gallery--empty", bare)
+        self.assertNotIn('class="gallery__thumb"', bare)
+
+
 class AdminPhotoUploadTests(TestCase):
     def setUp(self):
         self.media = tempfile.mkdtemp()
