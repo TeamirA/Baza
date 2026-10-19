@@ -152,6 +152,15 @@ STORAGES = {
     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
+# --- Uploaded media (product photos) -------------------------------------
+# Production: Vercel Blob (set automatically when the Blob store is connected to
+# the project). Locally, without a token: MEDIA_ROOT, served by Django in DEBUG.
+BLOB_READ_WRITE_TOKEN = os.environ.get("BLOB_READ_WRITE_TOKEN", "")
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+# Vercel Functions reject request bodies over 4.5 MB, so cap uploads below that.
+MAX_IMAGE_UPLOAD_BYTES = 4 * 1024 * 1024
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 

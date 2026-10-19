@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, Tuple
 
 # At or below this many units we tell shoppers stock is running low.
 LOW_STOCK_THRESHOLD = 5
@@ -10,6 +10,17 @@ LOW_STOCK_THRESHOLD = 5
 class CategoryDTO:
     name: str
     slug: str
+
+
+@dataclass(frozen=True)
+class ProductImageDTO:
+    url: str  # a sensible default size (~800px) for plain <img src>
+    srcset: str = ""  # "…-400.webp 400w, …-800.webp 800w, …"; empty for legacy URL images
+    width: int = 0
+    height: int = 0
+    alt: str = ""
+    thumb_url: str = ""
+    large_url: str = ""
 
 
 @dataclass(frozen=True)
@@ -23,6 +34,16 @@ class ProductDTO:
     stock: int
     category: Optional[CategoryDTO]
     url: str
+    images: Tuple[ProductImageDTO, ...] = ()
+
+    @property
+    def cover(self) -> Optional[ProductImageDTO]:
+        return self.images[0] if self.images else None
+
+    @property
+    def hover_image(self) -> Optional[ProductImageDTO]:
+        """Second photo, shown when hovering a product card."""
+        return self.images[1] if len(self.images) > 1 else None
 
     @property
     def in_stock(self) -> bool:

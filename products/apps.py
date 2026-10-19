@@ -6,6 +6,8 @@ class ProductsConfig(AppConfig):
     name = "products"
 
     def ready(self):
+        from . import signals  # noqa: F401  (deletes photo files with their rows)
+
         warm_component_media()
 
 

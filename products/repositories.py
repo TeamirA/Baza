@@ -3,12 +3,12 @@
 from django.db.models import BooleanField, Case, F, Q, When
 from django.db.models.functions import Greatest
 
-from .models import Category, Product
+from .models import Category, Product, ProductImage
 
 
 class ProductRepository:
     def _active(self):
-        return Product.objects.filter(is_active=True).select_related("category")
+        return Product.objects.filter(is_active=True).select_related("category").prefetch_related("images")
 
     def get_all_active(self, category_slug=None, query=None):
         qs = self._active()
@@ -63,3 +63,17 @@ class CategoryRepository:
 
     def get_by_slug(self, slug):
         return Category.objects.get(slug=slug)
+
+
+class ProductImageRepository:
+    def create(self, product_id, variants, width, height, alt_text="", position=None):
+        if position is None:
+            last = ProductImage.objects.filter(product_id=product_id).order_by("-position").first()
+            position = last.position + 1 if last else 0
+        return ProductImage.objects.create(
+            product_id=product_id, variants=variants, width=width, height=height, alt_text=alt_text, position=position
+        )
+
+    def get_product(self, product_id):
+        """Raises Product.DoesNotExist. Includes inactive products (admins add photos to drafts)."""
+        return Product.objects.get(pk=product_id)

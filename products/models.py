@@ -53,3 +53,24 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductImage(models.Model):
+    """A product photo, stored as resized WebP variants (see products/images.py)."""
+
+    product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)
+    position = models.PositiveSmallIntegerField(default=0, help_text="Lower comes first; the first photo is the cover.")
+    alt_text = models.CharField(
+        max_length=200, blank=True, help_text="Describe the photo for screen readers, e.g. “Mug from the side”."
+    )
+    # {"400": "https://…-400.webp", "800": "…", "1600": "…"}: width in px -> URL.
+    variants = models.JSONField(default=dict)
+    width = models.PositiveIntegerField(default=0)
+    height = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["position", "id"]
+
+    def __str__(self):
+        return f"Photo {self.position} of {self.product}"
