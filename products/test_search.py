@@ -160,3 +160,43 @@ class PaginationTests(TestCase):
     def test_out_of_range_page_shows_last_page(self):
         response = self.client.get(reverse("products:list"), {"page": "99"})
         self.assertEqual(response.context["page_obj"].number, 3)
+
+
+class SuggestEndpointTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        home = Category.objects.create(name="Home")
+        Product.objects.create(name="Ceramic Mug", price=Decimal("14.50"), stock=5, category=home)
+        Product.objects.create(name="Mug Rack", price=Decimal("9.00"), stock=0, description="For a ceramic mug.")
+        for i in range(8):
+            Product.objects.create(name=f"Candle {i}", price=Decimal("5.00"), stock=1)
+        Product.objects.create(name="Hidden Mug", price=Decimal("1.00"), stock=1, is_active=False)
+
+    def suggest(self, q):
+        response = self.client.get(reverse("products:suggest"), {"q": q})
+        self.assertEqual(response["Content-Type"], "application/json")
+        return response.json()
+
+    def test_ranked_results_with_details(self):
+        data = self.suggest("ceramic")  # in one name, and only in the other's description
+        self.assertEqual([r["name"] for r in data["results"]], ["Ceramic Mug", "Mug Rack"])
+        first = data["results"][0]
+        self.assertEqual((first["price"], first["category"], first["in_stock"]), ("14.50", "Home", True))
+        self.assertEqual(first["url"], "/products/ceramic-mug/")
+        self.assertEqual(data["see_all_url"], "/?q=ceramic")
+        self.assertFalse(data["results"][1]["in_stock"])
+
+    def test_limit_and_total(self):
+        data = self.suggest("candle")
+        self.assertEqual((len(data["results"]), data["total"]), (6, 8))
+
+    def test_typo_and_short_queries(self):
+        self.assertEqual(self.suggest("ceramik")["corrected"], "ceramic")
+        self.assertEqual(self.suggest("m")["results"], [])
+
+    def test_header_search_is_an_accessible_combobox(self):
+        html = self.client.get(reverse("products:list"), {"q": "mug"}).content.decode()
+        self.assertIn('role="combobox"', html)
+        self.assertIn('aria-controls="search-suggestions"', html)
+        self.assertIn('data-suggest-url="/search/suggest/"', html)
+        self.assertIn('value="mug"', html)  # the box keeps the current search

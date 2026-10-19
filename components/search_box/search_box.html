@@ -1,0 +1,7 @@
+<form class="search" action="{{ action }}" method="get" role="search" data-search data-suggest-url="{{ suggest_url }}">
+  <input class="search__input" type="search" name="q" value="{{ query }}" placeholder="Search products"
+         aria-label="Search products" autocomplete="off" maxlength="100"
+         role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="search-suggestions">
+  <div class="search__panel" id="search-suggestions" role="listbox" aria-label="Search suggestions" hidden></div>
+  <p class="visually-hidden" aria-live="polite" data-search-status></p>
+</form>

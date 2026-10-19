@@ -2,7 +2,11 @@ import logging
 from dataclasses import replace
 
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
+from django.utils.http import urlencode
+from django.views.decorators.http import require_GET
 
 from .dtos import BrowseFilters
 from .forms import BrowseForm
@@ -96,3 +100,38 @@ def product_detail(request, slug):
         "products/product_detail.html",
         {"product": product, "related": related, "related_same_category": related_same_category},
     )
+
+
+SUGGEST_MIN_CHARS = 2
+
+
+@require_GET
+def search_suggest(request):
+    """JSON for the header search box's live suggestions."""
+    query = request.GET.get("q", "").strip()[:100]
+    results, total, corrected = [], 0, None
+    if len(query) >= SUGGEST_MIN_CHARS:
+        try:
+            products, total, corrected = ProductService().suggest(query)
+            results = [
+                {
+                    "name": p.name,
+                    "url": p.url,
+                    "price": f"{p.price:.2f}",
+                    "category": p.category.name if p.category else "",
+                    "image": p.cover.thumb_url if p.cover else "",
+                    "in_stock": p.in_stock,
+                }
+                for p in products
+            ]
+        except Exception:
+            logger.exception("Search suggestions failed for %r", query)
+    response = JsonResponse({
+        "query": query,
+        "corrected": corrected,
+        "total": total,
+        "results": results,
+        "see_all_url": f"{reverse('products:list')}?{urlencode({'q': query})}" if query else reverse("products:list"),
+    })
+    response["Cache-Control"] = "public, max-age=60"
+    return response

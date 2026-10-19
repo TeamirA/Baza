@@ -99,6 +99,11 @@ class ProductService:
             ranked = [p for p in candidates if p.id in matched]
         return ranked, corrected, sort
 
+    def suggest(self, query, limit=6):
+        """Top matches for the search box. Returns (products, total matches, corrected query or None)."""
+        ranked, corrected = search.search(self.list_products(), query)
+        return ranked[:limit], len(ranked), corrected
+
     def search_products(self, query, category_slug=None, allow_correction=True):
         """Returns (products ranked by relevance, corrected query or None)."""
         return search.search(self.list_products(category_slug), query, allow_correction)

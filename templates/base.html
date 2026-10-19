@@ -19,9 +19,7 @@
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="{% url 'products:list' %}">Corner Store</a>
-      <form class="search" action="{% url 'products:list' %}" method="get" role="search">
-        <input type="search" name="q" value="{{ query|default:'' }}" placeholder="Search products" aria-label="Search products">
-      </form>
+      {% component "search_box" query=query / %}
       <nav class="site-nav">
         <a href="{% url 'products:list' %}">Shop</a>
         <a class="cart-link" href="{% url 'orders:cart' %}">Cart{% if cart_count %} <span class="cart-link__count">{{ cart_count }}</span>{% endif %}</a>

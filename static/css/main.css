@@ -119,17 +119,6 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
   padding-bottom: 0.85rem;
 }
 .brand { font-weight: 700; font-size: 1.15rem; color: var(--text); text-decoration: none; }
-.search { flex: 1 1 220px; }
-.search input {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  font: inherit;
-  color: var(--text);
-  background: var(--surface-muted);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-}
-.search input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .site-nav { display: flex; gap: 1rem; }
 .site-nav a { color: var(--text); text-decoration: none; font-weight: 500; }
 .site-nav a:hover { color: var(--accent); }
