@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}{% if active_category %}{{ active_category.name }}{% else %}All products{% endif %}{% endblock %}
+{% block title %}{% if query %}Search: {{ query }}{% elif active_category %}{{ active_category.name }}{% else %}All products{% endif %}{% endblock %}
 
 {% block content %}
 <div class="page-head">
   <h1>{% if query %}Results for “{{ corrected_query|default:query }}”{% elif active_category %}{{ active_category.name }}{% else %}All products{% endif %}</h1>
-  <p class="muted">{{ products|length }} item{{ products|length|pluralize }}{% if query and active_category %} in {{ active_category.name }}{% endif %}</p>
+  <p class="muted">{{ total|default:0 }} item{{ total|default:0|pluralize }}{% if query and active_category %} in {{ active_category.name }}{% endif %}</p>
   {% if corrected_query %}
     <p class="search-correction">
       No matches for “{{ query }}”, so we're showing results for <strong>{{ corrected_query }}</strong>.
@@ -16,13 +17,48 @@
 
 {% if categories %}
 <nav class="chips" aria-label="Categories">
-  <a class="chip{% if not active_category %} chip--active{% endif %}" href="{% url 'products:list' %}{% if query %}?q={{ query|urlencode }}{% endif %}">All</a>
+  <a class="chip{% if not active_category %} chip--active{% endif %}" href="{% url 'products:list' %}{% if chip_query %}?{{ chip_query }}{% endif %}">All</a>
   {% for category in categories %}
     <a class="chip{% if active_category.slug == category.slug %} chip--active{% endif %}"
-       href="{% url 'products:list' %}?category={{ category.slug }}{% if query %}&amp;q={{ query|urlencode }}{% endif %}">{{ category.name }}</a>
+       href="{% url 'products:list' %}?category={{ category.slug }}{% if chip_query %}&amp;{{ chip_query }}{% endif %}">{{ category.name }}</a>
   {% endfor %}
 </nav>
 {% endif %}
+
+<div class="filters" data-filters>
+  <button class="filters__toggle btn btn--ghost btn--sm" type="button" aria-expanded="false" aria-controls="filters-panel">
+    Filter &amp; sort{% if filters.is_filtered %} · on{% endif %}
+  </button>
+  <form id="filters-panel" class="filters__panel" method="get" action="{% url 'products:list' %}" data-no-loading>
+    {% if query %}<input type="hidden" name="q" value="{{ query }}">{% endif %}
+    {% if active_category %}<input type="hidden" name="category" value="{{ active_category.slug }}">{% endif %}
+    {% if filters.exact %}<input type="hidden" name="exact" value="1">{% endif %}
+    <label class="filters__field">
+      <span>Sort by</span>
+      <select name="sort" data-autosubmit>
+        {% for value, label in form.fields.sort.choices %}
+          <option value="{{ value }}"{% if form.cleaned_data.sort == value %} selected{% endif %}>{% if value == "" and not query %}Newest{% else %}{{ label }}{% endif %}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <fieldset class="filters__price">
+      <legend>Price ($)</legend>
+      <input type="number" name="min_price" min="0" step="1" inputmode="decimal" placeholder="Min"
+             value="{{ filters.min_price|default_if_none:'' }}" aria-label="Minimum price">
+      <span aria-hidden="true">–</span>
+      <input type="number" name="max_price" min="0" step="1" inputmode="decimal" placeholder="Max"
+             value="{{ filters.max_price|default_if_none:'' }}" aria-label="Maximum price">
+    </fieldset>
+    <label class="filters__check">
+      <input type="checkbox" name="in_stock" value="on"{% if filters.in_stock %} checked{% endif %} data-autosubmit>
+      In stock only
+    </label>
+    <button class="btn btn--sm" type="submit">Apply</button>
+    {% if filters.is_filtered or form.cleaned_data.sort %}
+      <a class="filters__clear" href="{% url 'products:list' %}?{% if query %}q={{ query|urlencode }}&amp;{% endif %}{% if active_category %}category={{ active_category.slug }}{% endif %}">Clear filters</a>
+    {% endif %}
+  </form>
+</div>
 
 {% if products %}
   <div class="product-grid">
@@ -30,10 +66,13 @@
       {% component "product_card" product=product / %}
     {% endfor %}
   </div>
-{% elif not error %}
+  {% component "pagination" page=page_obj querystring=querystring / %}
+{% elif not error or total == 0 %}
   <div class="empty">
-    <p>No products found{% if query %} for “{{ query }}”{% endif %}.</p>
-    <a class="btn btn--ghost" href="{% url 'products:list' %}">Clear filters</a>
+    <p>No products found{% if query %} for “{{ query }}”{% endif %}{% if filters.is_filtered %} with these filters{% endif %}.</p>
+    <a class="btn btn--ghost" href="{% url 'products:list' %}">Clear search and filters</a>
   </div>
 {% endif %}
 {% endblock %}
+
+{% block scripts %}<script src="{% static 'js/filters.js' %}" defer></script>{% endblock %}

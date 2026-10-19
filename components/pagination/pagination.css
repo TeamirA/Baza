@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+.pagination__pages { display: flex; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+.pagination__link {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+.pagination__link:hover { border-color: var(--accent); }
+.pagination__link--current { background: var(--accent); border-color: var(--accent); color: var(--accent-contrast); font-weight: 600; }
+.pagination__gap { padding: 0 0.25rem; color: var(--text-muted); align-self: center; }

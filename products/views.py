@@ -1,34 +1,73 @@
 import logging
+from dataclasses import replace
 
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
+from .dtos import BrowseFilters
+from .forms import BrowseForm
 from .services import ProductNotFound, ProductService
 
 logger = logging.getLogger(__name__)
 
 
+PAGE_SIZE = 12
+
+
 def product_list(request):
-    category_slug = request.GET.get("category", "").strip()
-    query = request.GET.get("q", "").strip()[:100]
-    exact = request.GET.get("exact") == "1"
-    context = {"products": [], "categories": [], "active_category": None, "query": query, "corrected_query": None}
+    form = BrowseForm(request.GET)
+    form.is_valid()  # invalid fields are simply left out of cleaned_data
+    data = form.cleaned_data
+    filters = BrowseFilters(
+        query=data.get("q", ""),
+        category_slug=data.get("category", ""),
+        min_price=data.get("min_price"),
+        max_price=data.get("max_price"),
+        in_stock=data.get("in_stock", False),
+        sort=data.get("sort", ""),
+        exact=data.get("exact", False),
+    )
+    context = {
+        "form": form,
+        "filters": filters,
+        "query": filters.query,
+        "products": [],
+        "categories": [],
+        "active_category": None,
+        "corrected_query": None,
+    }
+    errors = [f"{form.fields[name].label or name}: {' '.join(msgs)}" for name, msgs in form.errors.items()]
+    if errors:
+        context["error"] = "Some filters were ignored. " + " ".join(errors)
+
     try:
         service = ProductService()
         context["categories"] = service.list_categories()
-        if category_slug:
-            context["active_category"] = service.get_category(category_slug)
+        if filters.category_slug:
+            context["active_category"] = service.get_category(filters.category_slug)
             if context["active_category"] is None:
-                context["error"] = f'There is no category called "{category_slug}". Showing all products.'
-                category_slug = ""
-        if query:
-            context["products"], context["corrected_query"] = service.search_products(
-                query, category_slug or None, allow_correction=not exact
-            )
-        else:
-            context["products"] = service.list_products(category_slug or None)
+                context["error"] = f'There is no category called "{filters.category_slug}". Showing all products.'
+                filters = replace(filters, category_slug="")
+        products, context["corrected_query"], context["sort"] = service.browse(filters)
     except Exception as e:
         logger.exception("Failed to load product list")
         context["error"] = f"We couldn't load products right now: {e}"
+        return render(request, "products/product_list.html", context)
+
+    page = Paginator(products, PAGE_SIZE).get_page(request.GET.get("page"))
+    params = request.GET.copy()
+    params.pop("page", None)
+    params.pop("category", None)
+    chip_query = params.urlencode()  # what category chips keep when switching category
+    params = request.GET.copy()
+    params.pop("page", None)
+    context.update(
+        products=page.object_list,
+        page_obj=page,
+        total=page.paginator.count,
+        querystring=params.urlencode(),
+        chip_query=chip_query,
+    )
     return render(request, "products/product_list.html", context)
 
 

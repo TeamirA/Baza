@@ -1,0 +1,21 @@
+{% if page.paginator.num_pages > 1 %}
+<nav class="pagination" aria-label="Pages">
+  {% if page.has_previous %}
+    <a class="pagination__link" href="{{ prefix }}{{ page.previous_page_number }}" rel="prev">← Previous</a>
+  {% endif %}
+  <ul class="pagination__pages">
+    {% for number in items %}
+      {% if number is None %}
+        <li class="pagination__gap" aria-hidden="true">…</li>
+      {% elif number == page.number %}
+        <li><span class="pagination__link pagination__link--current" aria-current="page">{{ number }}</span></li>
+      {% else %}
+        <li><a class="pagination__link" href="{{ prefix }}{{ number }}" aria-label="Page {{ number }}">{{ number }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  {% if page.has_next %}
+    <a class="pagination__link" href="{{ prefix }}{{ page.next_page_number }}" rel="next">Next →</a>
+  {% endif %}
+</nav>
+{% endif %}

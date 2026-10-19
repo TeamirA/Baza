@@ -92,3 +92,71 @@ class SearchPageTests(TestCase):
         response = self.get(q="mug", category="home")
         self.assertContains(response, "2 items in Home")
         self.assertContains(response, 'href="/?category=home&amp;q=mug"')
+
+
+class BrowseFilterTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.home = Category.objects.create(name="Home")
+        for i, (name, price, stock) in enumerate([
+            ("Ceramic Mug", "14.50", 5), ("Soy Candle", "18.00", 0), ("Linen Pillow", "32.00", 3),
+            ("Steel Bottle", "29.00", 8), ("Tote Bag", "24.00", 2),
+        ]):
+            Product.objects.create(name=name, price=Decimal(price), stock=stock,
+                                   category=cls.home if i < 3 else None)
+
+    def names(self, **params):
+        response = self.client.get(reverse("products:list"), params)
+        return response, [p.name for p in response.context["products"]]
+
+    def test_price_range_and_stock(self):
+        _, names = self.names(min_price="15", max_price="30")
+        self.assertEqual(sorted(names), ["Soy Candle", "Steel Bottle", "Tote Bag"])
+        _, names = self.names(min_price="15", max_price="30", in_stock="on")
+        self.assertEqual(sorted(names), ["Steel Bottle", "Tote Bag"])
+
+    def test_sorts(self):
+        self.assertEqual(self.names(sort="price_asc")[1][:2], ["Ceramic Mug", "Soy Candle"])
+        self.assertEqual(self.names(sort="price_desc")[1][0], "Linen Pillow")
+        self.assertEqual(self.names(sort="name")[1], sorted(self.names(sort="name")[1]))
+
+    def test_search_defaults_to_relevance_but_can_sort(self):
+        Product.objects.create(name="Mug Rack", price=Decimal("5.00"), stock=1, description="Holds a ceramic mug.")
+        _, names = self.names(q="ceramic")
+        self.assertEqual(names, ["Ceramic Mug", "Mug Rack"])  # name match first
+        _, names = self.names(q="ceramic", sort="price_asc")
+        self.assertEqual(names, ["Mug Rack", "Ceramic Mug"])
+
+    def test_bad_values_are_ignored_with_a_message(self):
+        response, names = self.names(min_price="cheap", sort="sideways")
+        self.assertEqual(len(names), 5)
+        self.assertContains(response, "Some filters were ignored.")
+
+    def test_min_above_max_is_swapped(self):
+        _, names = self.names(min_price="30", max_price="15")
+        self.assertEqual(sorted(names), ["Soy Candle", "Steel Bottle", "Tote Bag"])
+
+    def test_chips_keep_filters(self):
+        response, _ = self.names(in_stock="on", sort="name")
+        self.assertContains(response, 'href="/?category=home&amp;in_stock=on&amp;sort=name"')
+
+
+class PaginationTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        for i in range(30):
+            Product.objects.create(name=f"Item {i:02d}", price=Decimal(i + 1), stock=1)
+
+    def test_pages_keep_filters(self):
+        url = reverse("products:list")
+        first = self.client.get(url, {"sort": "price_asc", "max_price": "26"})
+        self.assertEqual(first.context["total"], 26)
+        self.assertEqual(len(first.context["products"]), 12)
+        self.assertContains(first, 'href="?sort=price_asc&amp;max_price=26&amp;page=2"')
+        third = self.client.get(url, {"sort": "price_asc", "max_price": "26", "page": "3"})
+        self.assertEqual([p.name for p in third.context["products"]], ["Item 24", "Item 25"])
+        self.assertContains(third, 'aria-current="page">3<')
+
+    def test_out_of_range_page_shows_last_page(self):
+        response = self.client.get(reverse("products:list"), {"page": "99"})
+        self.assertEqual(response.context["page_obj"].number, 3)

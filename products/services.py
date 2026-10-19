@@ -70,6 +70,35 @@ class ProductService:
     def list_products(self, category_slug=None):
         return [_product_to_dto(p) for p in self.products.get_all_active(category_slug)]
 
+    SORTS = ("relevance", "newest", "price_asc", "price_desc", "name")
+
+    def browse(self, filters):
+        """Products for the list page. Returns (products, corrected query or None, sort used).
+
+        With a search query the default sort is relevance; otherwise newest.
+        """
+        sort = filters.sort if filters.sort in self.SORTS else ("relevance" if filters.query else "newest")
+        if sort == "relevance" and not filters.query:
+            sort = "newest"
+        candidates = [
+            _product_to_dto(p)
+            for p in self.products.get_all_active(
+                filters.category_slug or None,
+                filters.min_price,
+                filters.max_price,
+                filters.in_stock,
+                order="newest" if sort == "relevance" else sort,
+            )
+        ]
+        if not filters.query:
+            return candidates, None, sort
+        ranked, corrected = search.search(candidates, filters.query, allow_correction=not filters.exact)
+        if sort != "relevance":
+            # Keep the search's matches, in the order the shopper picked.
+            matched = {p.id for p in ranked}
+            ranked = [p for p in candidates if p.id in matched]
+        return ranked, corrected, sort
+
     def search_products(self, query, category_slug=None, allow_correction=True):
         """Returns (products ranked by relevance, corrected query or None)."""
         return search.search(self.list_products(category_slug), query, allow_correction)

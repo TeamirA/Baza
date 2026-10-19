@@ -13,6 +13,23 @@ class CategoryDTO:
 
 
 @dataclass(frozen=True)
+class BrowseFilters:
+    """What the shopper asked for on the product list (all optional)."""
+
+    query: str = ""
+    category_slug: str = ""
+    min_price: Optional[Decimal] = None
+    max_price: Optional[Decimal] = None
+    in_stock: bool = False
+    sort: str = ""  # "", "relevance", "newest", "price_asc", "price_desc", "name"
+    exact: bool = False  # don't auto-correct typos
+
+    @property
+    def is_filtered(self) -> bool:
+        return self.min_price is not None or self.max_price is not None or self.in_stock
+
+
+@dataclass(frozen=True)
 class ProductImageDTO:
     url: str  # a sensible default size (~800px) for plain <img src>
     srcset: str = ""  # "…-400.webp 400w, …-800.webp 800w, …"; empty for legacy URL images

@@ -10,12 +10,25 @@ class ProductRepository:
     def _active(self):
         return Product.objects.filter(is_active=True).select_related("category").prefetch_related("images")
 
-    def get_all_active(self, category_slug=None):
-        """Active products, newest first. Text search and ranking happen in products/search.py."""
+    ORDERINGS = {
+        "newest": ["-created_at", "-pk"],
+        "price_asc": ["price", "-created_at"],
+        "price_desc": ["-price", "-created_at"],
+        "name": ["name"],
+    }
+
+    def get_all_active(self, category_slug=None, min_price=None, max_price=None, in_stock=False, order="newest"):
+        """Active products matching the filters. Text search and ranking happen in products/search.py."""
         qs = self._active()
         if category_slug:
             qs = qs.filter(category__slug=category_slug)
-        return list(qs)
+        if min_price is not None:
+            qs = qs.filter(price__gte=min_price)
+        if max_price is not None:
+            qs = qs.filter(price__lte=max_price)
+        if in_stock:
+            qs = qs.filter(stock__gt=0)
+        return list(qs.order_by(*self.ORDERINGS.get(order, self.ORDERINGS["newest"])))
 
     def get_by_slug(self, slug):
         """Raises Product.DoesNotExist if there is no active product with this slug."""
