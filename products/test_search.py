@@ -200,3 +200,39 @@ class SuggestEndpointTests(TestCase):
         self.assertIn('aria-controls="search-suggestions"', html)
         self.assertIn('data-suggest-url="/search/suggest/"', html)
         self.assertIn('value="mug"', html)  # the box keeps the current search
+
+
+class RecentlyViewedTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.items = [Product.objects.create(name=f"Thing {i}", price=Decimal("5.00"), stock=1) for i in range(10)]
+
+    def view(self, product):
+        return self.client.get(product.get_absolute_url())
+
+    def row(self, response):
+        return [p.name for p in response.context["recently_viewed"]]
+
+    def test_order_dedup_and_excludes_current_product(self):
+        a, b, c = self.items[:3]
+        self.assertEqual(self.row(self.view(a)), [])  # nothing viewed before
+        self.view(b)
+        self.view(a)  # viewing again moves it to the front
+        response = self.view(c)
+        self.assertEqual(self.row(response), ["Thing 0", "Thing 1"])
+        self.assertContains(response, "Recently viewed")
+
+    def test_home_shows_last_four_and_skips_inactive(self):
+        for product in self.items[:6]:
+            self.view(product)
+        Product.objects.filter(pk=self.items[5].pk).update(is_active=False)
+        home = self.client.get(reverse("products:list"))
+        self.assertEqual(self.row(home), ["Thing 4", "Thing 3", "Thing 2", "Thing 1"])
+
+    def test_list_is_capped_and_hidden_while_searching(self):
+        for product in self.items:
+            self.view(product)
+        self.assertEqual(len(self.client.session["recently_viewed"]), 8)
+        searching = self.client.get(reverse("products:list"), {"q": "thing"})
+        self.assertEqual(searching.context["recently_viewed"], [])
+        self.assertNotContains(searching, "Recently viewed")

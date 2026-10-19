@@ -1,0 +1,10 @@
+{% if products %}
+<section class="product-row" aria-labelledby="{{ heading_id }}">
+  <h2 id="{{ heading_id }}" class="product-row__title">{{ title }}</h2>
+  <div class="product-grid">
+    {% for product in products %}
+      {% component "product_card" product=product / %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

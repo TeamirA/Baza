@@ -67,6 +67,7 @@
     {% endfor %}
   </div>
   {% component "pagination" page=page_obj querystring=querystring / %}
+  {% component "product_row" title="Recently viewed" products=recently_viewed / %}
 {% elif not error or total == 0 %}
   <div class="empty">
     <p>No products found{% if query %} for “{{ query }}”{% endif %}{% if filters.is_filtered %} with these filters{% endif %}.</p>

@@ -10,12 +10,23 @@ from django.views.decorators.http import require_GET
 
 from .dtos import BrowseFilters
 from .forms import BrowseForm
+from .recently_viewed import RecentlyViewedStore
 from .services import ProductNotFound, ProductService
 
 logger = logging.getLogger(__name__)
 
 
 PAGE_SIZE = 12
+ROW_SIZE = 4
+
+
+def recently_viewed(request, service, exclude_id=None):
+    """Recently viewed products for this browser; never breaks the page."""
+    try:
+        return service.products_in_order(RecentlyViewedStore(request.session).ids(), exclude_id, ROW_SIZE)
+    except Exception:
+        logger.exception("Failed to load recently viewed products")
+        return []
 
 
 def product_list(request):
@@ -59,6 +70,8 @@ def product_list(request):
         return render(request, "products/product_list.html", context)
 
     page = Paginator(products, PAGE_SIZE).get_page(request.GET.get("page"))
+    browsing_home = not (filters.query or filters.category_slug or filters.is_filtered) and page.number == 1
+    context["recently_viewed"] = recently_viewed(request, service) if browsing_home else []
     params = request.GET.copy()
     params.pop("page", None)
     params.pop("category", None)
@@ -86,6 +99,8 @@ def product_detail(request, slug):
         return render(
             request, "products/product_detail.html", {"error": f"We couldn't load this product: {e}"}, status=500
         )
+    viewed_before = recently_viewed(request, service, exclude_id=product.id)
+    RecentlyViewedStore(request.session).add(product.id)
     try:
         related = service.related_products(product)
     except Exception:
@@ -98,7 +113,12 @@ def product_detail(request, slug):
     return render(
         request,
         "products/product_detail.html",
-        {"product": product, "related": related, "related_same_category": related_same_category},
+        {
+            "product": product,
+            "related": related,
+            "related_same_category": related_same_category,
+            "recently_viewed": viewed_before,
+        },
     )
 
 

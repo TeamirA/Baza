@@ -31,17 +31,11 @@
   </div>
 </section>
 
-{% if related %}
-<section class="related" aria-labelledby="related-title">
-  <h2 id="related-title" class="related__title">
-    {% if related_same_category %}More in {{ product.category.name }}{% else %}You might also like{% endif %}
-  </h2>
-  <div class="product-grid">
-    {% for item in related %}
-      {% component "product_card" product=item / %}
-    {% endfor %}
-  </div>
-</section>
+{% if related_same_category %}
+  {% component "product_row" title="More in "|add:product.category.name products=related / %}
+{% else %}
+  {% component "product_row" title="You might also like" products=related / %}
 {% endif %}
+{% component "product_row" title="Recently viewed" products=recently_viewed / %}
 {% endif %}
 {% endblock %}

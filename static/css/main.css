@@ -207,8 +207,6 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
 .product-detail__stock { margin: 0; }
 .product-detail__description { margin: 1.25rem 0 1.5rem; color: var(--text-muted); }
 
-.related { margin-top: 3rem; }
-.related__title { margin: 0 0 1rem; font-size: 1.25rem; }
 
 @media (max-width: 720px) {
   .product-detail { grid-template-columns: 1fr; gap: 1.5rem; }

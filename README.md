@@ -9,6 +9,9 @@ accounts, checkout with Stripe (test mode), and order history.
   [django-components](https://github.com/django-components/django-components) widgets.
 - **Database:** SQLite locally, Postgres (Neon via Vercel) in production.
 - **Payments:** a `PaymentGateway` interface with a Stripe implementation (`payments/gateways/`).
+- **Search and browsing:** relevance-ranked, typo-tolerant search (`products/search.py`)
+  with live suggestions and recent searches in the header, plus price and stock filters,
+  sorting, pagination and a "Recently viewed" row.
 
 ## Run locally
 

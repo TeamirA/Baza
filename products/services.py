@@ -134,6 +134,12 @@ class ProductService:
         category_slug = product.category.slug if product.category else None
         return [_product_to_dto(p) for p in self.products.get_related(product.id, category_slug, limit)]
 
+    def products_in_order(self, product_ids, exclude_id=None, limit=None):
+        """Active products for the given ids, in that order; missing/inactive ones are skipped."""
+        found = self.get_products_by_ids(product_ids)
+        ordered = [found[pk] for pk in product_ids if pk in found and pk != exclude_id]
+        return ordered[:limit] if limit else ordered
+
     def get_products_by_ids(self, product_ids):
         """Returns {id: ProductDTO} for the active products among product_ids."""
         return {pk: _product_to_dto(p) for pk, p in self.products.get_by_ids(product_ids).items()}
