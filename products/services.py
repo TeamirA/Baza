@@ -8,7 +8,7 @@ from .dtos import CategoryDTO, ProductDTO, ProductImageDTO
 from . import search
 from .images import ImageProcessingError, process_image
 from .models import Category, Product
-from .repositories import CategoryRepository, ProductImageRepository, ProductRepository
+from .repositories import CategoryRepository, ProductImageRepository, ProductRepository, SavedProductRepository
 
 
 class ProductNotFound(Exception):
@@ -181,3 +181,25 @@ class ProductImageService:
 
     def add_image(self, product_id, data, alt_text="", position=None):
         return self.add_prepared(product_id, self.prepare(data), alt_text, position)
+
+
+class WishlistService:
+    def __init__(self, user, saved=None, products=None):
+        self.user = user
+        self.saved = saved or SavedProductRepository()
+        self.products = products or ProductService()
+
+    def ids(self):
+        return self.saved.ids(self.user) if self.user.is_authenticated else set()
+
+    def toggle(self, product_id):
+        """Returns True if now saved. Raises ProductNotFound for unknown/inactive products."""
+        self.products.get_product_by_id(product_id)
+        return self.saved.toggle(self.user, product_id)
+
+    def remove(self, product_id):
+        self.saved.remove(self.user, product_id)
+
+    def items(self):
+        """Saved products that are still available, most recently saved first."""
+        return self.products.products_in_order(self.saved.product_ids_newest_first(self.user))

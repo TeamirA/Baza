@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Saved items{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>Saved items</h1>
+  {% if items %}<p class="muted">{{ items|length }} item{{ items|length|pluralize }}</p>{% endif %}
+</div>
+
+{% if items %}
+<ul class="saved-list">
+  {% for product in items %}
+  <li class="saved-item">
+    <a class="saved-item__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+      {% if product.cover %}<img src="{{ product.cover.thumb_url }}" alt="" loading="lazy">{% else %}{{ product.name|slice:":1" }}{% endif %}
+    </a>
+    <div class="saved-item__info">
+      <a class="saved-item__name" href="{{ product.url }}">{{ product.name }}</a>
+      <p class="saved-item__meta"><span class="price">${{ product.price }}</span> {% component "stock_badge" product=product / %}</p>
+    </div>
+    <div class="saved-item__actions">
+      {% if product.in_stock %}
+        <form action="{% url 'products:wishlist_move_to_cart' product.id %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn--sm" type="submit">Move to cart</button>
+        </form>
+      {% endif %}
+      <form action="{% url 'products:wishlist_toggle' product.id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% url 'products:wishlist' %}">
+        <button class="link-button saved-item__remove" type="submit" aria-label="Remove {{ product.name }} from saved">Remove</button>
+      </form>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% elif not error %}
+  <div class="empty">
+    <p>Nothing saved yet. Tap the ♥ on any product to keep it here.</p>
+    <a class="btn" href="{% url 'products:list' %}">Browse products</a>
+  </div>
+{% endif %}
+{% endblock %}

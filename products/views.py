@@ -2,8 +2,12 @@ import logging
 from dataclasses import replace
 
 from django.core.paginator import Paginator
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.utils.http import urlencode
 from django.views.decorators.http import require_GET
@@ -11,7 +15,7 @@ from django.views.decorators.http import require_GET
 from .dtos import BrowseFilters
 from .forms import BrowseForm
 from .recently_viewed import RecentlyViewedStore
-from .services import ProductNotFound, ProductService
+from .services import ProductNotFound, ProductService, WishlistService
 
 logger = logging.getLogger(__name__)
 
@@ -155,3 +159,52 @@ def search_suggest(request):
     })
     response["Cache-Control"] = "public, max-age=60"
     return response
+
+
+def _wants_json(request):
+    return "application/json" in request.headers.get("Accept", "")
+
+
+@login_required
+@require_POST
+def wishlist_toggle(request, product_id):
+    service = WishlistService(request.user)
+    try:
+        saved = service.toggle(product_id)
+    except ProductNotFound as e:
+        if _wants_json(request):
+            return JsonResponse({"error": str(e)}, status=404)
+        messages.error(request, str(e))
+        return redirect("products:wishlist")
+    if _wants_json(request):
+        return JsonResponse({"saved": saved, "count": len(service.ids())})
+    next_url = request.POST.get("next", "")
+    if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+        return redirect(next_url)
+    return redirect("products:wishlist")
+
+
+@login_required
+def wishlist(request):
+    try:
+        items = WishlistService(request.user).items()
+    except Exception as e:
+        logger.exception("Failed to load wishlist")
+        return render(request, "products/wishlist.html", {"items": [], "error": f"We couldn't load your saved items: {e}"})
+    return render(request, "products/wishlist.html", {"items": items})
+
+
+@login_required
+@require_POST
+def wishlist_move_to_cart(request, product_id):
+    """Adds a saved product to the cart and takes it off the wishlist."""
+    from orders.services import CartError, CartService
+
+    try:
+        product = CartService.for_request(request).add(product_id, 1)
+    except CartError as e:
+        messages.error(request, str(e))
+        return redirect("products:wishlist")
+    WishlistService(request.user).remove(product_id)
+    messages.success(request, f"Moved {product.name} to your cart.")
+    return redirect("products:wishlist")

@@ -1,0 +1,17 @@
+{% if signed_in %}
+<form class="wishlist{% if large %} wishlist--large{% endif %}" action="{{ action }}" method="post" data-wishlist data-no-loading>
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button class="wishlist__button" type="submit" aria-pressed="{% if saved %}true{% else %}false{% endif %}"
+          aria-label="{% if saved %}Remove {{ product.name }} from saved{% else %}Save {{ product.name }}{% endif %}"
+          data-name="{{ product.name }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.1 4c2 0 3.6 1.1 4.9 2.8C13.3 5.1 14.9 4 16.9 4c3.5 0 5.7 3.6 4.4 7.1-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg>
+    {% if large %}<span class="wishlist__label">{% if saved %}Saved{% else %}Save{% endif %}</span>{% endif %}
+  </button>
+</form>
+{% else %}
+<a class="wishlist wishlist__button{% if large %} wishlist--large{% endif %}" href="{{ login_url }}" aria-label="Log in to save {{ product.name }}">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.4 7.6 3.6 4 7.1 4c2 0 3.6 1.1 4.9 2.8C13.3 5.1 14.9 4 16.9 4c3.5 0 5.7 3.6 4.4 7.1-1.8 4.8-9.3 9.4-9.3 9.4z"/></svg>
+  {% if large %}<span class="wishlist__label">Save</span>{% endif %}
+</a>
+{% endif %}

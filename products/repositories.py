@@ -3,7 +3,7 @@
 from django.db.models import BooleanField, Case, F, When
 from django.db.models.functions import Greatest
 
-from .models import Category, Product, ProductImage
+from .models import Category, Product, ProductImage, SavedProduct
 
 
 class ProductRepository:
@@ -89,3 +89,22 @@ class ProductImageRepository:
     def get_product(self, product_id):
         """Raises Product.DoesNotExist. Includes inactive products (admins add photos to drafts)."""
         return Product.objects.get(pk=product_id)
+
+
+class SavedProductRepository:
+    def ids(self, user):
+        return set(SavedProduct.objects.filter(user=user).values_list("product_id", flat=True))
+
+    def product_ids_newest_first(self, user):
+        return list(SavedProduct.objects.filter(user=user).values_list("product_id", flat=True))
+
+    def toggle(self, user, product_id):
+        """Saves or unsaves; returns True if the product is now saved."""
+        deleted, _ = SavedProduct.objects.filter(user=user, product_id=product_id).delete()
+        if deleted:
+            return False
+        SavedProduct.objects.get_or_create(user=user, product_id=product_id)
+        return True
+
+    def remove(self, user, product_id):
+        SavedProduct.objects.filter(user=user, product_id=product_id).delete()

@@ -204,7 +204,7 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
   text-transform: uppercase;
   text-decoration: none;
 }
-.product-detail__stock { margin: 0; }
+.product-detail__badges { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .product-detail__description { margin: 1.25rem 0 1.5rem; color: var(--text-muted); }
 
 
@@ -445,4 +445,40 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
   .filters--collapsible .filters__toggle { display: inline-block; }
   .filters--collapsible .filters__panel { display: none; margin-top: 0.75rem; }
   .filters--collapsible.filters--open .filters__panel { display: flex; }
+}
+
+/* ---- Saved items -------------------------------------------------------- */
+.saved-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.saved-item { display: grid; grid-template-columns: 72px 1fr auto; gap: 1rem; align-items: center; padding: 1rem; }
+.saved-item + .saved-item { border-top: 1px solid var(--border); }
+.saved-item__media {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-weight: 700;
+  text-decoration: none;
+}
+.saved-item__media img { width: 100%; height: 100%; object-fit: cover; }
+.saved-item__name { font-weight: 600; color: var(--text); text-decoration: none; }
+.saved-item__name:hover { color: var(--accent); }
+.saved-item__meta { display: flex; align-items: center; gap: 0.6rem; margin: 0.3rem 0 0; }
+.saved-item__actions { display: flex; align-items: center; gap: 1rem; }
+.saved-item__remove { font-size: 0.875rem; color: var(--text-muted); }
+.saved-item__remove:hover { color: var(--danger); }
+@media (max-width: 560px) {
+  .saved-item { grid-template-columns: 56px 1fr; }
+  .saved-item__media { width: 56px; height: 56px; }
+  .saved-item__actions { grid-column: 2; }
 }

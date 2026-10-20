@@ -1,4 +1,5 @@
 <article class="product-card">
+  <div class="product-card__save">{% component "wishlist_button" product=product / %}</div>
   <a class="product-card__media{% if product.hover_image %} product-card__media--has-hover{% endif %}" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
     {% if product.cover %}
       <img class="product-card__img" src="{{ product.cover.url }}"{% if product.cover.srcset %} srcset="{{ product.cover.srcset }}"

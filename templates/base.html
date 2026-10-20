@@ -24,6 +24,7 @@
         <a href="{% url 'products:list' %}">Shop</a>
         <a class="cart-link" href="{% url 'orders:cart' %}">Cart{% if cart_count %} <span class="cart-link__count">{{ cart_count }}</span>{% endif %}</a>
         {% if user.is_authenticated %}
+          <a class="saved-link" href="{% url 'products:wishlist' %}">Saved <span class="cart-link__count" data-wishlist-count{% if not wishlist_count %} hidden{% endif %}>{{ wishlist_count }}</span></a>
           <a href="{% url 'orders:list' %}">Orders</a>
           {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
           <form class="inline-form" action="{% url 'logout' %}" method="post">

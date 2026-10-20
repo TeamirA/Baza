@@ -74,3 +74,15 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Photo {self.position} of {self.product}"
+
+
+class SavedProduct(models.Model):
+    """A product on a signed-in shopper's wishlist."""
+
+    user = models.ForeignKey("auth.User", related_name="saved_products", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="saved_by", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        constraints = [models.UniqueConstraint(fields=["user", "product"], name="unique_saved_product")]

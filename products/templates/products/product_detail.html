@@ -16,7 +16,10 @@
     {% endif %}
     <h1>{{ product.name }}</h1>
     <p class="price price--lg">${{ product.price }}</p>
-    <p class="product-detail__stock">{% component "stock_badge" product=product / %}</p>
+    <div class="product-detail__badges">
+      {% component "stock_badge" product=product / %}
+      {% component "wishlist_button" product=product variant="large" / %}
+    </div>
     <div class="product-detail__description">{{ product.description|linebreaks }}</div>
     {% if product.in_stock %}
       <form class="add-to-cart" action="{% url 'orders:cart_add' product.id %}" method="post">
