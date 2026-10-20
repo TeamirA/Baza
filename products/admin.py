@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin, messages
 from django.utils.html import format_html
 
-from .models import Category, Product, ProductImage
+from .models import Category, Product, ProductImage, Review
 from .services import ImageUploadError, ProductImageService
 
 
@@ -115,3 +115,11 @@ class ProductAdmin(admin.ModelAdmin):
                     continue
                 instance.save()
                 formset.changed_objects.append((instance, image_form.changed_data))
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ["product", "rating", "title", "user", "created_at"]
+    list_filter = ["rating", "created_at"]
+    search_fields = ["product__name", "title", "body", "user__username"]
+    readonly_fields = ["product", "user", "created_at", "updated_at"]

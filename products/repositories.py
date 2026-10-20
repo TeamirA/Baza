@@ -1,14 +1,19 @@
 """The only module in the products app that talks to the ORM."""
 
-from django.db.models import BooleanField, Case, F, When
+from django.db.models import Avg, BooleanField, Case, Count, F, When
 from django.db.models.functions import Greatest
 
-from .models import Category, Product, ProductImage, SavedProduct
+from .models import Category, Product, ProductImage, Review, SavedProduct
 
 
 class ProductRepository:
     def _active(self):
-        return Product.objects.filter(is_active=True).select_related("category").prefetch_related("images")
+        return (
+            Product.objects.filter(is_active=True)
+            .select_related("category")
+            .prefetch_related("images")
+            .annotate(rating_avg=Avg("reviews__rating"), rating_count=Count("reviews", distinct=True))
+        )
 
     ORDERINGS = {
         "newest": ["-created_at", "-pk"],
@@ -108,3 +113,25 @@ class SavedProductRepository:
 
     def remove(self, user, product_id):
         SavedProduct.objects.filter(user=user, product_id=product_id).delete()
+
+
+class ReviewRepository:
+    def for_product(self, product_id):
+        return list(Review.objects.filter(product_id=product_id).select_related("user"))
+
+    def get(self, user, product_id):
+        return Review.objects.filter(user=user, product_id=product_id).first()
+
+    def save(self, user, product_id, rating, title, body):
+        review, _ = Review.objects.update_or_create(
+            user=user, product_id=product_id, defaults={"rating": rating, "title": title, "body": body}
+        )
+        return review
+
+    def has_bought(self, user, product_id):
+        """True if the user has a paid or shipped order containing the product."""
+        from orders.models import Order, OrderItem  # orders depends on products, so import lazily
+
+        return OrderItem.objects.filter(
+            order__user=user, product_id=product_id, order__status__in=[Order.Status.PAID, Order.Status.SHIPPED]
+        ).exists()

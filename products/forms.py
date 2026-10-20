@@ -26,3 +26,17 @@ class BrowseForm(forms.Form):
         if low is not None and high is not None and low > high:
             cleaned["min_price"], cleaned["max_price"] = high, low  # be forgiving: swap them
         return cleaned
+
+
+class ReviewForm(forms.Form):
+    rating = forms.TypedChoiceField(
+        choices=[(n, f"{n} star{'s' if n > 1 else ''}") for n in range(5, 0, -1)],
+        coerce=int,
+        widget=forms.RadioSelect,
+        label="Your rating",
+        error_messages={"required": "Choose a star rating."},
+    )
+    title = forms.CharField(max_length=100, required=False, label="Headline")
+    body = forms.CharField(
+        max_length=2000, required=False, label="Your review", widget=forms.Textarea(attrs={"rows": 4})
+    )

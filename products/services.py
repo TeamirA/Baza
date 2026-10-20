@@ -4,11 +4,17 @@ from django.conf import settings
 
 from config.media_store import get_media_store
 
-from .dtos import CategoryDTO, ProductDTO, ProductImageDTO
+from .dtos import CategoryDTO, ProductDTO, ProductImageDTO, ReviewDTO
 from . import search
 from .images import ImageProcessingError, process_image
 from .models import Category, Product
-from .repositories import CategoryRepository, ProductImageRepository, ProductRepository, SavedProductRepository
+from .repositories import (
+    CategoryRepository,
+    ProductImageRepository,
+    ProductRepository,
+    ReviewRepository,
+    SavedProductRepository,
+)
 
 
 class ProductNotFound(Exception):
@@ -59,6 +65,8 @@ def _product_to_dto(product):
         category=_category_to_dto(product.category),
         url=product.get_absolute_url(),
         images=_images_for(product),
+        rating_avg=round(float(product.rating_avg), 2) if getattr(product, "rating_avg", None) is not None else None,
+        rating_count=getattr(product, "rating_count", 0) or 0,
     )
 
 
@@ -203,3 +211,48 @@ class WishlistService:
     def items(self):
         """Saved products that are still available, most recently saved first."""
         return self.products.products_in_order(self.saved.product_ids_newest_first(self.user))
+
+
+class ReviewNotAllowed(Exception):
+    """The shopper can't review this product; the message explains why."""
+
+
+def _author_name(user):
+    first = (user.first_name or "").strip()
+    if first:
+        last = (user.last_name or "").strip()
+        return f"{first} {last[:1]}." if last else first
+    return user.get_username()
+
+
+class ReviewService:
+    def __init__(self, reviews=None):
+        self.reviews = reviews or ReviewRepository()
+
+    def list_for_product(self, product_id, viewer=None):
+        viewer_id = viewer.pk if viewer is not None and viewer.is_authenticated else None
+        return [
+            ReviewDTO(
+                rating=r.rating,
+                title=r.title,
+                body=r.body,
+                author=_author_name(r.user),
+                created_at=r.created_at,
+                edited=(r.updated_at - r.created_at).total_seconds() > 60,
+                is_own=r.user_id == viewer_id,
+            )
+            for r in self.reviews.for_product(product_id)
+        ]
+
+    def can_review(self, user, product_id):
+        return user.is_authenticated and self.reviews.has_bought(user, product_id)
+
+    def own_review(self, user, product_id):
+        return self.reviews.get(user, product_id) if user.is_authenticated else None
+
+    def save(self, user, product_id, rating, title="", body=""):
+        if not user.is_authenticated:
+            raise ReviewNotAllowed("Log in to write a review.")
+        if not self.reviews.has_bought(user, product_id):
+            raise ReviewNotAllowed("Only customers who bought this product can review it.")
+        return self.reviews.save(user, product_id, rating, title.strip(), body.strip())

@@ -13,9 +13,9 @@ from django.utils.http import urlencode
 from django.views.decorators.http import require_GET
 
 from .dtos import BrowseFilters
-from .forms import BrowseForm
+from .forms import BrowseForm, ReviewForm
 from .recently_viewed import RecentlyViewedStore
-from .services import ProductNotFound, ProductService, WishlistService
+from .services import ProductNotFound, ProductService, ReviewNotAllowed, ReviewService, WishlistService
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +92,7 @@ def product_list(request):
     return render(request, "products/product_list.html", context)
 
 
-def product_detail(request, slug):
+def product_detail(request, slug, review_form=None):
     service = ProductService()
     try:
         product = service.get_product(slug)
@@ -104,6 +104,7 @@ def product_detail(request, slug):
             request, "products/product_detail.html", {"error": f"We couldn't load this product: {e}"}, status=500
         )
     viewed_before = recently_viewed(request, service, exclude_id=product.id)
+    review_context = _review_context(request, product, review_form)
     RecentlyViewedStore(request.session).add(product.id)
     try:
         related = service.related_products(product)
@@ -122,6 +123,7 @@ def product_detail(request, slug):
             "related": related,
             "related_same_category": related_same_category,
             "recently_viewed": viewed_before,
+            **review_context,
         },
     )
 
@@ -159,6 +161,47 @@ def search_suggest(request):
     })
     response["Cache-Control"] = "public, max-age=60"
     return response
+
+
+def _review_context(request, product, form=None):
+    """Reviews, and whether/how this shopper can write one. Never breaks the page."""
+    reviews = ReviewService()
+    try:
+        own = reviews.own_review(request.user, product.id)
+        can_review = reviews.can_review(request.user, product.id)
+        if form is None and can_review:
+            initial = {"rating": own.rating, "title": own.title, "body": own.body} if own else None
+            form = ReviewForm(initial=initial)
+        return {
+            "reviews": reviews.list_for_product(product.id, request.user),
+            "can_review": can_review,
+            "has_own_review": own is not None,
+            "review_form": form,
+        }
+    except Exception:
+        logger.exception("Failed to load reviews for product %s", product.id)
+        return {"reviews": [], "can_review": False, "has_own_review": False, "review_form": None}
+
+
+@login_required
+@require_POST
+def review_submit(request, slug):
+    try:
+        product = ProductService().get_product(slug)
+    except ProductNotFound as e:
+        messages.error(request, str(e))
+        return redirect("products:list")
+    form = ReviewForm(request.POST)
+    if not form.is_valid():
+        messages.error(request, "Please fix the review form below.")
+        return product_detail(request, slug, review_form=form)
+    try:
+        ReviewService().save(request.user, product.id, **form.cleaned_data)
+    except ReviewNotAllowed as e:
+        messages.error(request, str(e))
+        return redirect(product.url)
+    messages.success(request, "Thanks! Your review is posted.")
+    return redirect(f"{product.url}#reviews")
 
 
 def _wants_json(request):

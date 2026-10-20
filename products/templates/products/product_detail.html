@@ -15,6 +15,9 @@
       <a class="product-detail__category" href="{% url 'products:list' %}?category={{ product.category.slug }}">{{ product.category.name }}</a>
     {% endif %}
     <h1>{{ product.name }}</h1>
+    {% if product.rating_count %}
+      <a class="product-detail__rating" href="#reviews">{% component "star_rating" rating=product.rating_avg count=product.rating_count / %}</a>
+    {% endif %}
     <p class="price price--lg">${{ product.price }}</p>
     <div class="product-detail__badges">
       {% component "stock_badge" product=product / %}
@@ -32,6 +35,55 @@
       <button class="btn" type="button" disabled>Sold out</button>
     {% endif %}
   </div>
+</section>
+
+<section class="reviews" id="reviews" aria-labelledby="reviews-title">
+  <div class="reviews__head">
+    <h2 id="reviews-title">Reviews</h2>
+    {% if product.rating_count %}
+      <p class="reviews__summary">{% component "star_rating" rating=product.rating_avg size="large" / %}
+        <span><strong>{{ product.rating_avg|floatformat:1 }}</strong> out of 5 · {{ product.rating_count }} review{{ product.rating_count|pluralize }}</span></p>
+    {% endif %}
+  </div>
+
+  {% if can_review %}
+    <form class="review-form" method="post" action="{% url 'products:review' product.slug %}" novalidate>
+      {% csrf_token %}
+      <h3>{% if has_own_review %}Edit your review{% else %}Write a review{% endif %}</h3>
+      <fieldset class="star-input{% if review_form.rating.errors %} star-input--invalid{% endif %}">
+        <legend>Your rating</legend>
+        {% for choice in review_form.rating %}
+          <input type="radio" id="{{ choice.id_for_label }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}"{% if choice.data.selected %} checked{% endif %}>
+          <label for="{{ choice.id_for_label }}" title="{{ choice.choice_label }}"><span class="visually-hidden">{{ choice.choice_label }}</span>★</label>
+        {% endfor %}
+      </fieldset>
+      {% for error in review_form.rating.errors %}<p class="field__error">{{ error }}</p>{% endfor %}
+      {% component "form_field" field=review_form.title / %}
+      {% component "form_field" field=review_form.body / %}
+      <button class="btn" type="submit">{% if has_own_review %}Update review{% else %}Post review{% endif %}</button>
+    </form>
+  {% elif user.is_authenticated %}
+    <p class="muted reviews__note">Only customers who bought this product can review it.</p>
+  {% else %}
+    <p class="muted reviews__note"><a href="{% url 'login' %}?next={{ request.path|urlencode }}%23reviews">Log in</a> to review a product you've bought.</p>
+  {% endif %}
+
+  {% if reviews %}
+    <ul class="review-list">
+      {% for review in reviews %}
+        <li class="review">
+          <div class="review__top">
+            {% component "star_rating" rating=review.rating / %}
+            {% if review.title %}<strong class="review__title">{{ review.title }}</strong>{% endif %}
+          </div>
+          {% if review.body %}<p class="review__body">{{ review.body|linebreaksbr }}</p>{% endif %}
+          <p class="review__meta">{{ review.author }}{% if review.is_own %} (you){% endif %} · Verified purchase · {{ review.created_at|date:"M j, Y" }}{% if review.edited %} · edited{% endif %}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif not can_review %}
+    <p class="muted">No reviews yet.</p>
+  {% endif %}
 </section>
 
 {% if related_same_category %}

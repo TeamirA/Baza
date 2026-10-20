@@ -1,0 +1,6 @@
+.stars { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.85rem; line-height: 1; }
+.stars__track { position: relative; display: inline-block; color: var(--border); letter-spacing: 0.05em; }
+.stars__fill { position: absolute; inset: 0 auto 0 0; overflow: hidden; color: #e0a526; white-space: nowrap; }
+.stars__count { color: var(--text-muted); font-size: 0.8rem; }
+.stars--large { font-size: 1.35rem; }
+.stars--large .stars__count { font-size: 0.95rem; }

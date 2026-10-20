@@ -1,0 +1,4 @@
+<span class="stars{% if large %} stars--large{% endif %}" role="img" aria-label="Rated {{ label }} out of 5{% if count is not None %}, {{ count }} review{{ count|pluralize }}{% endif %}">
+  <span class="stars__track" aria-hidden="true">★★★★★<span class="stars__fill" style="width: {{ percent|floatformat:0 }}%">★★★★★</span></span>
+  {% if count is not None %}<span class="stars__count" aria-hidden="true">({{ count }})</span>{% endif %}
+</span>

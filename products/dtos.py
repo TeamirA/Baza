@@ -52,6 +52,8 @@ class ProductDTO:
     category: Optional[CategoryDTO]
     url: str
     images: Tuple[ProductImageDTO, ...] = ()
+    rating_avg: Optional[float] = None  # average stars (1-5), None without reviews
+    rating_count: int = 0
 
     @property
     def cover(self) -> Optional[ProductImageDTO]:
@@ -69,3 +71,14 @@ class ProductDTO:
     @property
     def low_stock(self) -> bool:
         return 0 < self.stock <= LOW_STOCK_THRESHOLD
+
+
+@dataclass(frozen=True)
+class ReviewDTO:
+    rating: int
+    title: str
+    body: str
+    author: str
+    created_at: object
+    edited: bool
+    is_own: bool = False
