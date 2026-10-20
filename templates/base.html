@@ -26,6 +26,7 @@
         {% if user.is_authenticated %}
           <a class="saved-link" href="{% url 'products:wishlist' %}">Saved <span class="cart-link__count" data-wishlist-count{% if not wishlist_count %} hidden{% endif %}>{{ wishlist_count }}</span></a>
           <a href="{% url 'orders:list' %}">Orders</a>
+          <a href="{% url 'profile' %}">Account</a>
           {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
           <form class="inline-form" action="{% url 'logout' %}" method="post">
             {% csrf_token %}

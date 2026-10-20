@@ -524,3 +524,71 @@ h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 0.25rem;
 .review__title { font-weight: 600; }
 .review__body { margin: 0.5rem 0 0; }
 .review__meta { margin: 0.45rem 0 0; font-size: 0.85rem; color: var(--text-muted); }
+
+/* ---- Account ---------------------------------------------------------- */
+.account { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.5rem; align-items: start; }
+.account__side { display: grid; gap: 1.5rem; }
+.account-card {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.account-card h2 { margin: 0 0 1rem; font-size: 1.1rem; }
+.account-card details { margin-top: 1rem; }
+.account-card summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+.account-card details[open] summary { margin-bottom: 1rem; }
+.account-card__empty { margin-bottom: 0.5rem; }
+.account-card__link { margin: 1rem 0 0; }
+.account-details { display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1rem; margin: 0; }
+.account-details dt { color: var(--text-muted); }
+.account-details dd { margin: 0; overflow-wrap: anywhere; }
+.account-links { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.5rem; }
+
+.address-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+.address-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.address-card--default { border-color: var(--accent); }
+.address-card__head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.address-card__name,
+.address-card__text { margin: 0; color: var(--text-muted); font-size: 0.925rem; }
+.address-card__actions { display: flex; gap: 1rem; margin-top: auto; padding-top: 0.5rem; font-size: 0.9rem; }
+.link-button--danger { color: var(--danger); }
+.link-button--danger:hover { color: var(--danger); text-decoration: underline; }
+
+.check-field { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 1.1rem; font-size: 0.925rem; cursor: pointer; }
+.check-field input { width: 1.05rem; height: 1.05rem; accent-color: var(--accent); }
+
+/* Saved addresses at checkout */
+.address-picker { display: grid; gap: 0.5rem; margin: 0 0 1.25rem; padding: 0; border: 0; }
+.address-picker legend { margin-bottom: 0.5rem; padding: 0; }
+.address-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.address-option:has(input:checked) { border-color: var(--accent); background: var(--surface-muted); }
+.address-option input { margin-top: 0.2rem; accent-color: var(--accent); }
+.address-option .muted { font-size: 0.875rem; overflow-wrap: anywhere; }
+.address-picker__manage { font-size: 0.875rem; }
+
+@media (max-width: 720px) {
+  .account { grid-template-columns: 1fr; }
+}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Checkout{% endblock %}
 
@@ -14,9 +15,31 @@
     {% if not user.is_authenticated %}
       <p class="muted checkout-form__guest">Checking out as a guest. <a href="{% url 'login' %}?next={% url 'orders:checkout' %}">Log in</a> to keep this order in your account.</p>
     {% endif %}
+    {% if saved_addresses %}
+      <fieldset class="address-picker" data-address-picker>
+        <legend class="field__label">Ship to a saved address</legend>
+        {% for address in saved_addresses %}
+          <label class="address-option">
+            <input type="radio" name="saved_address" value="{{ address.id }}"
+                   data-full-name="{{ address.full_name }}" data-address="{{ address.address }}"
+                   {% if address.is_default and not form.is_bound %}checked{% endif %}>
+            <span><strong>{{ address.title }}</strong>{% if address.is_default %} <span class="badge badge--ok">Default</span>{% endif %}<br>
+              <span class="muted">{{ address.full_name }} · {{ address.one_line }}</span></span>
+          </label>
+        {% endfor %}
+        <label class="address-option">
+          <input type="radio" name="saved_address" value="" data-new-address>
+          <span><strong>A different address</strong></span>
+        </label>
+        <p class="muted address-picker__manage"><a href="{% url 'profile' %}">Manage addresses</a></p>
+      </fieldset>
+    {% endif %}
     {% component "form_field" field=form.full_name / %}
     {% component "form_field" field=form.email / %}
     {% component "form_field" field=form.address / %}
+    {% if user.is_authenticated %}
+      <label class="check-field" data-save-address>{{ form.save_address }} {{ form.save_address.label }}</label>
+    {% endif %}
     <button class="btn btn--block" type="submit">Place order &amp; pay ${{ cart.total }}</button>
     <p class="muted checkout-form__note">You'll be taken to our secure payment page to finish. Have a promo code? Enter it there.</p>
   </form>
@@ -32,3 +55,5 @@
 </div>
 {% endif %}
 {% endblock %}
+
+{% block scripts %}<script src="{% static 'js/checkout.js' %}" defer></script>{% endblock %}

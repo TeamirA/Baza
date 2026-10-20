@@ -7,3 +7,9 @@ class ShippingForm(forms.Form):
     address = forms.CharField(
         label="Shipping address", widget=forms.Textarea(attrs={"rows": 3}), max_length=1000
     )
+    # Only offered to signed-in customers (see checkout.html).
+    save_address = forms.BooleanField(required=False, label="Save this address to my account")
+
+    def shipping_data(self):
+        """The cleaned fields an order needs (without the checkout-only options)."""
+        return {k: v for k, v in self.cleaned_data.items() if k != "save_address"}

@@ -12,6 +12,9 @@ accounts, checkout with Stripe (test mode), and order history.
 - **Search and browsing:** relevance-ranked, typo-tolerant search (`products/search.py`)
   with live suggestions and recent searches in the header, plus price and stock filters,
   sorting, pagination and a "Recently viewed" row.
+- **Accounts:** a wishlist ("Saved"), reviews from verified buyers, an order timeline
+  with tracking numbers and "Buy again", and an account page (`/accounts/profile/`) with
+  saved shipping addresses (picked at checkout), email change and password change.
 
 ## Run locally
 

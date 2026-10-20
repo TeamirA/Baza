@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Your account{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>Your account</h1>
+  <p class="muted">Signed in as {{ user.username }}</p>
+</div>
+
+{% if error %}{% component "error_card" title="Something went wrong" message=error / %}{% endif %}
+
+<div class="account">
+  <section class="account-card" aria-labelledby="addresses-heading">
+    <h2 id="addresses-heading">Saved addresses</h2>
+    {% if addresses %}
+      <ul class="address-list">
+        {% for address in addresses %}
+          <li class="address-card{% if address.is_default %} address-card--default{% endif %}">
+            <div class="address-card__head">
+              <strong>{{ address.title }}</strong>
+              {% if address.is_default %}<span class="badge badge--ok">Default</span>{% endif %}
+            </div>
+            {% if address.label %}<p class="address-card__name">{{ address.full_name }}</p>{% endif %}
+            <p class="address-card__text">{{ address.address|linebreaksbr }}</p>
+            <div class="address-card__actions">
+              {% if not address.is_default %}
+                <form class="inline-form" action="{% url 'address_default' address.id %}" method="post">
+                  {% csrf_token %}
+                  <button class="link-button" type="submit">Make default</button>
+                </form>
+              {% endif %}
+              <form class="inline-form" action="{% url 'address_delete' address.id %}" method="post">
+                {% csrf_token %}
+                <button class="link-button link-button--danger" type="submit" aria-label="Delete {{ address.title }}">Delete</button>
+              </form>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted account-card__empty">No saved addresses yet. Add one here, or tick "Save this address" when you check out.</p>
+    {% endif %}
+
+    <details class="account-card__add"{% if address_form.errors or not addresses %} open{% endif %}>
+      <summary>Add an address</summary>
+      <form action="{% url 'address_add' %}" method="post" novalidate>
+        {% csrf_token %}
+        {% component "form_field" field=address_form.label / %}
+        {% component "form_field" field=address_form.full_name / %}
+        {% component "form_field" field=address_form.address / %}
+        <label class="check-field">{{ address_form.make_default }} {{ address_form.make_default.label }}</label>
+        <button class="btn" type="submit">Save address</button>
+      </form>
+    </details>
+  </section>
+
+  <div class="account__side">
+    <section class="account-card" aria-labelledby="details-heading">
+      <h2 id="details-heading">Account details</h2>
+      <dl class="account-details">
+        <dt>Username</dt><dd>{{ user.username }}</dd>
+        <dt>Email</dt><dd>{{ user.email|default:"Not set" }}</dd>
+      </dl>
+      <details{% if email_form.errors %} open{% endif %}>
+        <summary>Change email</summary>
+        <form action="{% url 'email_change' %}" method="post" novalidate>
+          {% csrf_token %}
+          {% component "form_field" field=email_form.email / %}
+          {% component "form_field" field=email_form.password / %}
+          <button class="btn" type="submit">Update email</button>
+        </form>
+      </details>
+      <p class="account-card__link"><a href="{% url 'password_change' %}">Change password</a></p>
+    </section>
+
+    <section class="account-card" aria-labelledby="shortcuts-heading">
+      <h2 id="shortcuts-heading">Shortcuts</h2>
+      <ul class="account-links">
+        <li><a href="{% url 'orders:list' %}">Your orders</a></li>
+        <li><a href="{% url 'products:wishlist' %}">Saved items</a></li>
+      </ul>
+    </section>
+  </div>
+</div>
+{% endblock %}

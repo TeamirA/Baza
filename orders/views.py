@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 
 from payments.gateways import PaymentError
 from payments.services import PaymentService
+from users.services import AddressService
 
 from .dtos import ShippingDTO
 from .forms import ShippingForm
@@ -108,17 +109,26 @@ def checkout(request):
         messages.error(request, "Your cart is empty.")
         return redirect("orders:cart")
 
-    initial = {}
+    initial, saved_addresses = {}, []
     if request.user.is_authenticated:
         initial = {"full_name": request.user.get_full_name(), "email": request.user.email}
+        try:
+            saved_addresses = AddressService().list(request.user)
+        except Exception:
+            logger.exception("Failed to load saved addresses for checkout")
+        default = next((a for a in saved_addresses if a.is_default), None)
+        if default:
+            initial.update(full_name=default.full_name, address=default.address)
+        else:
+            initial["save_address"] = True
     form = ShippingForm(request.POST or None, initial=initial)
-    context = {"cart": cart, "form": form}
+    context = {"cart": cart, "form": form, "saved_addresses": saved_addresses}
 
     if request.method != "POST" or not form.is_valid():
         return render(request, "orders/checkout.html", context)
 
     try:
-        order = OrderService().create_order(request.user, cart, ShippingDTO(**form.cleaned_data))
+        order = OrderService().create_order(request.user, cart, ShippingDTO(**form.shipping_data()))
     except OrderError as e:
         context["error"] = str(e)
         return render(request, "orders/checkout.html", context)
@@ -128,6 +138,12 @@ def checkout(request):
         return render(request, "orders/checkout.html", context)
 
     cart_service.clear()
+
+    if request.user.is_authenticated and form.cleaned_data["save_address"]:
+        try:
+            AddressService().save_from_checkout(request.user, order.full_name, order.address)
+        except Exception:
+            logger.exception("Failed to save checkout address for order %s", order.id)
 
     try:
         return redirect(PaymentService().start_checkout(order, *payment_urls(request, order)))

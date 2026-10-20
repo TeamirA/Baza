@@ -17,3 +17,37 @@ class RegistrationForm(UserCreationForm):
         if UserService().email_taken(email):
             raise forms.ValidationError("An account with this email already exists.")
         return email
+
+
+class AddressForm(forms.Form):
+    label = forms.CharField(max_length=50, required=False, label="Label", help_text='Optional, e.g. "Home" or "Work".')
+    full_name = forms.CharField(max_length=200, label="Full name")
+    address = forms.CharField(label="Address", widget=forms.Textarea(attrs={"rows": 3}), max_length=1000)
+    make_default = forms.BooleanField(required=False, label="Use as my default address")
+
+
+class EmailChangeForm(forms.Form):
+    """Changing the email needs the current password, since it's where reset links go."""
+
+    email = forms.EmailField(label="New email")
+    password = forms.CharField(label="Current password", widget=forms.PasswordInput, strip=False)
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        from .services import UserService
+
+        email = self.cleaned_data["email"].strip().lower()
+        if email == (self.user.email or "").lower():
+            raise forms.ValidationError("That's already your email.")
+        if UserService().email_taken(email, exclude_user=self.user):
+            raise forms.ValidationError("An account with this email already exists.")
+        return email
+
+    def clean_password(self):
+        password = self.cleaned_data["password"]
+        if not self.user.check_password(password):
+            raise forms.ValidationError("That password isn't right.")
+        return password
