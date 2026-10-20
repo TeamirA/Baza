@@ -16,5 +16,5 @@ View your order any time:
 
 Keep this link private: anyone with it can see your order.
 
-Corner Store
+{{ store_name }}
 {% endautoescape %}

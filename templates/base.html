@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Shop{% endblock %} · Corner Store</title>
+  <title>{% block title %}Shop{% endblock %} · {{ store_name }}</title>
   <script>
     /* Apply the saved theme before first paint (see the theme_toggle component). */
     try {
@@ -18,7 +18,7 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="container site-header__inner">
-      <a class="brand" href="{% url 'products:list' %}">Corner Store</a>
+      <a class="brand" href="{% url 'products:list' %}">{{ store_name }}</a>
       {% component "search_box" query=query / %}
       <nav class="site-nav">
         <a href="{% url 'products:list' %}">Shop</a>
@@ -56,7 +56,7 @@
   </div>
 
   <footer class="site-footer">
-    <div class="container">© Corner Store</div>
+    <div class="container">© {{ store_name }}</div>
   </footer>
   <script src="{% static 'js/forms.js' %}" defer></script>
   {% component_js_dependencies %}

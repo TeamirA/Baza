@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "config.middleware.LegacyHostRedirectMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -122,6 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+
+# Shown in the header, page titles and emails.
+STORE_NAME = os.environ.get("STORE_NAME", "Baza")
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "products:list"
@@ -191,11 +195,14 @@ elif DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
     EMAIL_BACKEND = "django.core.mail.backends.dummy.EmailBackend"
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Corner Store <no-reply@example.com>")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", f"{STORE_NAME} <no-reply@example.com>")
 
 # Public address of the site, used for links in emails sent outside a request
-# (e.g. from the Stripe webhook). Example: https://corner-store-omega.vercel.app
+# (e.g. from the Stripe webhook). Example: https://baza-market.vercel.app
 SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8000").rstrip("/")
+# Old addresses whose page views redirect to SITE_URL (the store was first
+# deployed as corner-store-omega.vercel.app).
+LEGACY_HOSTS = env_list("LEGACY_HOSTS", "corner-store-omega.vercel.app")
 
 
 # --- Orders -------------------------------------------------------------

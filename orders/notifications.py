@@ -24,7 +24,7 @@ def send_order_email(order, kind):
         raise ValueError(f"Unknown order email: {kind}")
     if not order.email:
         return False
-    context = {"order": order, "link": order_link(order)}
+    context = {"order": order, "link": order_link(order), "store_name": settings.STORE_NAME}
     subject = render_to_string(f"orders/emails/{kind}_subject.txt", context).strip()
     body = render_to_string(f"orders/emails/{kind}.txt", context)
     try:

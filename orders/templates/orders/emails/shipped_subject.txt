@@ -1,1 +1,1 @@
-{% autoescape off %}Your Corner Store order #{{ order.id }} has shipped{% endautoescape %}
+{% autoescape off %}Your {{ store_name }} order #{{ order.id }} has shipped{% endautoescape %}

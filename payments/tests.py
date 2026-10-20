@@ -317,7 +317,7 @@ class OrderEmailTests(CheckoutTestCase):
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
         self.assertEqual(email.to, ["sam@example.com"])
-        self.assertEqual(email.subject, f"Your Corner Store order #{order.pk} is confirmed")
+        self.assertEqual(email.subject, f"Your Baza order #{order.pk} is confirmed")
         self.assertIn("2 × Mug  $20.00", email.body)
         self.assertIn(f"https://shop.example/orders/track/{order.access_token}/", email.body)
 

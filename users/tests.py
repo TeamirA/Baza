@@ -95,7 +95,7 @@ class PasswordResetTests(TestCase):
         response = self.client.post(reverse("password_reset"), {"email": "sam@example.com"})
         self.assertRedirects(response, reverse("password_reset_done"))
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, "Reset your Corner Store password")
+        self.assertEqual(mail.outbox[0].subject, "Reset your Baza password")
         link = next(line for line in mail.outbox[0].body.splitlines() if "/accounts/reset/" in line)
 
         response = self.client.get(link, follow=True)  # Django swaps the token for a session marker

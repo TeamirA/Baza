@@ -1,4 +1,4 @@
-# Corner Store
+# Baza
 
 A small e-commerce store built with Django: product catalog, session cart,
 accounts, checkout with Stripe (test mode), and order history.
@@ -63,16 +63,16 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    | `SEED_PRODUCTS` | `1` for the first deploy if you want sample products (optional) |
    | `CRON_SECRET` | a long random string; Vercel Cron sends it to `/cron/expire-unpaid-orders/` |
    | `ORDER_HOLD_HOURS` | optional, default `24`: how long unpaid orders hold their stock |
-   | `SITE_URL` | `https://corner-store-omega.vercel.app`, used for links in emails |
+   | `SITE_URL` | `https://baza-market.vercel.app`, used for links in emails |
    | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | SMTP details from your email provider (optional; see below) |
-   | `DEFAULT_FROM_EMAIL` | e.g. `Corner Store <orders@yourdomain.com>` |
+   | `DEFAULT_FROM_EMAIL` | e.g. `Baza <orders@yourdomain.com>` |
    | `SENTRY_DSN` | optional: your Sentry project's DSN, to get error reports (no personal data is sent) |
    | `ALLOWED_HOSTS` / `CSRF_TRUSTED_ORIGINS` | only if you add a custom domain |
 4. **Redeploy.** Production builds run migrations.
 
    **Preview deployments** don't migrate by default, because without Neon preview
    branching they'd share the production database. To give each preview its own
-   copy, go to Storage → your Neon database → Projects → corner-store and enable
+   copy, go to Storage → your Neon database → Projects → baza and enable
    **Preview** under *Deployments Configuration*, along with *Resource must be
    active before deployment*. Then add `PREVIEW_MIGRATIONS=1` for the **Preview**
    environment only.

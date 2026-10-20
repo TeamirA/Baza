@@ -52,3 +52,27 @@ class SentryInitTests(SimpleTestCase):
         self.assertEqual(kwargs["release"], "abc123")
         self.assertEqual(kwargs["traces_sample_rate"], 0.0)
         self.assertFalse(kwargs["send_default_pii"])
+
+
+from django.test import TestCase, override_settings
+
+
+@override_settings(
+    SITE_URL="https://baza-market.vercel.app",
+    LEGACY_HOSTS=["corner-store-omega.vercel.app"],
+    ALLOWED_HOSTS=["baza-market.vercel.app", "corner-store-omega.vercel.app"],
+)
+class LegacyHostRedirectTests(TestCase):
+    OLD = "corner-store-omega.vercel.app"
+
+    def test_page_views_move_to_new_address(self):
+        response = self.client.get("/search/suggest/?q=mug", HTTP_HOST=self.OLD)
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response["Location"], "https://baza-market.vercel.app/search/suggest/?q=mug")
+
+    def test_webhooks_and_cron_stay_put(self):
+        self.assertNotEqual(self.client.post("/payments/webhook/", HTTP_HOST=self.OLD).status_code, 301)
+        self.assertNotEqual(self.client.get("/cron/expire-unpaid-orders/", HTTP_HOST=self.OLD).status_code, 301)
+
+    def test_new_address_is_served(self):
+        self.assertEqual(self.client.get("/", HTTP_HOST="baza-market.vercel.app").status_code, 200)

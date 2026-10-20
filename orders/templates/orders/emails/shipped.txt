@@ -12,5 +12,5 @@ Tracking number: {{ order.tracking_number }}
 Order details:
 {{ link }}
 
-Corner Store
+{{ store_name }}
 {% endautoescape %}
