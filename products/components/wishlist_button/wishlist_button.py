@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.urls import reverse
 from django_components import Component, register
 
@@ -25,7 +27,7 @@ class WishlistButton(Component):
             "saved": product.id in (context.get("wishlist_ids") or ()),
             "signed_in": bool(user and user.is_authenticated),
             "action": reverse("products:wishlist_toggle", args=[product.id]),
-            "login_url": f"{reverse('login')}?next={here}",
+            "login_url": f"{reverse('login')}?{urlencode({'next': here, 'reason': 'save'})}",
             "next": here,
             "large": kwargs.get("variant") == "large",
         }

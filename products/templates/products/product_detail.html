@@ -25,9 +25,9 @@
     </div>
     <div class="product-detail__description">{{ product.description|linebreaks }}</div>
     {% if product.in_stock %}
-      <form class="add-to-cart" action="{% url 'orders:cart_add' product.id %}" method="post">
+      <form class="add-to-cart" id="buy" action="{% url 'orders:cart_add' product.id %}" method="post">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <input type="hidden" name="next" value="{{ request.path }}#buy">
         {% component "qty_stepper" name="quantity" value=1 min=1 max=product.stock input_id="qty" label="Quantity" / %}
         <button class="btn" type="submit">Add to cart</button>
       </form>
@@ -52,10 +52,12 @@
       <h3>{% if has_own_review %}Edit your review{% else %}Write a review{% endif %}</h3>
       <fieldset class="star-input{% if review_form.rating.errors %} star-input--invalid{% endif %}">
         <legend>Your rating</legend>
-        {% for choice in review_form.rating %}
-          <input type="radio" id="{{ choice.id_for_label }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}"{% if choice.data.selected %} checked{% endif %}>
-          <label for="{{ choice.id_for_label }}" title="{{ choice.choice_label }}"><span class="visually-hidden">{{ choice.choice_label }}</span>★</label>
-        {% endfor %}
+        <div class="star-input__stars">
+          {% for choice in review_form.rating %}
+            <input class="visually-hidden" type="radio" id="{{ choice.id_for_label }}" name="{{ choice.data.name }}" value="{{ choice.data.value }}"{% if choice.data.selected %} checked{% endif %}>
+            <label for="{{ choice.id_for_label }}" title="{{ choice.choice_label }}"><span class="visually-hidden">{{ choice.choice_label }}</span>★</label>
+          {% endfor %}
+        </div>
       </fieldset>
       {% for error in review_form.rating.errors %}<p class="field__error">{{ error }}</p>{% endfor %}
       {% component "form_field" field=review_form.title / %}
@@ -92,5 +94,7 @@
   {% component "product_row" title="You might also like" products=related / %}
 {% endif %}
 {% component "product_row" title="Recently viewed" products=recently_viewed / %}
+{% elif not error %}
+  {% include "includes/not_found.html" with heading="This product isn't available" detail="It may have been removed or renamed. Here's a search to help you find it." %}
 {% endif %}
 {% endblock %}

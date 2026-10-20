@@ -30,7 +30,7 @@ class BrowseForm(forms.Form):
 
 class ReviewForm(forms.Form):
     rating = forms.TypedChoiceField(
-        choices=[(n, f"{n} star{'s' if n > 1 else ''}") for n in range(5, 0, -1)],
+        choices=[(n, f"{n} star{'s' if n > 1 else ''}") for n in range(1, 6)],
         coerce=int,
         widget=forms.RadioSelect,
         label="Your rating",

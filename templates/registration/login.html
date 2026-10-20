@@ -5,7 +5,11 @@
 {% block content %}
 <section class="auth-card">
   <h1>Log in</h1>
-  <p class="muted">Welcome back. Your cart is kept when you log in.</p>
+  {% if request.GET.reason == "save" %}
+    <p class="muted">Log in to save items for later. They'll be waiting in "Saved" on any device.</p>
+  {% else %}
+    <p class="muted">Welcome back. Your cart is kept when you log in.</p>
+  {% endif %}
 
   {% if form.non_field_errors %}
     {% component "error_card" title="Couldn't log you in" message=form.non_field_errors|join:" " / %}

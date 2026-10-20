@@ -20,7 +20,7 @@ class WishlistTests(TestCase):
 
     def test_guests_get_a_login_link_that_returns_them(self):
         html = self.client.get(self.mug.get_absolute_url()).content.decode()
-        self.assertIn(f'href="/accounts/login/?next=/products/mug/"', html)
+        self.assertIn('href="/accounts/login/?next=%2Fproducts%2Fmug%2F&amp;reason=save"', html)
         self.assertNotIn("data-wishlist ", html)
         response = self.toggle(self.mug)
         self.assertEqual(response.status_code, 302)

@@ -18,10 +18,9 @@
   text-decoration: none;
   background: var(--surface-muted);
 }
-.product-card__img { width: 100%; height: 100%; object-fit: cover; }
+/* Pinned to the frame: Safari doesn't stretch a percentage-height image in a centred grid. */
+.product-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .product-card__img--hover {
-  position: absolute;
-  inset: 0;
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -48,3 +47,12 @@
   padding-top: 0.5rem;
 }
 .product-card__save { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 2; }
+
+/* Phones: two cards per row, so a shopper sees more than one product per screen. */
+@media (max-width: 560px) {
+  .product-card__body { padding: 0.7rem; gap: 0.25rem; }
+  .product-card__name { font-size: 0.9rem; }
+  .product-card__category { font-size: 0.68rem; }
+  .product-card__footer { flex-wrap: wrap; gap: 0.3rem; }
+  .product-card__save { top: 0.4rem; right: 0.4rem; }
+}

@@ -4,7 +4,11 @@ from django.contrib.auth.models import User
 
 
 class RegistrationForm(UserCreationForm):
-    email = forms.EmailField(required=True, help_text="We'll send your order confirmations here.")
+    email = forms.EmailField(
+        required=True,
+        help_text="We'll send your order confirmations here.",
+        widget=forms.EmailInput(attrs={"autocomplete": "email"}),
+    )
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -21,16 +25,22 @@ class RegistrationForm(UserCreationForm):
 
 class AddressForm(forms.Form):
     label = forms.CharField(max_length=50, required=False, label="Label", help_text='Optional, e.g. "Home" or "Work".')
-    full_name = forms.CharField(max_length=200, label="Full name")
-    address = forms.CharField(label="Address", widget=forms.Textarea(attrs={"rows": 3}), max_length=1000)
+    full_name = forms.CharField(max_length=200, label="Full name", widget=forms.TextInput(attrs={"autocomplete": "name"}))
+    address = forms.CharField(
+        label="Address", widget=forms.Textarea(attrs={"rows": 3, "autocomplete": "street-address"}), max_length=1000
+    )
     make_default = forms.BooleanField(required=False, label="Use as my default address")
 
 
 class EmailChangeForm(forms.Form):
     """Changing the email needs the current password, since it's where reset links go."""
 
-    email = forms.EmailField(label="New email")
-    password = forms.CharField(label="Current password", widget=forms.PasswordInput, strip=False)
+    email = forms.EmailField(label="New email", widget=forms.EmailInput(attrs={"autocomplete": "email"}))
+    password = forms.CharField(
+        label="Current password",
+        widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
+        strip=False,
+    )
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
