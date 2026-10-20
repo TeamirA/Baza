@@ -1,0 +1,20 @@
+{% load static %}<!doctype html>
+{# Rendered without a request (no context processors), so it stays self-contained. #}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Something went wrong</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+  <main class="container site-main">
+    <section class="not-found">
+      <p class="not-found__code" aria-hidden="true">500</p>
+      <h1>Something went wrong on our side</h1>
+      <p class="muted">It's not you. We've been notified. Please try again in a minute.</p>
+      <a class="btn" href="/">Back to the shop</a>
+    </section>
+  </main>
+</body>
+</html>

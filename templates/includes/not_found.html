@@ -1,0 +1,11 @@
+<section class="not-found">
+  <p class="not-found__code" aria-hidden="true">404</p>
+  <h1>{{ heading|default:"We can't find that page" }}</h1>
+  <p class="muted">{{ detail|default:"The link may be old or mistyped. Try searching, or browse the shop." }}</p>
+  <form class="not-found__search" action="{% url 'products:list' %}" method="get" role="search">
+    <label class="visually-hidden" for="not-found-q">Search products</label>
+    <input id="not-found-q" type="search" name="q" placeholder="Search products" value="{{ query_hint|default:'' }}">
+    <button class="btn" type="submit">Search</button>
+  </form>
+  <a href="{% url 'products:list' %}">Browse all products →</a>
+</section>

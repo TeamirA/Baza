@@ -96,8 +96,8 @@ def product_detail(request, slug, review_form=None):
     service = ProductService()
     try:
         product = service.get_product(slug)
-    except ProductNotFound as e:
-        return render(request, "products/product_detail.html", {"error": str(e)}, status=404)
+    except ProductNotFound:
+        return render(request, "products/product_detail.html", {"query_hint": slug.replace("-", " ")}, status=404)
     except Exception as e:
         logger.exception("Failed to load product %s", slug)
         return render(

@@ -32,6 +32,9 @@
       <div>
         <a class="cart-line__name" href="{{ item.product_url }}">{{ item.product_name }}</a>
         <p class="muted">{{ item.quantity }} × ${{ item.price }}</p>
+        {% if order.is_paid and item.product_url and user.is_authenticated and not order.is_guest %}
+          <a class="order-item__review" href="{{ item.product_url }}#reviews">Rate &amp; review</a>
+        {% endif %}
       </div>
       <p class="price">${{ item.subtotal }}</p>
     </li>

@@ -38,11 +38,11 @@ class CatalogViewTests(TestCase):
         self.assertContains(response, "data-qty-stepper")
         self.assertContains(response, 'max="3"')
 
-    def test_missing_or_inactive_product_returns_404_with_error_card(self):
+    def test_missing_or_inactive_product_returns_404_page(self):
         for slug in ["does-not-exist", self.hidden.slug]:
             response = self.client.get(reverse("products:detail", args=[slug]))
             self.assertEqual(response.status_code, 404)
-            self.assertContains(response, "error-card", status_code=404)
+            self.assertContains(response, "not-found", status_code=404)
 
 
 class StockBadgeTests(TestCase):
