@@ -77,12 +77,13 @@ class OrderRepository:
         was_cancelled = order.status == Order.Status.CANCELLED
         take_stock = was_cancelled or not order.stock_reserved
         order.status = Order.Status.PAID
+        order.paid_at = timezone.now()
         order.stock_reserved = True
         if session_id:
             order.stripe_session_id = session_id
         if amount_paid is not None:
             order.amount_paid = amount_paid
-        order.save(update_fields=["status", "stock_reserved", "stripe_session_id", "amount_paid", "updated_at"])
+        order.save(update_fields=["status", "paid_at", "stock_reserved", "stripe_session_id", "amount_paid", "updated_at"])
         if take_stock:
             for item in order.items.all():
                 self.products.decrement_stock(item.product_id, item.quantity)
@@ -96,11 +97,12 @@ class OrderRepository:
         if order.status != Order.Status.PENDING:
             return None
         order.status = Order.Status.CANCELLED
+        order.cancelled_at = timezone.now()
         if order.stock_reserved:
             for item in order.items.all():
                 self.products.release_stock(item.product_id, item.quantity)
         order.stock_reserved = False
-        order.save(update_fields=["status", "stock_reserved", "updated_at"])
+        order.save(update_fields=["status", "cancelled_at", "stock_reserved", "updated_at"])
         return order
 
     def pending_ids_older_than(self, hours):

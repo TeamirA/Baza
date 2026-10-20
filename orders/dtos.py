@@ -42,7 +42,16 @@ class ShippingDTO:
 
 
 @dataclass(frozen=True)
+class TimelineStep:
+    label: str
+    done: bool
+    at: Optional[datetime] = None
+    detail: str = ""
+
+
+@dataclass(frozen=True)
 class OrderItemDTO:
+    product_id: int
     product_name: str
     product_url: str
     quantity: int
@@ -66,6 +75,10 @@ class OrderDTO:
     access_token: Optional[UUID] = None
     is_guest: bool = False
     payment_session_id: str = ""
+    paid_at: Optional[datetime] = None
+    shipped_at: Optional[datetime] = None
+    cancelled_at: Optional[datetime] = None
+    tracking_number: str = ""
     amount_paid: Optional[Decimal] = None
 
     @property
@@ -95,6 +108,19 @@ class OrderDTO:
     @property
     def is_paid(self) -> bool:
         return self.status in ("paid", "shipped")
+
+    @property
+    def timeline(self):
+        """Steps for the order page: Placed → Paid → Shipped, or Placed → Cancelled."""
+        placed = TimelineStep("Order placed", True, self.created_at)
+        if self.status == "cancelled":
+            return [placed, TimelineStep("Cancelled", True, self.cancelled_at)]
+        shipped_detail = f"Tracking number: {self.tracking_number}" if self.tracking_number else ""
+        return [
+            placed,
+            TimelineStep("Payment received", self.is_paid, self.paid_at),
+            TimelineStep("Shipped", self.status == "shipped", self.shipped_at, shipped_detail),
+        ]
 
     def hold_until(self, hold_hours):
         """When an unpaid order stops holding its stock and gets cancelled."""

@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.utils import timezone
 
 from .models import Order, OrderItem
 
@@ -16,10 +17,14 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ["status"]
     search_fields = ["id", "user__username", "email", "stripe_session_id"]
     inlines = [OrderItemInline]
+    # Who placed the order and when it changed status are facts, not settings.
+    readonly_fields = ["user", "paid_at", "shipped_at", "cancelled_at"]
     actions = ["cancel_unpaid_orders"]
 
     def save_model(self, request, obj, form, change):
         just_shipped = change and "status" in form.changed_data and obj.status == Order.Status.SHIPPED
+        if just_shipped and not obj.shipped_at:
+            obj.shipped_at = timezone.now()
         super().save_model(request, obj, form, change)
         if just_shipped:
             from orders.notifications import send_order_email

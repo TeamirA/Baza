@@ -207,3 +207,22 @@ def cron_expire_unpaid(request):
     cancelled = PaymentService().expire_unpaid_orders(settings.ORDER_HOLD_HOURS)
     logger.info("Expired %s unpaid order(s)", cancelled)
     return JsonResponse({"cancelled": cancelled})
+
+
+@require_POST
+def order_buy_again(request, token):
+    """Puts a past order's items back in the cart, as far as stock allows."""
+    try:
+        order = OrderService().get_order_by_token(token)
+    except OrderNotFound as e:
+        messages.error(request, str(e))
+        return redirect("products:list")
+    added, skipped = CartService.for_request(request).add_many([(i.product_id, i.quantity) for i in order.items])
+    if added:
+        count = sum(q for _, q in added)
+        messages.success(request, f"Added {count} item{'s' if count != 1 else ''} from order #{order.id} to your cart.")
+    for name, reason in skipped:
+        messages.error(request, f"{name or 'An item'}: {reason}.")
+    if not added and not skipped:
+        messages.error(request, "That order had nothing to add.")
+    return redirect("orders:cart" if added else order_page_url(order))

@@ -31,6 +31,11 @@ class Order(models.Model):
     # True when the items were taken out of stock at checkout (orders from before
     # reservations existed take stock at payment instead).
     stock_reserved = models.BooleanField(default=False)
+    # When the order reached each status (empty for orders from before these were tracked).
+    paid_at = models.DateTimeField(null=True, blank=True)
+    shipped_at = models.DateTimeField(null=True, blank=True)
+    cancelled_at = models.DateTimeField(null=True, blank=True)
+    tracking_number = models.CharField(max_length=100, blank=True, help_text="Shown to the customer and in the shipped email.")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,0 +1,10 @@
+<ol class="timeline{% if cancelled %} timeline--cancelled{% endif %}" aria-label="Order progress">
+  {% for step, current in steps %}
+    <li class="timeline__step{% if step.done %} timeline__step--done{% elif current %} timeline__step--current{% endif %}"{% if current %} aria-current="step"{% endif %}>
+      <span class="timeline__dot" aria-hidden="true"></span>
+      <span class="timeline__label">{{ step.label }}{% if not step.done %}<span class="visually-hidden"> (not yet)</span>{% endif %}</span>
+      {% if step.at %}<span class="timeline__date">{{ step.at|date:"M j, H:i" }}</span>{% endif %}
+      {% if step.detail %}<span class="timeline__detail">{{ step.detail }}</span>{% endif %}
+    </li>
+  {% endfor %}
+</ol>

@@ -16,6 +16,8 @@
   {% component "order_status" status=order.status label=order.status_label / %}
 </div>
 
+{% component "order_timeline" order=order / %}
+
 {% if order.is_guest %}
 <div class="guest-note">
   <p><strong>Keep this page's link.</strong> It's your private link to this order. Anyone with it can see the order, so don't share it.</p>
@@ -52,6 +54,12 @@
       <form class="order-cancel" action="{% url 'orders:cancel' order.access_token %}" method="post">
         {% csrf_token %}
         <button class="link-button order-cancel__button" type="submit">Cancel order</button>
+      </form>
+    {% endif %}
+    {% if not order.is_pending %}
+      <form class="order-buy-again" action="{% url 'orders:buy_again' order.access_token %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn--block{% if order.is_paid %} btn--ghost{% endif %}" type="submit">Buy again</button>
       </form>
     {% endif %}
     <h2 class="order-ship__title">Shipping to</h2>

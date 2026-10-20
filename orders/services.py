@@ -78,6 +78,30 @@ class CartService:
     def remove(self, product_id):
         self.store.remove(product_id)
 
+    def add_many(self, lines):
+        """Adds (product_id, quantity) lines as far as stock allows.
+
+        Returns (added, skipped): added is [(name, quantity)], skipped is
+        [(name, reason)]. Quantities are capped at what can still be added.
+        """
+        added, skipped = [], []
+        products = self.products.get_products_by_ids([pid for pid, _ in lines])
+        for product_id, wanted in lines:
+            product = products.get(product_id)
+            if product is None:
+                skipped.append((None, "no longer sold"))
+                continue
+            room = min(product.stock, MAX_QUANTITY_PER_LINE) - self.store.get(product_id)
+            quantity = min(wanted, room)
+            if quantity <= 0:
+                skipped.append((product.name, "sold out" if not product.in_stock else "already at the most you can add"))
+                continue
+            self.store.set(product_id, self.store.get(product_id) + quantity)
+            added.append((product.name, quantity))
+            if quantity < wanted:
+                skipped.append((product.name, f"only {quantity} of {wanted} added (limited stock)"))
+        return added, skipped
+
     def clear(self):
         self.store.clear()
 
@@ -109,10 +133,15 @@ def _order_to_dto(order):
         address=order.address,
         access_token=order.access_token,
         payment_session_id=order.stripe_session_id,
+        paid_at=order.paid_at,
+        shipped_at=order.shipped_at,
+        cancelled_at=order.cancelled_at,
+        tracking_number=order.tracking_number,
         is_guest=order.user_id is None,
         amount_paid=order.amount_paid,
         items=[
             OrderItemDTO(
+                product_id=item.product_id,
                 product_name=item.product.name,
                 product_url=item.product.get_absolute_url(),
                 quantity=item.quantity,
