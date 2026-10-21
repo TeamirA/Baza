@@ -19,7 +19,7 @@
     <h3 class="product-card__name"><a href="{{ product.url }}">{{ product.name }}</a></h3>
     {% if product.rating_count %}{% component "star_rating" rating=product.rating_avg count=product.rating_count / %}{% endif %}
     <div class="product-card__footer">
-      <span class="price">${{ product.price }}</span>
+      <span class="price">${{ product.price|money }}</span>
       {% component "stock_badge" product=product / %}
     </div>
   </div>

@@ -3,9 +3,9 @@
 Thanks for your order! We've received your payment and are getting it ready.
 
 Order #{{ order.id }}
-{% for item in order.items %}  {{ item.quantity }} × {{ item.product_name }}  ${{ item.subtotal }}
-{% endfor %}{% if order.discount %}  Promo discount  −${{ order.discount }}
-{% endif %}  Paid  ${{ order.charged }}
+{% for item in order.items %}  {{ item.quantity }} × {{ item.product_name }}  ${{ item.subtotal|money }}
+{% endfor %}{% if order.discount %}  Promo discount  −${{ order.discount|money }}
+{% endif %}  Paid  ${{ order.charged|money }}
 
 Shipping to:
 {{ order.full_name }}

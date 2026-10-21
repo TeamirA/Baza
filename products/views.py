@@ -143,7 +143,7 @@ def search_suggest(request):
                 {
                     "name": p.name,
                     "url": p.url,
-                    "price": f"{p.price:.2f}",
+                    "price": f"{p.price:,.2f}",
                     "category": p.category.name if p.category else "",
                     "image": p.cover.thumb_url if p.cover else "",
                     "in_stock": p.in_stock,

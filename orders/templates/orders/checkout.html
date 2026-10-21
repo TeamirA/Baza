@@ -40,17 +40,17 @@
     {% if user.is_authenticated %}
       <label class="check-field" data-save-address>{{ form.save_address }} {{ form.save_address.label }}</label>
     {% endif %}
-    <button class="btn btn--block" type="submit">Place order &amp; pay ${{ cart.total }}</button>
+    <button class="btn btn--block" type="submit">Place order &amp; pay ${{ cart.total|money }}</button>
     <p class="muted checkout-form__note">You'll be taken to our secure payment page to finish. Have a promo code? Enter it there.</p>
   </form>
 
   <aside class="cart-summary">
     <h2>Order summary</h2>
     {% for line in cart.lines %}
-      <div class="cart-summary__row"><span>{{ line.quantity }} × {{ line.product.name }}</span><span class="price">${{ line.subtotal }}</span></div>
+      <div class="cart-summary__row"><span>{{ line.quantity }} × {{ line.product.name }}</span><span class="price">${{ line.subtotal|money }}</span></div>
     {% endfor %}
     <div class="cart-summary__row muted"><span>Shipping</span><span>Free</span></div>
-    <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ cart.total }}</span></div>
+    <div class="cart-summary__row cart-summary__total"><span>Total</span><span class="price">${{ cart.total|money }}</span></div>
   </aside>
 </div>
 {% endif %}

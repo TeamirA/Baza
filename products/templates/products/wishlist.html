@@ -17,7 +17,7 @@
     </a>
     <div class="saved-item__info">
       <a class="saved-item__name" href="{{ product.url }}">{{ product.name }}</a>
-      <p class="saved-item__meta"><span class="price">${{ product.price }}</span> {% component "stock_badge" product=product / %}</p>
+      <p class="saved-item__meta"><span class="price">${{ product.price|money }}</span> {% component "stock_badge" product=product / %}</p>
     </div>
     <div class="saved-item__actions">
       {% if product.in_stock %}

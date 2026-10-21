@@ -18,7 +18,7 @@
     {% if product.rating_count %}
       <a class="product-detail__rating" href="#reviews">{% component "star_rating" rating=product.rating_avg count=product.rating_count / %}</a>
     {% endif %}
-    <p class="price price--lg">${{ product.price }}</p>
+    <p class="price price--lg">${{ product.price|money }}</p>
     <div class="product-detail__badges">
       {% component "stock_badge" product=product / %}
       {% component "wishlist_button" product=product variant="large" / %}

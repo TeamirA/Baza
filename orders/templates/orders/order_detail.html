@@ -31,12 +31,12 @@
     <li class="order-item">
       <div>
         <a class="cart-line__name" href="{{ item.product_url }}">{{ item.product_name }}</a>
-        <p class="muted">{{ item.quantity }} × ${{ item.price }}</p>
+        <p class="muted">{{ item.quantity }} × ${{ item.price|money }}</p>
         {% if order.is_paid and item.product_url and user.is_authenticated and not order.is_guest %}
           <a class="order-item__review" href="{{ item.product_url }}#reviews">Rate &amp; review</a>
         {% endif %}
       </div>
-      <p class="price">${{ item.subtotal }}</p>
+      <p class="price">${{ item.subtotal|money }}</p>
     </li>
     {% endfor %}
   </ul>
@@ -44,14 +44,14 @@
   <aside class="cart-summary">
     <h2>Summary</h2>
     {% if order.discount %}
-      <div class="cart-summary__row"><span>Subtotal</span><span class="price">${{ order.total }}</span></div>
-      <div class="cart-summary__row cart-summary__discount"><span>Promo discount</span><span class="price">−${{ order.discount }}</span></div>
+      <div class="cart-summary__row"><span>Subtotal</span><span class="price">${{ order.total|money }}</span></div>
+      <div class="cart-summary__row cart-summary__discount"><span>Promo discount</span><span class="price">−${{ order.discount|money }}</span></div>
     {% endif %}
-    <div class="cart-summary__row cart-summary__total"><span>{% if order.is_paid %}Paid{% else %}Total{% endif %}</span><span class="price">${{ order.charged }}</span></div>
+    <div class="cart-summary__row cart-summary__total"><span>{% if order.is_paid %}Paid{% else %}Total{% endif %}</span><span class="price">${{ order.charged|money }}</span></div>
     {% if order.is_pending %}
       <form action="{% url 'payments:pay' order.access_token %}" method="post">
         {% csrf_token %}
-        <button class="btn btn--block" type="submit">Pay ${{ order.total }}</button>
+        <button class="btn btn--block" type="submit">Pay ${{ order.total|money }}</button>
       </form>
       <p class="order-hold muted">Items are held for you until {{ hold_until|date:"M j, H:i" }}.</p>
       <form class="order-cancel" action="{% url 'orders:cancel' order.access_token %}" method="post">
