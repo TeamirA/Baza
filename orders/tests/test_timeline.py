@@ -7,8 +7,8 @@ from django.urls import reverse
 
 from products.models import Product
 
-from .models import Order, OrderItem
-from .services import OrderService
+from ..models import Order, OrderItem
+from ..services import OrderService
 
 PASSWORD = "a-Strong-test-pass-91"
 

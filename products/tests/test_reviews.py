@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from orders.models import Order, OrderItem
 
-from .models import Product, Review
+from ..models import Product, Review
 
 PASSWORD = "a-Strong-test-pass-91"
 

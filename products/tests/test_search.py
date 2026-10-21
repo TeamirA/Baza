@@ -3,9 +3,9 @@ from decimal import Decimal
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
-from .dtos import CategoryDTO, ProductDTO
-from .models import Category, Product
-from .search import correct, normalize, search
+from ..dtos import CategoryDTO, ProductDTO
+from ..models import Category, Product
+from ..search import correct, normalize, search
 
 
 def dto(name, description="", category=None):

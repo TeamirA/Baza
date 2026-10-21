@@ -13,9 +13,9 @@ from orders.models import Order, OrderItem
 from orders.services import OrderService
 from products.models import Product
 
-from .gateways import PaymentError, PaymentResult, get_payment_gateway
-from .gateways.dev_gateway import DevGateway
-from .gateways.stripe_gateway import StripeGateway
+from ..gateways import PaymentError, PaymentResult, get_payment_gateway
+from ..gateways.dev_gateway import DevGateway
+from ..gateways.stripe_gateway import StripeGateway
 
 PASSWORD = "a-Strong-test-pass-91"
 SHIPPING = {"full_name": "Sam Doe", "email": "sam@example.com", "address": "1 Main St\nTown"}

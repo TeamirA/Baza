@@ -4,7 +4,7 @@ from pathlib import Path
 from django.test import SimpleTestCase
 
 _spec = importlib.util.spec_from_file_location(
-    "vercel_build", Path(__file__).resolve().parent.parent / "scripts" / "vercel_build.py"
+    "vercel_build", Path(__file__).resolve().parents[2] / "scripts" / "vercel_build.py"
 )
 vercel_build = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(vercel_build)

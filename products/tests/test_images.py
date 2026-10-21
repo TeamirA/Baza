@@ -13,9 +13,9 @@ from PIL import Image
 
 from config.media_store import LocalMediaStore, MediaStoreError, VercelBlobStore
 
-from .images import ImageProcessingError, process_image
-from .models import Product, ProductImage
-from .services import ImageUploadError, ProductImageService, ProductService
+from ..images import ImageProcessingError, process_image
+from ..models import Product, ProductImage
+from ..services import ImageUploadError, ProductImageService, ProductService
 
 
 def make_image(width, height, fmt="PNG", mode="RGB", exif_orientation=None):

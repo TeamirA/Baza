@@ -7,8 +7,8 @@ from django.urls import reverse
 from orders.models import Order
 from products.models import Product
 
-from .models import Address
-from .services import MAX_ADDRESSES
+from ..models import Address
+from ..services import MAX_ADDRESSES
 
 PASSWORD = "a-Strong-test-pass-91"
 
