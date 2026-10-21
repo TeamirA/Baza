@@ -16,6 +16,9 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
+  {% if demo_notice %}
+    <p class="demo-notice">Demo store: payments run in Stripe test mode. Pay with card <span class="demo-notice__card">4242&nbsp;4242&nbsp;4242&nbsp;4242</span>, any future date and any CVC.</p>
+  {% endif %}
   <header class="site-header">
     <div class="container site-header__inner">
       <a class="brand" href="{% url 'products:list' %}">{{ store_name }}</a>

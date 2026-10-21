@@ -5,12 +5,13 @@ brands, prices, stock, warranty/shipping/returns details and up to three
 photos each, taken from DummyJSON (https://dummyjson.com), a free product
 dataset for demo stores. Photos are downloaded from its CDN, put on a white
 background and saved through the normal upload path (WebP sizes, stored in
-Vercel Blob in production).
+Vercel Blob in production). Each product also gets the dataset's sample
+reviews, which the site labels "Sample review" (not "Verified purchase").
 
 The first run creates the categories and products in one go and retires the
 old drawn sample products (hidden, not deleted, so past orders still show
-them). Later runs only fill photo slots that are still empty, e.g. after a
-network hiccup, so products deleted in the admin don't come back.
+them). Later runs only fill what's still missing (empty photo slots, products
+without sample reviews), so products deleted in the admin don't come back.
 """
 
 import io
@@ -18,17 +19,19 @@ import json
 import time
 import urllib.request
 from collections import OrderedDict
+from datetime import datetime, time as day_time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from decimal import Decimal
 from pathlib import Path
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.utils import timezone
 from django.utils.text import slugify
 from PIL import Image
 
 from products.images import ImageProcessingError
-from products.models import Category, Product, ProductImage
+from products.models import Category, Product, ProductImage, Review
 from products.repositories import ProductImageRepository
 from products.services import ImageUploadError, ProductImageService
 
@@ -116,11 +119,32 @@ class Command(BaseCommand):
         catalog = load_catalog()
         skus = [item["sku"] for item in catalog]
         if Product.objects.filter(sku__in=skus).exists():
-            self.stdout.write("Catalog already seeded; checking for missing photos only.")
+            self.stdout.write("Catalog already seeded; filling in anything missing.")
         else:
             self.create_catalog(catalog)
+        self.add_sample_reviews(catalog)
         if not no_photos:
             self.add_missing_photos(catalog, max(1, workers))
+
+    @transaction.atomic
+    def add_sample_reviews(self, catalog):
+        """Adds the dataset's reviews to catalog products that have no sample reviews yet."""
+        reviews_by_sku = {item["sku"]: item.get("reviews", []) for item in catalog}
+        reviewed = set(Review.objects.filter(is_sample=True).values_list("product_id", flat=True))
+        pending = []  # (review, date) pairs
+        for product in Product.objects.filter(sku__in=reviews_by_sku).exclude(pk__in=reviewed).only("id", "sku"):
+            for r in reviews_by_sku[product.sku]:
+                review = Review(product=product, author_name=r["name"], rating=r["rating"], title=r["comment"], is_sample=True)
+                pending.append((review, r.get("date")))
+        if not pending:
+            return
+        Review.objects.bulk_create([review for review, _ in pending])
+        # created_at is auto-set on insert; put back the dataset's dates so they read naturally.
+        for review, date in pending:
+            if date:
+                when = timezone.make_aware(datetime.combine(datetime.strptime(date, "%Y-%m-%d").date(), day_time(12)))
+                Review.objects.filter(pk=review.pk).update(created_at=when, updated_at=when)
+        self.stdout.write(self.style.SUCCESS(f"Added {len(pending)} sample review(s)."))
 
     @transaction.atomic
     def create_catalog(self, catalog):

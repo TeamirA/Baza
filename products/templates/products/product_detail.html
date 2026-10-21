@@ -85,7 +85,7 @@
             {% if review.title %}<strong class="review__title">{{ review.title }}</strong>{% endif %}
           </div>
           {% if review.body %}<p class="review__body">{{ review.body|linebreaksbr }}</p>{% endif %}
-          <p class="review__meta">{{ review.author }}{% if review.is_own %} (you){% endif %} · Verified purchase · {{ review.created_at|date:"M j, Y" }}{% if review.edited %} · edited{% endif %}</p>
+          <p class="review__meta">{{ review.author }}{% if review.is_own %} (you){% endif %} · {% if review.is_sample %}Sample review{% else %}Verified purchase{% endif %} · {{ review.created_at|date:"M j, Y" }}{% if review.edited %} · edited{% endif %}</p>
         </li>
       {% endfor %}
     </ul>

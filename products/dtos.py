@@ -85,3 +85,4 @@ class ReviewDTO:
     created_at: object
     edited: bool
     is_own: bool = False
+    is_sample: bool = False

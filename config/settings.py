@@ -126,6 +126,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Shown in the header, page titles and emails.
 STORE_NAME = os.environ.get("STORE_NAME", "Baza")
+# Slim bar telling visitors it's a demo store with test-mode payments. DEMO_NOTICE=0 hides it.
+DEMO_NOTICE = os.environ.get("DEMO_NOTICE", "1") == "1"
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "products:list"

@@ -1,5 +1,5 @@
 {
- "source": "DummyJSON (https://dummyjson.com/products), a free product dataset for demo stores. Photos are downloaded from its CDN when seeding.",
+ "source": "DummyJSON (https://dummyjson.com/products), a free product dataset for demo stores. Photos are downloaded from its CDN when seeding; its sample reviews are shown labelled as samples.",
  "products": [
   {
    "sku": "BEA-ESS-ESS-001",
@@ -14,6 +14,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Eleanor C.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lucas G.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eleanor C.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -29,6 +49,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/beauty/eyeshadow-palette-with-mirror/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Savannah G.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Christian P.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nicholas B.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -44,6 +84,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/beauty/powder-canister/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Alexander J.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Elijah C.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery P.",
+     "rating": 1,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -59,6 +119,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/beauty/red-lipstick/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Liam G.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ruby A.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -74,6 +154,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/beauty/red-nail-polish/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Benjamin W.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam S.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 1,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -91,6 +191,26 @@
     "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/1.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/2.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/calvin-klein-ck-one/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Layla Y.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Daniel C.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jacob C.",
+     "rating": 3,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -108,6 +228,26 @@
     "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/1.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/2.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/chanel-coco-noir-eau-de/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ruby A.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leah H.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Xavier W.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -125,6 +265,26 @@
     "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/1.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/2.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/dior-j'adore/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nicholas B.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Penelope H.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Emma M.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -142,6 +302,26 @@
     "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/1.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/2.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/dolce-shine-eau-de/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mateo B.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nolan G.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aurora L.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -159,6 +339,26 @@
     "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/1.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/2.webp",
     "https://cdn.dummyjson.com/product-images/fragrances/gucci-bloom-eau-de/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Cameron P.",
+     "rating": 1,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Daniel C.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Addison W.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -176,6 +376,26 @@
     "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/1.webp",
     "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/2.webp",
     "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-bed/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christopher W.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Vivian C.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mason W.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -193,6 +413,26 @@
     "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/1.webp",
     "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/2.webp",
     "https://cdn.dummyjson.com/product-images/furniture/annibale-colombo-sofa/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christian P.",
+     "rating": 3,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lillian B.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lillian S.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -210,6 +450,26 @@
     "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/1.webp",
     "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/2.webp",
     "https://cdn.dummyjson.com/product-images/furniture/bedside-table-african-cherry/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aaliyah H.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam S.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery B.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -227,6 +487,26 @@
     "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/1.webp",
     "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/2.webp",
     "https://cdn.dummyjson.com/product-images/furniture/knoll-saarinen-executive-conference-chair/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ella C.",
+     "rating": 2,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 2,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Elena L.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -244,6 +524,26 @@
     "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/1.webp",
     "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/2.webp",
     "https://cdn.dummyjson.com/product-images/furniture/wooden-bathroom-sink-with-mirror/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Logan T.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aria P.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Dylan W.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -259,6 +559,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/apple/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Sophia B.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Scarlett B.",
+     "rating": 1,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "William G.",
+     "rating": 3,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -274,6 +594,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/beef-steak/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Eleanor T.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Alexander J.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Natalie H.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -289,6 +629,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/cat-food/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Noah L.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ruby A.",
+     "rating": 3,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ethan T.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -305,6 +665,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/1.webp",
     "https://cdn.dummyjson.com/product-images/groceries/chicken-meat/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mateo B.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jackson E.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sadie M.",
+     "rating": 3,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -320,6 +700,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/cooking-oil/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Victoria M.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hazel E.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zoe B.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -335,6 +735,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/cucumber/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Lincoln K.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Savannah G.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "James D.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -350,6 +770,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/dog-food/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nicholas E.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zachary L.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nova C.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -365,6 +805,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/eggs/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Penelope K.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eleanor T.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin F.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -380,6 +840,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/fish-steak/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Caleb P.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Isabella J.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nathan D.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -395,6 +875,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/green-bell-pepper/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Avery C.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry H.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Addison W.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -410,6 +910,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/green-chili-pepper/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Luna R.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Noah L.",
+     "rating": 1,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -425,6 +945,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/honey-jar/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Autumn G.",
+     "rating": 1,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin W.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nicholas E.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -442,6 +982,26 @@
     "https://cdn.dummyjson.com/product-images/groceries/ice-cream/1.webp",
     "https://cdn.dummyjson.com/product-images/groceries/ice-cream/2.webp",
     "https://cdn.dummyjson.com/product-images/groceries/ice-cream/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elijah C.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jace S.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sadie M.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -457,6 +1017,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/juice/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nolan G.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Bella G.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aria F.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -472,6 +1052,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/kiwi/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Emily B.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jackson M.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nora R.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -487,6 +1087,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/lemon/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Logan L.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery P.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin F.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -502,6 +1122,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/milk/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nicholas B.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Harper T.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Autumn G.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -517,6 +1157,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/mulberry/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Avery B.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sadie M.",
+     "rating": 2,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Oscar P.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -532,6 +1192,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/nescafe-coffee/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Gabriel A.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ella C.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Logan T.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -547,6 +1227,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/potatoes/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Eleanor C.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lily T.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ariana R.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -562,6 +1262,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/protein-powder/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aurora R.",
+     "rating": 3,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Miles S.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -577,6 +1297,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/red-onions/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Maya R.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn G.",
+     "rating": 3,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jackson E.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -592,6 +1332,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/rice/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Sophia B.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Grace P.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Cameron B.",
+     "rating": 1,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -607,6 +1367,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/soft-drinks/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Zachary L.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Oscar P.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hannah R.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -622,6 +1402,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/strawberry/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Amelia P.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Olivia W.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hunter G.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -638,6 +1438,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/1.webp",
     "https://cdn.dummyjson.com/product-images/groceries/tissue-paper-box/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ariana R.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Carter B.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Penelope H.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -653,6 +1473,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/groceries/water/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jonathan P.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Grayson C.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ethan F.",
+     "rating": 3,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -670,6 +1510,26 @@
     "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/1.webp",
     "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/2.webp",
     "https://cdn.dummyjson.com/product-images/home-decoration/decoration-swing/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Daniel C.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hunter G.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Stella M.",
+     "rating": 3,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -685,6 +1545,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/home-decoration/family-tree-photo-frame/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Oscar P.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Austin H.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luke C.",
+     "rating": 2,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -702,6 +1582,26 @@
     "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/1.webp",
     "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/2.webp",
     "https://cdn.dummyjson.com/product-images/home-decoration/house-showpiece-plant/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Natalie H.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Max R.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nolan G.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -719,6 +1619,26 @@
     "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/1.webp",
     "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/2.webp",
     "https://cdn.dummyjson.com/product-images/home-decoration/plant-pot/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Vivian C.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ella A.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam S.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -734,6 +1654,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/home-decoration/table-lamp/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Benjamin F.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sophia J.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Natalie H.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -749,6 +1689,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/bamboo-spatula/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Lucas R.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Caleb P.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nolan G.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -765,6 +1725,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-aluminium-cup/1.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-aluminium-cup/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Alexander H.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aurora R.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin F.",
+     "rating": 1,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -780,6 +1760,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/black-whisk/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Cameron P.",
+     "rating": 3,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin F.",
+     "rating": 1,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Paisley B.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -797,6 +1797,26 @@
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/1.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/2.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/boxed-blender/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ella A.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ruby A.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aurora L.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -812,6 +1832,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/carbon-steel-wok/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nolan B.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luna P.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Noah L.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -827,6 +1867,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/chopping-board/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Xavier W.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry T.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn W.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -842,6 +1902,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/citrus-squeezer-yellow/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Lucas R.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eleanor C.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mila H.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -857,6 +1937,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/egg-slicer/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Harper G.",
+     "rating": 3,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lily T.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Tyler D.",
+     "rating": 1,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -874,6 +1974,26 @@
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/1.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/2.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/electric-stove/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ava H.",
+     "rating": 1,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam S.",
+     "rating": 2,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Christian P.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -889,6 +2009,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/fine-mesh-strainer/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Isabella A.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aaliyah H.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Layla S.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -904,6 +2044,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/fork/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elena B.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery S.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mateo P.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -919,6 +2079,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/glass/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jackson E.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nicholas B.",
+     "rating": 3,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nathan R.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -934,6 +2114,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/grater-black/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ella A.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eli W.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "James G.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -949,6 +2149,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/hand-blender/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Hazel E.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hannah H.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jonathan P.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -964,6 +2184,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/ice-cube-tray/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Isaac L.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leo R.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry T.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -979,6 +2219,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/kitchen-sieve/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Stella M.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry A.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lillian S.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -994,6 +2254,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/knife/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aaliyah M.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Addison W.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mateo N.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1009,6 +2289,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/lunch-box/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jace S.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zoe B.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Michael J.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1026,6 +2326,26 @@
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/1.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/2.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/microwave-oven/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nora R.",
+     "rating": 3,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Alice S.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ethan F.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1042,6 +2362,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/mug-tree-stand/1.webp",
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/mug-tree-stand/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Bella G.",
+     "rating": 1,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Paisley B.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "David M.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1057,6 +2397,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/pan/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Michael J.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Adrian F.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nicholas B.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1072,6 +2432,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/plate/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mia M.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry A.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nora R.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1087,6 +2467,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/red-tongs/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Xavier W.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Stella H.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jaxon B.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1102,6 +2502,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/silver-pot-with-glass-cap/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Julian N.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Noah L.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Brayden H.",
+     "rating": 1,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1117,6 +2537,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/slotted-turner/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ava T.",
+     "rating": 1,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam S.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Gabriel M.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1132,6 +2572,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/spice-rack/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elena B.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Owen F.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sadie M.",
+     "rating": 2,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1147,6 +2607,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/spoon/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jackson E.",
+     "rating": 3,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Elena B.",
+     "rating": 1,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Bella G.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1162,6 +2642,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/tray/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Samantha H.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin W.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Caleb N.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1177,6 +2677,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/wooden-rolling-pin/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aurora L.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ava T.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mila H.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1192,6 +2712,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/kitchen-accessories/yellow-peeler/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Claire F.",
+     "rating": 1,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aaliyah H.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Olivia W.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1209,6 +2749,26 @@
     "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/1.webp",
     "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/2.webp",
     "https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Hazel E.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Christopher W.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aubrey G.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1226,6 +2786,26 @@
     "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/1.webp",
     "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/2.webp",
     "https://cdn.dummyjson.com/product-images/laptops/asus-zenbook-pro-dual-screen-laptop/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Michael J.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zoe B.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mila H.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1243,6 +2823,26 @@
     "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/1.webp",
     "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/2.webp",
     "https://cdn.dummyjson.com/product-images/laptops/huawei-matebook-x-pro/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Evan W.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hunter G.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "William G.",
+     "rating": 1,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1260,6 +2860,26 @@
     "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/1.webp",
     "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/2.webp",
     "https://cdn.dummyjson.com/product-images/laptops/lenovo-yoga-920/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Bella G.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nathan R.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hazel G.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1277,6 +2897,26 @@
     "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/1.webp",
     "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/2.webp",
     "https://cdn.dummyjson.com/product-images/laptops/new-dell-xps-13-9300-laptop/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Charlotte L.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Alice S.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ava T.",
+     "rating": 2,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1294,6 +2934,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Logan L.",
+     "rating": 1,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zachary L.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aurora R.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1311,6 +2971,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/gigabyte-aorus-men-tshirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Amelia P.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Tyler D.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Harper K.",
+     "rating": 1,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1328,6 +3008,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/man-plaid-shirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aubrey W.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evan R.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn G.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1345,6 +3045,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/man-short-sleeve-shirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Charlotte L.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ellie S.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sadie M.",
+     "rating": 1,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1362,6 +3082,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shirts/men-check-shirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mateo N.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lucas A.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry A.",
+     "rating": 2,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1379,6 +3119,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elena L.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Addison W.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mason W.",
+     "rating": 1,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1396,6 +3156,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/nike-baseball-cleats/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aaron C.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Noah L.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Michael J.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1413,6 +3193,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/puma-future-rider-trainers/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jackson M.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sophia J.",
+     "rating": 1,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Logan T.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1430,6 +3230,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-&-red/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Sadie M.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Julian N.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Logan L.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1447,6 +3267,26 @@
     "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-shoes/sports-sneakers-off-white-red/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aurora L.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Gabriel M.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eli B.",
+     "rating": 1,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1464,6 +3304,26 @@
     "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "James G.",
+     "rating": 1,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery B.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "David M.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1481,6 +3341,26 @@
     "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/longines-master-collection/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Eli W.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Owen F.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nathan R.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1498,6 +3378,26 @@
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-date-black-dial/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Owen S.",
+     "rating": 3,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jonathan P.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Adrian F.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1515,6 +3415,26 @@
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-cellini-moonphase/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ella A.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leo R.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Emma M.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1532,6 +3452,26 @@
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-datejust/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Alice S.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Abigail R.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Daniel C.",
+     "rating": 3,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1549,6 +3489,26 @@
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/1.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/2.webp",
     "https://cdn.dummyjson.com/product-images/mens-watches/rolex-submariner-watch/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Luna P.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hannah R.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aaliyah H.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1565,6 +3525,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/amazon-echo-plus/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Chloe M.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mateo P.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn W.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1582,6 +3562,26 @@
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/2.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christopher W.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Emma W.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Xavier W.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1597,6 +3597,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods-max-silver/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Henry A.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Elijah C.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "William L.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1612,6 +3632,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpower-wireless-charger/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christian P.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ruby A.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Harper T.",
+     "rating": 3,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1627,6 +3667,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-homepod-mini-cosmic-grey/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Max R.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Isaac L.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery C.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1643,6 +3703,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-iphone-charger/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-iphone-charger/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Sadie M.",
+     "rating": 1,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lily T.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luke C.",
+     "rating": 2,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1659,6 +3739,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-magsafe-battery-pack/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-magsafe-battery-pack/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Stella M.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry A.",
+     "rating": 2,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Cameron B.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1676,6 +3776,26 @@
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/2.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/apple-watch-series-4-gold/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Chloe M.",
+     "rating": 3,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ava H.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nicholas B.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1691,6 +3811,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/beats-flex-wireless-earphones/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "William G.",
+     "rating": 2,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Gabriel M.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Gabriel A.",
+     "rating": 2,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1708,6 +3848,26 @@
     "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/2.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/iphone-12-silicone-case-with-magsafe-plum/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Penelope K.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Isabella A.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Claire F.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1724,6 +3884,26 @@
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/monopod/1.webp",
     "https://cdn.dummyjson.com/product-images/mobile-accessories/monopod/2.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Max P.",
+     "rating": 1,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Maya R.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mila H.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1739,6 +3919,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/selfie-lamp-with-iphone/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Luke C.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Caleb P.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin W.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1754,6 +3954,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/selfie-stick-monopod/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ryan G.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nora R.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luna P.",
+     "rating": 1,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1769,6 +3989,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/mobile-accessories/tv-studio-camera-pedestal/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aubrey G.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Carter R.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Max R.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1786,6 +4026,26 @@
     "https://cdn.dummyjson.com/product-images/skin-care/attitude-super-leaves-hand-soap/1.webp",
     "https://cdn.dummyjson.com/product-images/skin-care/attitude-super-leaves-hand-soap/2.webp",
     "https://cdn.dummyjson.com/product-images/skin-care/attitude-super-leaves-hand-soap/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Liam G.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Victoria M.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hannah R.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1803,6 +4063,26 @@
     "https://cdn.dummyjson.com/product-images/skin-care/olay-ultra-moisture-shea-butter-body-wash/1.webp",
     "https://cdn.dummyjson.com/product-images/skin-care/olay-ultra-moisture-shea-butter-body-wash/2.webp",
     "https://cdn.dummyjson.com/product-images/skin-care/olay-ultra-moisture-shea-butter-body-wash/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Abigail R.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Hunter G.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zoe B.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1820,6 +4100,26 @@
     "https://cdn.dummyjson.com/product-images/skin-care/vaseline-men-body-and-face-lotion/1.webp",
     "https://cdn.dummyjson.com/product-images/skin-care/vaseline-men-body-and-face-lotion/2.webp",
     "https://cdn.dummyjson.com/product-images/skin-care/vaseline-men-body-and-face-lotion/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Aria F.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nova C.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Madison C.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1837,6 +4137,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-5s/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-5s/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-5s/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jace S.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Logan T.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Harper K.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1854,6 +4174,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-6/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-6/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-6/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Stella M.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nolan G.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin F.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1871,6 +4211,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-13-pro/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-13-pro/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-13-pro/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christian P.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam G.",
+     "rating": 3,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Tristan S.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1888,6 +4248,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-x/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-x/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/iphone-x/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Tyler D.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aria P.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lily T.",
+     "rating": 2,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1905,6 +4285,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-a57/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-a57/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-a57/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Scarlett W.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jacob C.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Zoe N.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1922,6 +4322,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-f19-pro-plus/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-f19-pro-plus/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-f19-pro-plus/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Emily J.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jaxon B.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nova C.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1939,6 +4359,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-k1/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-k1/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/oppo-k1/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christopher W.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mia M.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ella A.",
+     "rating": 2,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1956,6 +4396,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/realme-c35/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/realme-c35/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/realme-c35/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Penelope K.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Asher S.",
+     "rating": 2,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry A.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1973,6 +4433,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/realme-x/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/realme-x/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/realme-x/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Hazel E.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Brayden F.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Madison S.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -1990,6 +4470,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/realme-xt/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/realme-xt/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/realme-xt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Emily B.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ella C.",
+     "rating": 3,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Layla S.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2007,6 +4507,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s7/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s7/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s7/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Julian J.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lucas G.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ava T.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2024,6 +4544,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s8/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s8/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s8/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Owen F.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Tyler D.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2041,6 +4581,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s10/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s10/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/samsung-galaxy-s10/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Tristan S.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Christopher W.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Amelia P.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2058,6 +4618,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-s1/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-s1/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-s1/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Samantha M.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Logan L.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sophia J.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2075,6 +4655,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-v9/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-v9/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-v9/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Logan L.",
+     "rating": 2,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Layla Y.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Asher S.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2092,6 +4692,26 @@
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-x21/1.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-x21/2.webp",
     "https://cdn.dummyjson.com/product-images/smartphones/vivo-x21/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Liam G.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aurora B.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn W.",
+     "rating": 2,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2107,6 +4727,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/american-football/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Scarlett B.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Tristan S.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eleanor T.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2122,6 +4762,26 @@
    "returns": "30 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-ball/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Scarlett W.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Carter B.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aria F.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2139,6 +4799,26 @@
     "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-glove/1.webp",
     "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-glove/2.webp",
     "https://cdn.dummyjson.com/product-images/sports-accessories/baseball-glove/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Hazel G.",
+     "rating": 1,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Scarlett W.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nathan R.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2154,6 +4834,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/basketball/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mia R.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ella A.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aubrey G.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2169,6 +4869,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/basketball-rim/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mason W.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Tristan S.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Max P.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2184,6 +4904,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-ball/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Julian J.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Autumn G.",
+     "rating": 1,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam G.",
+     "rating": 2,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2199,6 +4939,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-bat/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Samantha H.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ella A.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Julian N.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2216,6 +4976,26 @@
     "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-helmet/1.webp",
     "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-helmet/2.webp",
     "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-helmet/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Henry T.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Maya R.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery P.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2231,6 +5011,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-wicket/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Gabriel M.",
+     "rating": 3,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Grayson C.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Grace G.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2246,6 +5046,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/feather-shuttlecock/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Liam S.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aubrey W.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Scarlett B.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2261,6 +5081,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/football/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elena L.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leah G.",
+     "rating": 2,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Nathan D.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2276,6 +5116,26 @@
    "returns": "No return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/golf-ball/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ella C.",
+     "rating": 2,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Cameron P.",
+     "rating": 2,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mason W.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2291,6 +5151,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/iron-golf/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Julian N.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Caleb P.",
+     "rating": 1,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aria F.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2306,6 +5186,26 @@
    "returns": "60 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/metal-baseball-bat/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Gabriel B.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Owen F.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Logan L.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2321,6 +5221,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/tennis-ball/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Addison W.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Max R.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luna P.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2336,6 +5256,26 @@
    "returns": "7 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/tennis-racket/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mason P.",
+     "rating": 3,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Gabriel B.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lincoln K.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2351,6 +5291,26 @@
    "returns": "90 days return policy",
    "images": [
     "https://cdn.dummyjson.com/product-images/sports-accessories/volleyball/1.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Carter R.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eli W.",
+     "rating": 1,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Emma W.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2368,6 +5328,26 @@
     "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/1.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/2.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Jonathan P.",
+     "rating": 3,
+     "comment": "Would not recommend!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Owen F.",
+     "rating": 2,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Samantha M.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2385,6 +5365,26 @@
     "https://cdn.dummyjson.com/product-images/sunglasses/classic-sun-glasses/1.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/classic-sun-glasses/2.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/classic-sun-glasses/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Logan L.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Jack W.",
+     "rating": 3,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Julian J.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2402,6 +5402,26 @@
     "https://cdn.dummyjson.com/product-images/sunglasses/green-and-black-glasses/1.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/green-and-black-glasses/2.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/green-and-black-glasses/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ava T.",
+     "rating": 3,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Owen S.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Victoria M.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2419,6 +5439,26 @@
     "https://cdn.dummyjson.com/product-images/sunglasses/party-glasses/1.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/party-glasses/2.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/party-glasses/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Levi H.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Ariana R.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Samantha H.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2436,6 +5476,26 @@
     "https://cdn.dummyjson.com/product-images/sunglasses/sunglasses/1.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/sunglasses/2.webp",
     "https://cdn.dummyjson.com/product-images/sunglasses/sunglasses/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Olivia W.",
+     "rating": 5,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lillian B.",
+     "rating": 2,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leah H.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2453,6 +5513,26 @@
     "https://cdn.dummyjson.com/product-images/tablets/ipad-mini-2021-starlight/1.webp",
     "https://cdn.dummyjson.com/product-images/tablets/ipad-mini-2021-starlight/2.webp",
     "https://cdn.dummyjson.com/product-images/tablets/ipad-mini-2021-starlight/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Eleanor C.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leo R.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Carter R.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2470,6 +5550,26 @@
     "https://cdn.dummyjson.com/product-images/tablets/samsung-galaxy-tab-s8-plus-grey/1.webp",
     "https://cdn.dummyjson.com/product-images/tablets/samsung-galaxy-tab-s8-plus-grey/2.webp",
     "https://cdn.dummyjson.com/product-images/tablets/samsung-galaxy-tab-s8-plus-grey/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Christopher W.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Owen S.",
+     "rating": 2,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aria R.",
+     "rating": 2,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2487,6 +5587,26 @@
     "https://cdn.dummyjson.com/product-images/tablets/samsung-galaxy-tab-white/1.webp",
     "https://cdn.dummyjson.com/product-images/tablets/samsung-galaxy-tab-white/2.webp",
     "https://cdn.dummyjson.com/product-images/tablets/samsung-galaxy-tab-white/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Max R.",
+     "rating": 1,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lincoln K.",
+     "rating": 2,
+     "comment": "Poor quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Elena L.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2504,6 +5624,26 @@
     "https://cdn.dummyjson.com/product-images/tops/blue-frock/1.webp",
     "https://cdn.dummyjson.com/product-images/tops/blue-frock/2.webp",
     "https://cdn.dummyjson.com/product-images/tops/blue-frock/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Victoria M.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin F.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Addison W.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2521,6 +5661,26 @@
     "https://cdn.dummyjson.com/product-images/tops/girl-summer-dress/1.webp",
     "https://cdn.dummyjson.com/product-images/tops/girl-summer-dress/2.webp",
     "https://cdn.dummyjson.com/product-images/tops/girl-summer-dress/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mason P.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Aubrey G.",
+     "rating": 4,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Charlotte D.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2538,6 +5698,26 @@
     "https://cdn.dummyjson.com/product-images/tops/gray-dress/1.webp",
     "https://cdn.dummyjson.com/product-images/tops/gray-dress/2.webp",
     "https://cdn.dummyjson.com/product-images/tops/gray-dress/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Brayden F.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Michael J.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn S.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2555,6 +5735,26 @@
     "https://cdn.dummyjson.com/product-images/tops/short-frock/1.webp",
     "https://cdn.dummyjson.com/product-images/tops/short-frock/2.webp",
     "https://cdn.dummyjson.com/product-images/tops/short-frock/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Gabriel H.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Samantha H.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luke C.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2572,6 +5772,26 @@
     "https://cdn.dummyjson.com/product-images/tops/tartan-dress/1.webp",
     "https://cdn.dummyjson.com/product-images/tops/tartan-dress/2.webp",
     "https://cdn.dummyjson.com/product-images/tops/tartan-dress/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Mason P.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luke C.",
+     "rating": 3,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "William L.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2589,6 +5809,26 @@
     "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/blue-women's-handbag/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Grace P.",
+     "rating": 3,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn S.",
+     "rating": 3,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eli W.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2606,6 +5846,26 @@
     "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/heshe-women's-leather-bag/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Hunter G.",
+     "rating": 5,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Mason P.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "William G.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2623,6 +5883,26 @@
     "https://cdn.dummyjson.com/product-images/womens-bags/prada-women-bag/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/prada-women-bag/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/prada-women-bag/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Caleb P.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Carter B.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lucas R.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2640,6 +5920,26 @@
     "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/white-faux-leather-backpack/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ava H.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Liam G.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Cameron P.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2657,6 +5957,26 @@
     "https://cdn.dummyjson.com/product-images/womens-bags/women-handbag-black/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/women-handbag-black/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-bags/women-handbag-black/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Natalie P.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Emily J.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Henry H.",
+     "rating": 1,
+     "comment": "Waste of money!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2674,6 +5994,26 @@
     "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Ethan F.",
+     "rating": 4,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Julian N.",
+     "rating": 3,
+     "comment": "Very dissatisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Savannah G.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2691,6 +6031,26 @@
     "https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/corset-leather-with-skirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Natalie P.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sophia J.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Leo R.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2708,6 +6068,26 @@
     "https://cdn.dummyjson.com/product-images/womens-dresses/corset-with-black-skirt/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/corset-with-black-skirt/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/corset-with-black-skirt/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Lucas A.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Benjamin W.",
+     "rating": 2,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Elena L.",
+     "rating": 5,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2725,6 +6105,26 @@
     "https://cdn.dummyjson.com/product-images/womens-dresses/dress-pea/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/dress-pea/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/dress-pea/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Harper T.",
+     "rating": 4,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luna R.",
+     "rating": 1,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Michael J.",
+     "rating": 2,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2742,6 +6142,26 @@
     "https://cdn.dummyjson.com/product-images/womens-dresses/marni-red-&-black-suit/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/marni-red-&-black-suit/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-dresses/marni-red-&-black-suit/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Avery P.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Scarlett W.",
+     "rating": 3,
+     "comment": "Very disappointed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Claire F.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2759,6 +6179,26 @@
     "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Michael W.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Samantha H.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Xavier W.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2776,6 +6216,26 @@
     "https://cdn.dummyjson.com/product-images/womens-jewellery/green-oval-earring/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-jewellery/green-oval-earring/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-jewellery/green-oval-earring/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elena L.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Layla S.",
+     "rating": 5,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Xavier W.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2793,6 +6253,26 @@
     "https://cdn.dummyjson.com/product-images/womens-jewellery/tropical-earring/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-jewellery/tropical-earring/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-jewellery/tropical-earring/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Alexander J.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eli W.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Carter R.",
+     "rating": 1,
+     "comment": "Very unhappy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2810,6 +6290,26 @@
     "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Isaac L.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "William G.",
+     "rating": 2,
+     "comment": "Not worth the price!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Sophia J.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2827,6 +6327,26 @@
     "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/calvin-klein-heel-shoes/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Maya R.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Grace P.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eleanor C.",
+     "rating": 1,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2844,6 +6364,26 @@
     "https://cdn.dummyjson.com/product-images/womens-shoes/golden-shoes-woman/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/golden-shoes-woman/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/golden-shoes-woman/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nolan G.",
+     "rating": 4,
+     "comment": "Excellent quality!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Brayden F.",
+     "rating": 5,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Eleanor T.",
+     "rating": 4,
+     "comment": "Very pleased!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2861,6 +6401,26 @@
     "https://cdn.dummyjson.com/product-images/womens-shoes/pampi-shoes/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/pampi-shoes/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/pampi-shoes/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Nathan R.",
+     "rating": 4,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Connor B.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Noah L.",
+     "rating": 5,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2878,6 +6438,26 @@
     "https://cdn.dummyjson.com/product-images/womens-shoes/red-shoes/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/red-shoes/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-shoes/red-shoes/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Isabella A.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Luna P.",
+     "rating": 4,
+     "comment": "Awesome product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Savannah G.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2895,6 +6475,26 @@
     "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/iwc-ingenieur-automatic-steel/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Gabriel A.",
+     "rating": 3,
+     "comment": "Disappointing product!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evan R.",
+     "rating": 5,
+     "comment": "Great value for money!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Clara B.",
+     "rating": 3,
+     "comment": "Would not buy again!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2912,6 +6512,26 @@
     "https://cdn.dummyjson.com/product-images/womens-watches/rolex-datejust-women/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/rolex-datejust-women/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/rolex-datejust-women/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Benjamin W.",
+     "rating": 3,
+     "comment": "Not as described!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Madison C.",
+     "rating": 5,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Lucas G.",
+     "rating": 4,
+     "comment": "Very satisfied!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2929,6 +6549,26 @@
     "https://cdn.dummyjson.com/product-images/womens-watches/watch-gold-for-women/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/watch-gold-for-women/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/watch-gold-for-women/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Elena B.",
+     "rating": 4,
+     "comment": "Highly impressed!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Avery B.",
+     "rating": 4,
+     "comment": "Would buy again!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Evelyn S.",
+     "rating": 5,
+     "comment": "Great product!",
+     "date": "2025-04-30"
+    }
    ]
   },
   {
@@ -2946,6 +6586,26 @@
     "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/1.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/2.webp",
     "https://cdn.dummyjson.com/product-images/womens-watches/women's-wrist-watch/3.webp"
+   ],
+   "reviews": [
+    {
+     "name": "Harper K.",
+     "rating": 4,
+     "comment": "Very happy with my purchase!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Gabriel B.",
+     "rating": 5,
+     "comment": "Highly recommended!",
+     "date": "2025-04-30"
+    },
+    {
+     "name": "Natalie P.",
+     "rating": 5,
+     "comment": "Fast shipping!",
+     "date": "2025-04-30"
+    }
    ]
   }
  ]

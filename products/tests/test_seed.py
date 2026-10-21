@@ -5,6 +5,7 @@ from unittest import mock
 
 from django.core.management import call_command
 from django.test import TestCase, override_settings
+from django.urls import reverse
 from PIL import Image
 
 from ..management.commands import seed_products
@@ -135,3 +136,48 @@ class DownloadRetryTests(TestCase):
             with self.assertRaises(OSError):
                 seed_products.download("https://cdn.example/1.webp")
         self.assertEqual(urlopen.call_count, seed_products.DOWNLOAD_ATTEMPTS)
+
+
+class SampleReviewTests(TestCase):
+    def test_sample_reviews_are_added_once_dated_and_labelled(self):
+        from django.contrib.auth.models import User
+
+        from orders.models import Order, OrderItem
+
+        from ..models import Review
+
+        run(no_photos=True)
+        catalog = seed_products.load_catalog()
+        expected = sum(len(item.get("reviews", [])) for item in catalog)
+        self.assertGreater(expected, 300)
+        self.assertEqual(Review.objects.filter(is_sample=True).count(), expected)
+        run(no_photos=True)  # nothing doubles
+        self.assertEqual(Review.objects.filter(is_sample=True).count(), expected)
+
+        item = catalog[0]
+        product = Product.objects.get(sku=item["sku"])
+        review = product.reviews.order_by("created_at").first()
+        self.assertIsNone(review.user)
+        self.assertEqual(review.created_at.year, int(min(r["date"] for r in item["reviews"])[:4]))
+
+        page = self.client.get(product.get_absolute_url())
+        self.assertContains(page, "Sample review")
+        self.assertContains(page, item["reviews"][0]["name"])
+        self.assertNotContains(page, "Verified purchase")
+
+        # A real buyer can still review alongside the samples, labelled as verified.
+        buyer = User.objects.create_user("sam", "sam@example.com", "a-Strong-test-pass-91")
+        order = Order.objects.create(user=buyer, full_name="Sam", email="sam@example.com", address="1 St", status="paid")
+        OrderItem.objects.create(order=order, product=product, quantity=1, price=product.price)
+        self.client.force_login(buyer)
+        self.client.post(reverse("products:review", args=[product.slug]), {"rating": 5, "title": "Mine"})
+        page = self.client.get(product.get_absolute_url())
+        self.assertContains(page, "Verified purchase")
+        self.assertEqual(page.context["product"].rating_count, len(item["reviews"]) + 1)
+
+
+class DemoNoticeTests(TestCase):
+    def test_notice_shows_test_card_and_can_be_turned_off(self):
+        self.assertContains(self.client.get(reverse("products:list")), "Stripe test mode")
+        with override_settings(DEMO_NOTICE=False):
+            self.assertNotContains(self.client.get(reverse("products:list")), "Stripe test mode")

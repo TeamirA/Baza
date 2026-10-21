@@ -94,10 +94,16 @@ class SavedProduct(models.Model):
 
 
 class Review(models.Model):
-    """A rating (and optional text) from a customer who bought the product."""
+    """A rating (and optional text) from a customer who bought the product.
+
+    Sample reviews (is_sample) come with the demo catalog: they have a display
+    name instead of an account and are labelled as samples on the site.
+    """
 
     product = models.ForeignKey(Product, related_name="reviews", on_delete=models.CASCADE)
-    user = models.ForeignKey("auth.User", related_name="reviews", on_delete=models.CASCADE)
+    user = models.ForeignKey("auth.User", related_name="reviews", on_delete=models.CASCADE, null=True, blank=True)
+    author_name = models.CharField(max_length=100, blank=True, help_text="Shown for sample reviews.")
+    is_sample = models.BooleanField(default=False)
     rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     title = models.CharField(max_length=100, blank=True)
     body = models.TextField(max_length=2000, blank=True)
@@ -109,4 +115,4 @@ class Review(models.Model):
         constraints = [models.UniqueConstraint(fields=["user", "product"], name="one_review_per_customer")]
 
     def __str__(self):
-        return f"{self.rating}★ for {self.product} by {self.user}"
+        return f"{self.rating}★ for {self.product} by {self.user or self.author_name}"

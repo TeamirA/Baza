@@ -250,10 +250,11 @@ class ReviewService:
                 rating=r.rating,
                 title=r.title,
                 body=r.body,
-                author=_author_name(r.user),
+                author=_author_name(r.user) if r.user_id else r.author_name,
                 created_at=r.created_at,
                 edited=(r.updated_at - r.created_at).total_seconds() > 60,
-                is_own=r.user_id == viewer_id,
+                is_own=viewer_id is not None and r.user_id == viewer_id,
+                is_sample=r.is_sample,
             )
             for r in self.reviews.for_product(product_id)
         ]

@@ -119,7 +119,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ["product", "rating", "title", "user", "created_at"]
-    list_filter = ["rating", "created_at"]
-    search_fields = ["product__name", "title", "body", "user__username"]
-    readonly_fields = ["product", "user", "created_at", "updated_at"]
+    list_display = ["product", "rating", "title", "user", "author_name", "is_sample", "created_at"]
+    list_filter = ["is_sample", "rating", "created_at"]
+    search_fields = ["product__name", "title", "body", "user__username", "author_name"]
+    readonly_fields = ["product", "user", "is_sample", "created_at", "updated_at"]
