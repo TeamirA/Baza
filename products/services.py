@@ -67,6 +67,9 @@ def _product_to_dto(product):
         images=_images_for(product),
         rating_avg=round(float(product.rating_avg), 2) if getattr(product, "rating_avg", None) is not None else None,
         rating_count=getattr(product, "rating_count", 0) or 0,
+        brand=product.brand,
+        sku=product.sku,
+        details=tuple((str(label), str(value)) for label, value in (product.details or []) if label and value),
     )
 
 
@@ -173,15 +176,26 @@ class ProductImageService:
         except ImageProcessingError as e:
             raise ImageUploadError(str(e))
 
-    def add_prepared(self, product_id, processed, alt_text="", position=None):
-        """Uploads the resized variants and records the photo. All-or-nothing:
-        if anything fails, files already uploaded are removed again."""
-        product = self.images.get_product(product_id)
-        stem = f"products/{product.slug or product.pk}/{uuid.uuid4().hex[:12]}"
+    def upload(self, folder, processed):
+        """Uploads the resized variants under products/<folder>/ and returns {width: url}.
+        Doesn't touch the database, so it's safe to call from worker threads.
+        All-or-nothing: if one size fails, the ones already uploaded are removed."""
+        stem = f"products/{folder}/{uuid.uuid4().hex[:12]}"
         uploaded = {}
         try:
             for width, data in processed.variants.items():
                 uploaded[str(width)] = self.store.save(f"{stem}-{width}.webp", data, "image/webp")
+        except Exception as e:
+            self.store.delete(list(uploaded.values()))
+            raise ImageUploadError(f"Couldn't save the photo: {e}") from e
+        return uploaded
+
+    def add_prepared(self, product_id, processed, alt_text="", position=None):
+        """Uploads the resized variants and records the photo. All-or-nothing:
+        if anything fails, files already uploaded are removed again."""
+        product = self.images.get_product(product_id)
+        uploaded = self.upload(product.slug or product.pk, processed)
+        try:
             return self.images.create(product_id, uploaded, processed.width, processed.height, alt_text, position)
         except Exception as e:
             self.store.delete(list(uploaded.values()))

@@ -31,6 +31,14 @@ python manage.py runserver
 
 Then open http://127.0.0.1:8000. The admin is at `/admin/`.
 
+**Demo catalog.** `seed_products` loads about 180 real products (phones, laptops,
+kitchenware, groceries, beauty, fashion, watches...) with brands, prices, stock,
+warranty/shipping/returns details and up to three photos each, from
+`products/data/catalog.json`. The data and photos come from
+[DummyJSON](https://dummyjson.com), a free product dataset for demo stores; photos
+are downloaded when seeding (a few minutes), put on white and saved as WebP. Running
+it again only fills in photos that failed to download. `--no-photos` skips them.
+
 Without Stripe keys, and only with `DEBUG=True`, checkout uses a dev gateway that
 marks orders paid straight away, so you can try the whole flow. To use real Stripe test
 mode locally, set the `STRIPE_*` keys in `.env` and forward webhooks:
@@ -60,7 +68,7 @@ and then runs `collectstatic`, which serves `/static/` from the CDN.
    | `STRIPE_PUBLIC_KEY` | `pk_test_...` |
    | `STRIPE_SECRET_KEY` | `sk_test_...` |
    | `STRIPE_WEBHOOK_SECRET` | `whsec_...` (from step 5) |
-   | `SEED_PRODUCTS` | `1` for the first deploy if you want sample products (optional) |
+   | `SEED_PRODUCTS` | `1` to load the demo catalog on the next deploy (optional; remove it afterwards so products you delete stay deleted) |
    | `CRON_SECRET` | a long random string; Vercel Cron sends it to `/cron/expire-unpaid-orders/` |
    | `ORDER_HOLD_HOURS` | optional, default `24`: how long unpaid orders hold their stock |
    | `SITE_URL` | `https://baza-market.vercel.app`, used for links in emails |

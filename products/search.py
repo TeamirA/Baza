@@ -4,8 +4,8 @@ Pure Python over product DTOs, so it behaves the same on SQLite (local, tests)
 and Postgres (production). Comfortable for catalogs of a few thousand
 products; beyond that, move ranking into Postgres full-text search.
 
-Every search word must match somewhere (name, category or description).
-Matches in the name count most, then category, then description. Words that
+Every search word must match somewhere (name, brand, category or description).
+Matches in the name count most, then brand or category, then description. Words that
 match nothing are corrected to the closest catalog word ("hodie" -> "hoodie").
 """
 
@@ -28,11 +28,12 @@ def normalize(text):
 
 
 def _fields(product):
-    return (
-        normalize(product.name),
-        normalize(product.category.name) if product.category else [],
-        normalize(product.description),
+    # Brand words score like category words: "apple" should find Apple products
+    # even when the brand isn't in the name.
+    brand_and_category = normalize(getattr(product, "brand", "")) + (
+        normalize(product.category.name) if product.category else []
     )
+    return normalize(product.name), brand_and_category, normalize(product.description)
 
 
 def _word_score(term, name, category, description):

@@ -1,72 +1,205 @@
+"""Fills the store with a real product catalog for demos.
+
+The catalog lives in products/data/catalog.json: about 180 products with
+brands, prices, stock, warranty/shipping/returns details and up to three
+photos each, taken from DummyJSON (https://dummyjson.com), a free product
+dataset for demo stores. Photos are downloaded from its CDN, put on a white
+background and saved through the normal upload path (WebP sizes, stored in
+Vercel Blob in production).
+
+The first run creates the categories and products in one go and retires the
+old drawn sample products (hidden, not deleted, so past orders still show
+them). Later runs only fill photo slots that are still empty, e.g. after a
+network hiccup, so products deleted in the admin don't come back.
+"""
+
+import io
+import json
+import time
+import urllib.request
+from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from decimal import Decimal
+from pathlib import Path
 
 from django.core.management.base import BaseCommand
+from django.db import transaction
+from django.utils.text import slugify
+from PIL import Image
 
-from products.models import Category, Product
+from products.images import ImageProcessingError
+from products.models import Category, Product, ProductImage
+from products.repositories import ProductImageRepository
+from products.services import ImageUploadError, ProductImageService
 
-SEED = {
-    "Apparel": [
-        ("Classic Cotton Tee", "19.00", 40, "Heavyweight 100% cotton tee with a relaxed fit."),
-        ("Everyday Hoodie", "48.00", 15, "Brushed fleece hoodie with a kangaroo pocket."),
-        ("Canvas Cap", "22.00", 0, "Six-panel washed canvas cap with an adjustable strap."),
-    ],
-    "Home": [
-        ("Ceramic Mug", "14.50", 60, "Stoneware mug, 350 ml, dishwasher safe."),
-        ("Linen Throw Pillow", "32.00", 12, "Stonewashed linen cover with a feather insert."),
-        ("Soy Candle", "18.00", 25, "Hand-poured soy wax candle, roughly 40 hours of burn time."),
-    ],
-    "Accessories": [
-        ("Leather Card Holder", "35.00", 20, "Vegetable-tanned leather, holds up to six cards."),
-        ("Canvas Tote Bag", "24.00", 30, "Sturdy 12 oz canvas tote with an inner pocket."),
-        ("Steel Water Bottle", "29.00", 8, "Double-walled, keeps drinks cold for 24 hours."),
-    ],
-}
+CATALOG_FILE = Path(__file__).resolve().parents[2] / "data" / "catalog.json"
+
+# The drawn products from the first version of the store.
+LEGACY_SAMPLE_SLUGS = [
+    "classic-cotton-tee", "everyday-hoodie", "canvas-cap", "ceramic-mug", "linen-throw-pillow",
+    "soy-candle", "leather-card-holder", "canvas-tote-bag", "steel-water-bottle",
+]
+
+DOWNLOAD_TIMEOUT = 25  # seconds per attempt
+DOWNLOAD_ATTEMPTS = 4
+RETRY_PAUSE = 2  # seconds, growing with each attempt
+MAX_PHOTO_BYTES = 8 * 1024 * 1024
+
+
+def load_catalog(path=CATALOG_FILE):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)["products"]
+
+
+def interleave(items, key):
+    """Round-robin across groups, so the first page of "Newest" shows a mix of
+    categories instead of 12 kitchen items in a row."""
+    groups = OrderedDict()
+    for item in items:
+        groups.setdefault(key(item), []).append(item)
+    queues = list(groups.values())
+    mixed = []
+    while any(queues):
+        for queue in queues:
+            if queue:
+                mixed.append(queue.pop(0))
+    return mixed
+
+
+def product_details(item):
+    rows = [("SKU", item.get("sku")), ("Warranty", item.get("warranty")),
+            ("Shipping", item.get("shipping")), ("Returns", item.get("returns"))]
+    return [[label, value] for label, value in rows if value]
+
+
+def download(url, attempts=DOWNLOAD_ATTEMPTS):
+    """Fetches a photo, retrying: the catalog's CDN sometimes times out (HTTP 522)
+    and then serves the same file fine a moment later."""
+    request = urllib.request.Request(url, headers={"User-Agent": "Baza catalog seeder"})
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(request, timeout=DOWNLOAD_TIMEOUT) as response:
+                data = response.read(MAX_PHOTO_BYTES + 1)
+            break
+        except OSError:
+            if attempt == attempts:
+                raise
+            time.sleep(RETRY_PAUSE * attempt)
+    if len(data) > MAX_PHOTO_BYTES:
+        raise ImageUploadError("photo is too large")
+    return data
+
+
+def on_white(data):
+    """Catalog photos have transparent backgrounds; shops show products on white,
+    and transparent PNGs would vanish into the dark theme's card colour."""
+    image = Image.open(io.BytesIO(data))
+    image.load()
+    if image.mode in ("RGBA", "LA", "P"):
+        image = image.convert("RGBA")
+        background = Image.new("RGB", image.size, (255, 255, 255))
+        background.paste(image, mask=image.getchannel("A"))
+        image = background
+    buffer = io.BytesIO()
+    image.convert("RGB").save(buffer, "PNG")
+    return buffer.getvalue()
 
 
 class Command(BaseCommand):
-    help = "Create sample categories and products (idempotent). Optionally give them sample photos."
+    help = "Create the demo catalog (real products and photos). Safe to run again: only fills what's missing."
 
     def add_arguments(self, parser):
-        parser.add_argument("--with-photos", action="store_true", help="Also add sample photos to products without any.")
-        parser.add_argument("--photos-only", action="store_true", help="Only add sample photos; don't create products.")
+        parser.add_argument("--no-photos", action="store_true", help="Create products without downloading photos.")
+        parser.add_argument("--workers", type=int, default=10, help="Products processed in parallel (default 10).")
 
-    def handle(self, *args, with_photos=False, photos_only=False, **options):
-        if not photos_only:
-            self.seed_products()
-        if with_photos or photos_only:
-            self.seed_photos()
+    def handle(self, *args, no_photos=False, workers=10, **options):
+        catalog = load_catalog()
+        skus = [item["sku"] for item in catalog]
+        if Product.objects.filter(sku__in=skus).exists():
+            self.stdout.write("Catalog already seeded; checking for missing photos only.")
+        else:
+            self.create_catalog(catalog)
+        if not no_photos:
+            self.add_missing_photos(catalog, max(1, workers))
 
-    def seed_products(self):
-        created = 0
-        for category_name, products in SEED.items():
-            category, _ = Category.objects.get_or_create(name=category_name)
-            for name, price, stock, description in products:
-                _, was_created = Product.objects.get_or_create(
-                    name=name,
-                    defaults={
-                        "category": category,
-                        "price": Decimal(price),
-                        "stock": stock,
-                        "description": description,
-                    },
-                )
-                created += was_created
-        self.stdout.write(self.style.SUCCESS(f"Seeded {created} new product(s)."))
+    @transaction.atomic
+    def create_catalog(self, catalog):
+        categories = {}
+        for name in sorted({item["category"] for item in catalog}):
+            categories[name], _ = Category.objects.get_or_create(name=name)
 
-    def seed_photos(self):
-        """Adds drawn sample photos to sample products that have no photos yet.
-        Uses the real upload path, so on Vercel the files go to Blob."""
-        from products.sample_photos import sample_photos
-        from products.services import ImageUploadError, ProductImageService
+        taken = set(Product.objects.values_list("slug", flat=True))
+        # Newest first is the default sort, so create the mix in reverse.
+        for item in reversed(interleave(catalog, key=lambda i: i["category"])):
+            slug = base = slugify(item["name"])[:200]
+            n = 2
+            while slug in taken:
+                slug, n = f"{base}-{n}", n + 1
+            taken.add(slug)
+            Product.objects.create(
+                name=item["name"],
+                slug=slug,
+                brand=item.get("brand", ""),
+                sku=item["sku"],
+                category=categories[item["category"]],
+                description=item["description"],
+                price=Decimal(item["price"]),
+                stock=item["stock"],
+                details=product_details(item),
+            )
+        retired = Product.objects.filter(slug__in=LEGACY_SAMPLE_SLUGS, is_active=True).update(is_active=False)
+        self.stdout.write(self.style.SUCCESS(
+            f"Created {len(catalog)} products in {len(categories)} categories; retired {retired} drawn sample product(s)."
+        ))
+
+    def add_missing_photos(self, catalog, workers):
+        photos_by_sku = {item["sku"]: item.get("images", []) for item in catalog}
+        # Each catalog photo has a fixed slot (its position); fill the empty slots,
+        # so a product that got 1 of 3 photos last time gets the other 2 now.
+        filled = {}
+        for product_id, position in ProductImage.objects.filter(product__sku__in=photos_by_sku).values_list(
+            "product_id", "position"
+        ):
+            filled.setdefault(product_id, set()).add(position)
+        todo = []
+        for product in Product.objects.filter(sku__in=photos_by_sku).values("id", "slug", "name", "sku"):
+            missing = [
+                (position, url) for position, url in enumerate(photos_by_sku[product["sku"]])
+                if position not in filled.get(product["id"], set())
+            ]
+            if missing:
+                todo.append((product, missing))
+        if not todo:
+            self.stdout.write("Every catalog product has all its photos.")
+            return
+        self.stdout.write(f"Adding photos to {len(todo)} product(s) with {workers} workers...")
 
         service = ProductImageService()
-        added = 0
-        for product in Product.objects.filter(images__isnull=True):
-            for position, (data, view) in enumerate(sample_photos(product.slug)):
+        records = ProductImageRepository()
+
+        def prepare_product(product, missing):
+            """Download, flatten, resize and upload one product's photos (no database work)."""
+            done, problems = [], []
+            for position, url in missing:
                 try:
-                    service.add_image(product.pk, data, alt_text=f"{product.name}, {view}", position=position)
+                    processed = service.prepare(on_white(download(url)))
+                    variants = service.upload(product["slug"], processed)
+                    done.append((position, variants, processed.width, processed.height))
+                except (OSError, ImageUploadError, ImageProcessingError, ValueError) as e:
+                    problems.append(f"{product['name']}: {url} ({e})")
+            return product, done, problems
+
+        added = finished = 0
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            for future in as_completed([pool.submit(prepare_product, p, missing) for p, missing in todo]):
+                product, done, problems = future.result()
+                for position, variants, width, height in done:
+                    alt = product["name"] if position == 0 else f"{product['name']}, view {position + 1}"
+                    records.create(product["id"], variants, width, height, alt, position)
                     added += 1
-                except ImageUploadError as e:
-                    self.stderr.write(self.style.WARNING(f"Couldn't add a photo to {product.name}: {e}"))
-                    return
-        self.stdout.write(self.style.SUCCESS(f"Added {added} sample photo(s)."))
+                for problem in problems:
+                    self.stderr.write(self.style.WARNING(f"Skipped a photo for {problem}"))
+                finished += 1
+                if finished % 25 == 0:
+                    self.stdout.write(f"  {finished}/{len(todo)} products done")
+        self.stdout.write(self.style.SUCCESS(f"Added {added} photo(s)."))

@@ -27,7 +27,11 @@ class Product(models.Model):
     )
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=220, unique=True, blank=True)
+    brand = models.CharField(max_length=100, blank=True)
+    sku = models.CharField("SKU", max_length=40, blank=True, db_index=True)
     description = models.TextField(blank=True)
+    # Spec rows for the product page, e.g. [["Warranty", "1 year"], ["Returns", "30 days"]].
+    details = models.JSONField(default=list, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     # A URL rather than an ImageField: Vercel's filesystem is read-only/ephemeral,
     # so uploaded media would not persist. Point this at a CDN or object storage.

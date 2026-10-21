@@ -24,6 +24,12 @@
       {% component "wishlist_button" product=product variant="large" / %}
     </div>
     <div class="product-detail__description">{{ product.description|linebreaks }}</div>
+    {% if product.brand or product.details %}
+      <dl class="product-specs">
+        {% if product.brand %}<dt>Brand</dt><dd>{{ product.brand }}</dd>{% endif %}
+        {% for label, value in product.details %}<dt>{{ label }}</dt><dd>{{ value }}</dd>{% endfor %}
+      </dl>
+    {% endif %}
     {% if product.in_stock %}
       <form class="add-to-cart" id="buy" action="{% url 'orders:cart_add' product.id %}" method="post">
         {% csrf_token %}

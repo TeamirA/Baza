@@ -54,6 +54,9 @@ class ProductDTO:
     images: Tuple[ProductImageDTO, ...] = ()
     rating_avg: Optional[float] = None  # average stars (1-5), None without reviews
     rating_count: int = 0
+    brand: str = ""
+    sku: str = ""
+    details: Tuple[Tuple[str, str], ...] = ()
 
     @property
     def cover(self) -> Optional[ProductImageDTO]:

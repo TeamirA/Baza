@@ -54,11 +54,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["thumbnail", "name", "category", "price", "stock", "is_active", "created_at"]
+    list_display = ["thumbnail", "name", "brand", "category", "price", "stock", "is_active", "created_at"]
     list_display_links = ["thumbnail", "name"]
     list_filter = ["is_active", "category"]
     list_editable = ["price", "stock", "is_active"]
-    search_fields = ["name", "description"]
+    search_fields = ["name", "brand", "sku", "description"]
     prepopulated_fields = {"slug": ["name"]}
     inlines = [ProductImageInline]
 

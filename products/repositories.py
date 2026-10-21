@@ -76,7 +76,8 @@ class ProductRepository:
 
 class CategoryRepository:
     def get_all(self):
-        return list(Category.objects.all())
+        """Categories with at least one product for sale (empty ones would be dead ends)."""
+        return list(Category.objects.filter(products__is_active=True).distinct().order_by("name"))
 
     def get_by_slug(self, slug):
         return Category.objects.get(slug=slug)
