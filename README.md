@@ -3,6 +3,23 @@
 A small e-commerce store built with Django: product catalog, session cart,
 accounts, checkout with Stripe (test mode), and order history.
 
+**Live demo: https://baza-market.vercel.app**
+
+## Try it
+
+1. **Browse** about 180 products across 9 categories. Filter by price or stock,
+   sort, or search from the header. Typos are fine: try `iphnoe` or `lapotp`.
+2. **Sign up** (or check out as a guest), save a few items with the ♥, and add
+   some to your cart.
+3. **Check out** and pay with Stripe's test card `4242 4242 4242 4242`, any future
+   expiry date and any CVC. It's test mode, so no real money moves.
+4. **After paying**, open the order to see its timeline and "Buy again", review a
+   product you bought, and manage saved addresses under **Account**.
+
+Works on phones too, with light and dark themes (toggle in the header).
+
+## How it's built
+
 - **Backend:** Django 4.2. Each domain is its own app (`products`, `orders`, `users`, `payments`),
   and each app is split into models → repositories (ORM only) → services → views.
 - **Frontend:** server-rendered templates, plain CSS/JS, and reusable
